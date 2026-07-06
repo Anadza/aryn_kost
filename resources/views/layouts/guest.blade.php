@@ -20,7 +20,8 @@
     <div class="flex flex-col sm:justify-center items-center bg-secondary dark:bg-gray-900 pt-6 sm:pt-0 min-h-screen">
         <div>
             <a href="/">
-                <x-application-logo class="fill-current w-20 h-20 text-gray-500" />
+                {{-- <x-application-logo class="fill-current w-20 h-20 text-gray-500" /> --}}
+                ArynKost
             </a>
         </div>
 
