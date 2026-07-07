@@ -1,5 +1,4 @@
 @php
-
     $isAdminOrOwner = auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner');
     $roleForRoute = auth()->user()->hasRole('admin')
         ? 'admin'
@@ -13,13 +12,15 @@
     };
 @endphp
 
+{{-- Backdrop: cuma tampil di mobile saat sidebar kebuka --}}
 <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-200"
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0" @click="sidebarOpen = false" class="md:hidden z-30 fixed inset-0 bg-black/50"
     style="display: none;" x-cloak></div>
 
-<aside class="flex flex-col bg-primary w-64 h-screen overflow-y-auto transition-all duration-300 shrink-0"
+<aside
+    class="left-0 z-40 fixed inset-y-0 flex flex-col bg-primary w-64 overflow-y-auto transition-transform duration-300"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
     <div class="flex items-center gap-3 px-6 py-6 shrink-0">
@@ -100,15 +101,15 @@
                 <span>Data Pengaduan</span>
             </a>
 
-        <div
-    class="flex items-center gap-3 hover:bg-white/10 px-3 py-2.5 rounded-lg font-medium text-white/80 text-sm cursor-default">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
-        <circle cx="12" cy="8" r="4" />
-        <path d="M4 21v-1a8 8 0 0 1 16 0v1" />
-    </svg>
-    <span>Profil</span>
-</div>
+            <div
+                class="flex items-center gap-3 hover:bg-white/10 px-3 py-2.5 rounded-lg font-medium text-white/80 text-sm cursor-default">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 21v-1a8 8 0 0 1 16 0v1" />
+                </svg>
+                <span>Profil</span>
+            </div>
         @else
             {{-- Role: Penghuni --}}
             <a href="{{ route('penghuni.dashboard') }}"
@@ -165,7 +166,7 @@
                 <span>Ajukan Pengaduan</span>
             </a>
 
-            <a href="{{ route('profile.edit') }}"
+            <a href="#"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('profile.edit') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
