@@ -34,62 +34,38 @@
         table tbody tr:hover {
             transform: scale(1.005);
         }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<div class="font-sans antialiased" x-data="{
-    sidebarOpen: window.innerWidth >= 768
-}" x-cloak>
+<body class="font-sans antialiased">
 
-    <div class="flex bg-secondary min-h-screen">
+    <div class="bg-secondary min-h-screen"
+        x-data="{ sidebarOpen: true }"
+        x-init="sidebarOpen = window.innerWidth >= 768"
+        x-cloak>
 
-        <div class="h-screen transition-all duration-300 shrink-0"
-            :class="sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'">
+        {{-- Sidebar: satu variabel sidebarOpen ngontrol semua breakpoint --}}
+        <x-sidebar />
 
-            <x-sidebar />
-
-        </div>
-
-        <div class="flex flex-col flex-1 transition-all duration-300">
+        {{-- Konten: padding-left ikut reaktif nyesuain sidebar kebuka/tertutup di desktop.
+             Di mobile selalu pl-0 karena sidebar jadi overlay, gak makan tempat. --}}
+        <div class="flex flex-col min-h-screen transition-all duration-300"
+            :class="sidebarOpen ? 'md:pl-64' : 'md:pl-0'">
 
             <x-navbar />
 
             <main class="flex-1 p-4 md:p-6">
                 {{ $slot }}
             </main>
+
         </div>
-    </div>
-</div>
-<body class="font-sans antialiased">
-
-    <div class="min-h-screen bg-gray-100">
-
-        @include('layouts.navigation')
-
-        @isset($header)
-
-            <header class="bg-white shadow">
-
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-
-                    {{ $header }}
-
-                </div>
-
-            </header>
-
-        @endisset
-
-        <main>
-
-            {{ $slot }}
-
-        </main>
-
     </div>
 
 </body>
-
 </html>
