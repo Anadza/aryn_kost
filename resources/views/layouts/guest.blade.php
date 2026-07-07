@@ -8,11 +8,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -20,7 +18,8 @@
     <div class="flex flex-col sm:justify-center items-center bg-secondary dark:bg-gray-900 pt-6 sm:pt-0 min-h-screen">
         <div>
             <a href="/">
-                <x-application-logo class="fill-current w-20 h-20 text-gray-500" />
+                {{-- <x-application-logo class="fill-current w-20 h-20 text-gray-500" /> --}}
+                ArynKost
             </a>
         </div>
 
