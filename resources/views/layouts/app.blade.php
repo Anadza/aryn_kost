@@ -8,32 +8,35 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
-    <div class="bg-secondary dark:bg-gray-900 min-h-screen">
-        @include('layouts.navigation')
+<div class="font-sans antialiased" x-data="{
+    sidebarOpen: window.innerWidth >= 768
+}" x-cloak>
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="mx-auto px-4 sm:px-6 lg:px-8 py-6 max-w-7xl">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
+    <div class="flex bg-secondary min-h-screen">
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+        <div class="h-screen transition-all duration-300 shrink-0"
+            :class="sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'">
+
+            <x-sidebar />
+
+        </div>
+
+        <div class="flex flex-col flex-1 transition-all duration-300">
+
+            <x-navbar />
+
+            <main class="flex-1 p-4 md:p-6">
+                {{ $slot }}
+            </main>
+        </div>
     </div>
+</div>
 </body>
 
 </html>
