@@ -8,7 +8,6 @@ use App\Http\Controllers\PenghuniController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataPenghuniController;
-use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\KamarController;
 
 Route::get('/', function () {
