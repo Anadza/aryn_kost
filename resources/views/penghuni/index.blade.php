@@ -1,374 +1,659 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-[#F8EFD8]">
+    <x-slot name="header">
 
-        <!-- Header -->
-        <div class="bg-[#244B73] shadow-md">
+        <div class="flex justify-between items-center">
 
-            <div class="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
+            <h2 class="text-3xl font-bold text-[#23466E]">
 
-                <div class="flex items-center gap-3">
+                Data Penghuni
 
-                    <button
-                        class="text-white hover:text-gray-200 transition">
-
-                        <i class="fa-solid fa-arrow-left text-lg"></i>
-
-                    </button>
-
-                    <h1 class="text-white text-3xl font-bold">
-                        Data Penghuni
-                    </h1>
-
-                </div>
-
-                <button
-                    class="text-white hover:text-yellow-300 transition">
-
-                    <i class="fa-solid fa-bell text-xl"></i>
-
-                </button>
-
-            </div>
+            </h2>
 
         </div>
 
-        <!-- Content -->
-        <div class="max-w-7xl mx-auto py-8 px-8">
+    </x-slot>
 
-            <!-- Filter -->
-            <div class="flex items-center justify-between mb-5">
+    <div class="min-h-screen bg-[#F8EFD8] py-8">
 
-                <div class="flex items-end gap-4">
+        <div class="max-w-7xl mx-auto">
 
-                    <!-- Search -->
+            <!-- Card -->
 
-                    <div>
+            <div class="bg-white rounded-[30px] shadow-lg overflow-hidden">
 
-                        <label
-                            class="block text-xs text-gray-500 mb-1">
+                <!-- Header Card -->
 
-                            Cari Penghuni
+                <div class="flex justify-between items-center px-8 py-6">
 
-                        </label>
+                    <h1 class="text-2xl font-bold text-[#23466E]">
 
-                        <div class="relative">
+                        Data Penghuni
 
-                            <i
-                                class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    </h1>
 
-                            <input
-                                type="text"
-                                placeholder="Cari Penghuni"
-                                class="pl-8 pr-4 w-64 h-10 rounded-lg border border-gray-300 bg-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <!-- Tombol Tambah -->
+
+                    <button
+
+                        id="openModal"
+
+                        class="bg-[#23466E]
+                        hover:bg-[#18344F]
+                        text-white
+                        rounded-full
+                        h-11
+                        px-6
+                        flex
+                        items-center
+                        gap-2
+                        transition
+                        shadow-md">
+
+                        <i class="fa-solid fa-plus text-sm"></i>
+
+                        <span class="font-medium">
+
+                            Tambah Penghuni
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+                <!-- Search -->
+
+                <div class="px-8 pb-6">
+
+                    <div class="flex justify-between items-center">
+
+                        <div class="flex gap-4">
+
+                            <!-- Search -->
+
+                            <div class="relative">
+
+                                <i class="fa-solid fa-magnifying-glass
+                                absolute
+                                left-4
+                                top-1/2
+                                -translate-y-1/2
+                                text-gray-400"></i>
+
+                                <input
+
+                                    type="text"
+
+                                    placeholder="Cari Penghuni..."
+
+                                    class="pl-11
+                                    pr-4
+                                    h-11
+                                    w-80
+                                    rounded-xl
+                                    border
+                                    border-gray-300
+                                    focus:ring-2
+                                    focus:ring-[#23466E]
+                                    focus:outline-none">
+
+                            </div>
+
+                            <!-- Filter -->
+
+                            <select
+
+                                class="w-44
+                                h-11
+                                rounded-xl
+                                border
+                                border-gray-300
+                                focus:ring-2
+                                focus:ring-[#23466E]
+                                focus:outline-none">
+
+                                <option>
+
+                                    Semua Status
+
+                                </option>
+
+                                <option>
+
+                                    Active
+
+                                </option>
+
+                                <option>
+
+                                    Inactive
+
+                                </option>
+
+                            </select>
 
                         </div>
 
                     </div>
 
-                    <!-- Status -->
-
-                    <div>
-
-                        <label
-                            class="block text-xs text-gray-500 mb-1">
-
-                            Status
-
-                        </label>
-
-                        <select
-                            class="w-48 h-10 rounded-lg border border-gray-300 bg-white text-sm focus:ring-2 focus:ring-blue-500">
-
-                            <option>Select...</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
-
-                        </select>
-
-                    </div>
-
                 </div>
 
-                <!-- Button -->
-
-                <button
-                    class="bg-[#244B73] hover:bg-[#193856]
-                    text-white
-                    px-6
-                    h-10
-                    rounded-full
-                    shadow-md
-                    flex
-                    items-center
-                    gap-2
-                    transition">
-
-                    <i class="fa-solid fa-plus text-xs"></i>
-
-                    <span class="text-sm font-semibold">
-
-                        Tambah Penghuni
-
-                    </span>
-
-                </button>
-
-            </div>
-
-            <!-- Card -->
-
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <!-- Tabel mulai -->
 
                 <div class="overflow-x-auto">
 
-                    <table class="min-w-full">
+                    <table class="w-full">
+<!-- Modal -->
 
-                        <thead>
+<div
 
-                            <tr
-                                class="bg-gray-50 border-b text-gray-600 text-sm">
+    id="modalPenghuni"
 
-                                <th class="py-4 px-6 text-left w-14">
+    class="fixed
+    inset-0
+    bg-black/40
+    hidden
+    justify-center
+    items-center
+    z-50">
 
-                                    No
+    <div
 
-                                </th>
+        class="bg-[#5E7C99]
+        rounded-[30px]
+        w-[720px]
+        shadow-2xl
+        overflow-hidden">
 
-                                <th class="py-4 px-6 text-left">
+        <!-- Header Modal -->
 
-                                    Nama
+        <div class="bg-white px-8 py-5">
 
-                                </th>
+            <h2 class="text-3xl font-bold text-[#23466E]">
 
-                                <th class="py-4 px-6 text-center w-36">
+                Tambah Data Penghuni
 
-                                    No. Kamar
+            </h2>
 
-                                </th>
+        </div>
 
-                                <th class="py-4 px-6 text-center w-44">
+        <!-- FORM akan kita isi di Bagian 2 -->
 
-                                    No. Hp
+        <div class="p-8">
+<form action="{{ route('admin.penghuni.store') }}" method="POST">
 
-                                </th>
+    @csrf
 
-                                <th class="py-4 px-6 text-center w-44">
+    <!-- Nama -->
 
-                                    Check-in
+    <div class="mb-5">
 
-                                </th>
+        <label class="block text-white font-semibold mb-2">
 
-                                <th class="py-4 px-6 text-center w-32">
+            Nama
 
-                                    Status
+        </label>
 
-                                </th>
+        <input
 
-                                <th class="py-4 px-6 text-center w-40">
+            type="text"
 
-                                    Aksi
+            name="nama"
 
-                                </th>
+            value="{{ old('nama') }}"
 
-                            </tr>
+            class="w-full
+            rounded-xl
+            border
+            border-gray-300
+            px-4
+            py-3
+            focus:ring-2
+            focus:ring-[#23466E]
+            outline-none"
 
-                        </thead>
+            placeholder="Masukkan nama penghuni">
 
-                        <tbody>
-                            @php
+        @error('nama')
 
-$penghunis = [
+            <p class="text-red-200 text-sm mt-2">
 
-[
-'no'=>1,
-'nama'=>'Rizky Maulana',
-'kamar'=>'A001',
-'hp'=>'081234567890',
-'checkin'=>'01 Juli 2026',
-'status'=>'Active'
-],
+                {{ $message }}
 
-[
-'no'=>2,
-'nama'=>'Aisyah Putri',
-'kamar'=>'A002',
-'hp'=>'081234567891',
-'checkin'=>'03 Juli 2026',
-'status'=>'Active'
-],
+            </p>
 
-[
-'no'=>3,
-'nama'=>'Fajar Nugraha',
-'kamar'=>'A003',
-'hp'=>'081234567892',
-'checkin'=>'05 Juli 2026',
-'status'=>'Inactive'
-],
+        @enderror
 
-[
-'no'=>4,
-'nama'=>'Siti Nurhaliza',
-'kamar'=>'A004',
-'hp'=>'081234567893',
-'checkin'=>'07 Juli 2026',
-'status'=>'Active'
-],
-
-[
-'no'=>5,
-'nama'=>'Dimas Saputra',
-'kamar'=>'A005',
-'hp'=>'081234567894',
-'checkin'=>'10 Juli 2026',
-'status'=>'Inactive'
-],
-
-[
-'no'=>6,
-'nama'=>'Rahmat Hidayat',
-'kamar'=>'A006',
-'hp'=>'081234567895',
-'checkin'=>'12 Juli 2026',
-'status'=>'Active'
-],
-
-[
-'no'=>7,
-'nama'=>'Putri Amelia',
-'kamar'=>'A007',
-'hp'=>'081234567896',
-'checkin'=>'15 Juli 2026',
-'status'=>'Active'
-],
-
-[
-'no'=>8,
-'nama'=>'Andi Pratama',
-'kamar'=>'A008',
-'hp'=>'081234567897',
-'checkin'=>'18 Juli 2026',
-'status'=>'Inactive'
-],
-
-[
-'no'=>9,
-'nama'=>'Nabila Salsabila',
-'kamar'=>'A009',
-'hp'=>'081234567898',
-'checkin'=>'20 Juli 2026',
-'status'=>'Active'
-],
-
-[
-'no'=>10,
-'nama'=>'Yoga Prakoso',
-'kamar'=>'A010',
-'hp'=>'081234567899',
-'checkin'=>'25 Juli 2026',
-'status'=>'Active'
-]
-
-];
-
-@endphp
+    </div>
 
 
-@foreach($penghunis as $penghuni)
+    <!-- Nomor Kamar & No HP -->
 
-<tr class="border-b hover:bg-blue-50 transition duration-200">
+    <div class="grid grid-cols-2 gap-6">
 
-    <td class="px-6 py-4 text-sm">
+        <div>
 
-        {{ $penghuni['no'] }}
+            <label class="block text-white font-semibold mb-2">
+
+                Nomor Kamar
+
+            </label>
+
+            <input
+
+                type="text"
+
+                name="nomor_kamar"
+
+                value="{{ old('nomor_kamar') }}"
+
+                class="w-full
+                rounded-xl
+                border
+                border-gray-300
+                px-4
+                py-3
+                focus:ring-2
+                focus:ring-[#23466E]
+                outline-none"
+
+                placeholder="Contoh : A01">
+
+            @error('nomor_kamar')
+
+                <p class="text-red-200 text-sm mt-2">
+
+                    {{ $message }}
+
+                </p>
+
+            @enderror
+
+        </div>
+
+
+        <div>
+
+            <label class="block text-white font-semibold mb-2">
+
+                No HP
+
+            </label>
+
+            <input
+
+                type="text"
+
+                name="no_hp"
+
+                value="{{ old('no_hp') }}"
+
+                class="w-full
+                rounded-xl
+                border
+                border-gray-300
+                px-4
+                py-3
+                focus:ring-2
+                focus:ring-[#23466E]
+                outline-none"
+
+                placeholder="08xxxxxxxxxx">
+
+            @error('no_hp')
+
+                <p class="text-red-200 text-sm mt-2">
+
+                    {{ $message }}
+
+                </p>
+
+            @enderror
+
+        </div>
+
+    </div>
+
+
+    <!-- Check In & Status -->
+
+    <div class="grid grid-cols-2 gap-6 mt-6">
+
+        <div>
+
+            <label class="block text-white font-semibold mb-2">
+
+                Check In
+
+            </label>
+
+            <input
+
+                type="date"
+
+                name="check_in"
+
+                value="{{ old('check_in') }}"
+
+                class="w-full
+                rounded-xl
+                border
+                border-gray-300
+                px-4
+                py-3
+                focus:ring-2
+                focus:ring-[#23466E]
+                outline-none">
+
+            @error('check_in')
+
+                <p class="text-red-200 text-sm mt-2">
+
+                    {{ $message }}
+
+                </p>
+
+            @enderror
+
+        </div>
+
+
+        <div>
+
+            <label class="block text-white font-semibold mb-2">
+
+                Status
+
+            </label>
+
+            <select
+
+                name="status"
+
+                class="w-full
+                rounded-xl
+                border
+                border-gray-300
+                px-4
+                py-3
+                focus:ring-2
+                focus:ring-[#23466E]
+                outline-none">
+
+                <option value="">
+
+                    Pilih Status
+
+                </option>
+
+                <option value="Active">
+
+                    Active
+
+                </option>
+
+                <option value="Inactive">
+
+                    Inactive
+
+                </option>
+
+            </select>
+
+            @error('status')
+
+                <p class="text-red-200 text-sm mt-2">
+
+                    {{ $message }}
+
+                </p>
+
+            @enderror
+
+        </div>
+
+    </div>
+
+
+    <!-- Tombol -->
+
+    <div class="flex justify-end gap-4 mt-10">
+
+        <button
+
+            type="button"
+
+            id="closeModal"
+
+            class="bg-white
+            text-[#23466E]
+            px-6
+            py-3
+            rounded-xl
+            font-semibold
+            hover:bg-gray-100">
+
+            Kembali
+
+        </button>
+
+
+        <button
+
+            type="submit"
+
+            class="bg-[#23466E]
+            text-white
+            px-8
+            py-3
+            rounded-xl
+            font-semibold
+            hover:bg-[#18344F]
+            shadow-md">
+
+            Simpan
+
+        </button>
+
+    </div>
+
+</form>
+
+    </div>
+
+</div>
+
+<thead>
+
+    <tr class="bg-[#23466E] text-white">
+
+        <th class="px-6 py-4 text-left font-semibold">
+            No
+        </th>
+
+        <th class="px-6 py-4 text-left font-semibold">
+            Nama Penghuni
+        </th>
+
+        <th class="px-6 py-4 text-center font-semibold">
+            Nomor Kamar
+        </th>
+
+        <th class="px-6 py-4 text-center font-semibold">
+            No HP
+        </th>
+
+        <th class="px-6 py-4 text-center font-semibold">
+            Check In
+        </th>
+
+        <th class="px-6 py-4 text-center font-semibold">
+            Status
+        </th>
+
+        <th class="px-6 py-4 text-center font-semibold">
+            Aksi
+        </th>
+
+    </tr>
+
+</thead>
+
+<tbody>
+
+@forelse($penghunis as $penghuni)
+
+<tr class="border-b hover:bg-gray-50 transition">
+
+    <td class="px-6 py-5">
+
+        {{ $loop->iteration }}
 
     </td>
 
-    <td class="px-6 py-4 font-medium text-gray-700">
+    <td class="px-6 py-5 font-semibold text-gray-700">
 
-        {{ $penghuni['nama'] }}
-
-    </td>
-
-    <td class="px-6 py-4 text-center">
-
-        <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
-
-            {{ $penghuni['kamar'] }}
-
-        </span>
+        {{ $penghuni->nama }}
 
     </td>
 
-    <td class="px-6 py-4 text-center text-sm text-gray-600">
+    <td class="px-6 py-5 text-center">
 
-        {{ $penghuni['hp'] }}
-
-    </td>
-
-    <td class="px-6 py-4 text-center text-sm text-gray-600">
-
-        {{ $penghuni['checkin'] }}
+        {{ $penghuni->nomor_kamar }}
 
     </td>
 
-    <td class="px-6 py-4 text-center">
+    <td class="px-6 py-5 text-center">
 
-        @if($penghuni['status']=='Active')
+        {{ $penghuni->no_hp }}
 
-        <span class="inline-flex items-center gap-2 text-green-600 text-sm font-medium">
+    </td>
 
-            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+    <td class="px-6 py-5 text-center">
 
-            Active
+        {{ \Carbon\Carbon::parse($penghuni->check_in)->format('d M Y') }}
 
-        </span>
+    </td>
+
+    <td class="px-6 py-5 text-center">
+
+        @if($penghuni->status == 'Active')
+
+            <span
+                class="inline-flex
+                items-center
+                px-4
+                py-1
+                rounded-full
+                bg-green-100
+                text-green-700
+                text-sm
+                font-semibold">
+
+                ● Active
+
+            </span>
 
         @else
 
-        <span class="inline-flex items-center gap-2 text-gray-500 text-sm font-medium">
+            <span
+                class="inline-flex
+                items-center
+                px-4
+                py-1
+                rounded-full
+                bg-red-100
+                text-red-600
+                text-sm
+                font-semibold">
 
-            <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                ● Inactive
 
-            Inactive
-
-        </span>
+            </span>
 
         @endif
 
     </td>
 
-    <td class="px-6 py-4">
+    <td class="px-6 py-5">
 
-        <div class="flex justify-center items-center gap-3">
+        <div class="flex justify-center gap-3">
 
-            <!-- View -->
+            <!-- Detail -->
 
-            <button
-                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-blue-500 hover:text-white transition">
+            <a
 
-                <i class="fa-solid fa-eye text-sm"></i>
+                href="{{ route('admin.penghuni.show',$penghuni->id) }}"
 
-            </button>
+                class="w-10
+                h-10
+                rounded-full
+                bg-blue-100
+                hover:bg-blue-500
+                hover:text-white
+                transition
+                flex
+                justify-center
+                items-center">
+
+                <i class="fa-solid fa-eye"></i>
+
+            </a>
 
             <!-- Edit -->
 
-            <button
-                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-yellow-500 hover:text-white transition">
+            <a
 
-                <i class="fa-solid fa-pen text-sm"></i>
+                href="{{ route('admin.penghuni.edit',$penghuni->id) }}"
 
-            </button>
+                class="w-10
+                h-10
+                rounded-full
+                bg-yellow-100
+                hover:bg-yellow-500
+                hover:text-white
+                transition
+                flex
+                justify-center
+                items-center">
+
+                <i class="fa-solid fa-pen"></i>
+
+            </a>
 
             <!-- Delete -->
 
-            <button
-                class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-red-500 hover:text-white transition">
+            <form
 
-                <i class="fa-solid fa-trash text-sm"></i>
+                action="{{ route('admin.penghuni.destroy',$penghuni->id) }}"
 
-            </button>
+                method="POST"
+
+                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
+                @csrf
+
+                @method('DELETE')
+
+                <button
+
+                    class="w-10
+                    h-10
+                    rounded-full
+                    bg-red-100
+                    hover:bg-red-500
+                    hover:text-white
+                    transition
+                    flex
+                    justify-center
+                    items-center">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            </form>
 
         </div>
 
@@ -376,66 +661,153 @@ $penghunis = [
 
 </tr>
 
-@endforeach
-                        </tbody>
+@empty
 
-                    </table>
+<tr>
 
-                </div>
+    <td colspan="7">
 
-                <!-- Footer Table -->
-                <div class="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
+        <div class="py-16 text-center">
 
-                    <p class="text-sm text-gray-500">
-                        Menampilkan <span class="font-semibold">10</span> data penghuni
-                    </p>
+            <i class="fa-solid fa-users text-5xl text-gray-300 mb-4"></i>
 
-                    <!-- Dummy Pagination -->
-                    <div class="flex items-center gap-2">
+            <h3 class="text-xl font-semibold text-gray-500">
 
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 text-gray-400 hover:bg-gray-100 transition">
+                Belum ada data penghuni
 
-                            <i class="fa-solid fa-chevron-left text-xs"></i>
+            </h3>
 
-                        </button>
+            <p class="text-gray-400 mt-2">
 
-                        <button
-                            class="w-9 h-9 rounded-lg bg-[#244B73] text-white font-semibold shadow">
+                Silakan tambahkan penghuni terlebih dahulu.
 
-                            1
-
-                        </button>
-
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-
-                            2
-
-                        </button>
-
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
-
-                            3
-
-                        </button>
-
-                        <button
-                            class="w-9 h-9 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-100 transition">
-
-                            <i class="fa-solid fa-chevron-right text-xs"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
+            </p>
 
         </div>
 
-    </div>
+    </td>
+
+</tr>
+
+@endforelse
+
+</tbody>
+
+</table>
+
+</div>
+
+{{-- ========================= --}}
+{{-- Pagination --}}
+{{-- ========================= --}}
+
+<div class="px-8 py-6 bg-white border-t">
+
+    {{ $penghunis->links() }}
+
+</div>
+
+</div>
+
+</div>
+
+{{-- ========================= --}}
+{{-- SweetAlert Success --}}
+{{-- ========================= --}}
+
+@if(session('success'))
+
+<script>
+
+Swal.fire({
+
+    icon:'success',
+
+    title:'Berhasil',
+
+    text:'{{ session('success') }}',
+
+    timer:2000,
+
+    showConfirmButton:false
+
+});
+
+</script>
+
+@endif
+
+
+{{-- ========================= --}}
+{{-- Modal Javascript --}}
+{{-- ========================= --}}
+
+<script>
+
+const modal = document.getElementById('modalPenghuni');
+
+const openBtn = document.getElementById('openModal');
+
+const closeBtn = document.getElementById('closeModal');
+
+
+
+openBtn.addEventListener('click',()=>{
+
+    modal.classList.remove('hidden');
+
+    modal.classList.add('flex');
+
+});
+
+
+
+closeBtn.addEventListener('click',()=>{
+
+    modal.classList.remove('flex');
+
+    modal.classList.add('hidden');
+
+});
+
+
+
+window.addEventListener('click',(e)=>{
+
+    if(e.target===modal){
+
+        modal.classList.remove('flex');
+
+        modal.classList.add('hidden');
+
+    }
+
+});
+
+</script>
+
+
+
+{{-- ========================= --}}
+{{-- Auto Open Modal --}}
+{{-- ========================= --}}
+
+@if ($errors->any())
+
+<script>
+
+document.addEventListener('DOMContentLoaded',()=>{
+
+    modal.classList.remove('hidden');
+
+    modal.classList.add('flex');
+
+});
+
+</script>
+
+@endif
+
+
 
 </x-app-layout>
