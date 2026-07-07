@@ -65,37 +65,40 @@ class DataPenghuniController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-{
-    $validated = $request->validate([
+    {
+        $validated = $request->validate([
 
-        'nama' => 'required|string|max:100',
+            'nama' => 'required|string|max:100',
 
-        'nomor_kamar' => 'required|string|max:20',
+            'nomor_kamar' => 'required|string|max:20',
 
-        'no_hp' => 'required|string|max:20',
+            'no_hp' => 'required|string|max:20',
 
-        'check_in' => 'required|date',
+            'check_in' => 'required|date',
 
-        'status' => 'required|in:Active,Inactive',
+            'status' => 'required|in:Active,Inactive',
 
-    ]);
+        ]);
 
-    $penghuni = Penghuni::findOrFail($id);
+        $penghuni = Penghuni::findOrFail($id);
 
-    $penghuni->update($validated);
+        $penghuni->update($validated);
 
-    return redirect()
-
-        ->route('admin.penghuni.index')
-
-        ->with('success','Data penghuni berhasil diperbarui.');
-}
-
+        return redirect()
+            ->route('admin.penghuni.index')
+            ->with('success', 'Data penghuni berhasil diperbarui.');
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $penghuni = Penghuni::findOrFail($id);
+
+        $penghuni->delete();
+
+        return redirect()
+            ->route('admin.penghuni.index')
+            ->with('success_delete','Data penghuni berhasil dihapus.');
     }
 }

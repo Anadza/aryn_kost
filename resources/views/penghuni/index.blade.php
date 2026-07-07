@@ -626,17 +626,21 @@
 
             <form
 
+                id="delete-form-{{ $penghuni->id }}"
+
                 action="{{ route('admin.penghuni.destroy',$penghuni->id) }}"
 
-                method="POST"
-
-                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                method="POST">
 
                 @csrf
 
                 @method('DELETE')
 
                 <button
+
+                    type="button"
+
+                    onclick="hapusData({{ $penghuni->id }})"
 
                     class="w-10
                     h-10
@@ -711,10 +715,7 @@
 
 </div>
 
-{{-- ========================= --}}
-{{-- SweetAlert Success --}}
-{{-- ========================= --}}
-
+{{-- SweetAlert Success Tambah --}}
 @if(session('success'))
 
 <script>
@@ -738,8 +739,34 @@ Swal.fire({
 @endif
 
 
+
+{{-- SweetAlert Success Delete --}}
+@if(session('success_delete'))
+
+<script>
+
+Swal.fire({
+
+    icon:'success',
+
+    title:'Berhasil',
+
+    text:'{{ session('success_delete') }}',
+
+    timer:1800,
+
+    showConfirmButton:false
+
+});
+
+</script>
+
+@endif
+
+
+
 {{-- ========================= --}}
-{{-- Modal Javascript --}}
+{{-- Javascript --}}
 {{-- ========================= --}}
 
 <script>
@@ -750,8 +777,6 @@ const openBtn = document.getElementById('openModal');
 
 const closeBtn = document.getElementById('closeModal');
 
-
-
 openBtn.addEventListener('click',()=>{
 
     modal.classList.remove('hidden');
@@ -760,8 +785,6 @@ openBtn.addEventListener('click',()=>{
 
 });
 
-
-
 closeBtn.addEventListener('click',()=>{
 
     modal.classList.remove('flex');
@@ -769,8 +792,6 @@ closeBtn.addEventListener('click',()=>{
     modal.classList.add('hidden');
 
 });
-
-
 
 window.addEventListener('click',(e)=>{
 
@@ -784,6 +805,47 @@ window.addEventListener('click',(e)=>{
 
 });
 
+
+
+/* =============================
+   SweetAlert Delete
+============================= */
+
+function hapusData(id)
+{
+
+    Swal.fire({
+
+        title:'Yakin ingin menghapus?',
+
+        text:'Data penghuni tidak dapat dikembalikan.',
+
+        icon:'warning',
+
+        showCancelButton:true,
+
+        confirmButtonText:'Ya, Hapus',
+
+        cancelButtonText:'Batal',
+
+        confirmButtonColor:'#dc2626',
+
+        cancelButtonColor:'#64748b',
+
+        reverseButtons:true
+
+    }).then((result)=>{
+
+        if(result.isConfirmed){
+
+            document.getElementById('delete-form-'+id).submit();
+
+        }
+
+    });
+
+}
+
 </script>
 
 
@@ -792,7 +854,7 @@ window.addEventListener('click',(e)=>{
 {{-- Auto Open Modal --}}
 {{-- ========================= --}}
 
-@if ($errors->any())
+@if($errors->any())
 
 <script>
 
@@ -807,7 +869,5 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 @endif
-
-
 
 </x-app-layout>
