@@ -14,7 +14,7 @@
             </div>
             <div class = "h-[calc(100vh-180px)] w-full md:w-2/3 bg-white dark:bg-gray-800 shadow-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sm:p-8">
                 <div class="max-w-xl">
-                    @include('profile.partials.room-information')
+                    @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
         </div>

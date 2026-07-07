@@ -7,8 +7,12 @@
     </p>
     <p class = "text-gray-600 text-sm text-gray-900 dark:text-gray-100 text-center ">
         {{ $user->email }}
-    </p>
-    <button href = "{{ route('logout') }}" onclick = "event.preventDefault(); this.closest('form').submit();" class = "mt-32 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300">
-        {{ __('Log Out') }}
-    </button>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <x-danger-button :href="route('logout')"
+            onclick="event.preventDefault();
+            this.closest('form').submit();" class="mt-4 w-full justify-center mt-32">
+            {{ __('Log Out') }}
+        </x-danger-button>
+    </form>
 </div>
