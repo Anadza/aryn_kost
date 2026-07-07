@@ -11,7 +11,7 @@
         @csrf
         <x-danger-button :href="route('logout')"
             onclick="event.preventDefault();
-            this.closest('form').submit();" class="mt-4 w-full justify-center mt-32">
+            this.closest('form').submit();" class="w-full justify-center mt-32">
             {{ __('Log Out') }}
         </x-danger-button>
     </form>
