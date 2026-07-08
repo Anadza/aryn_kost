@@ -26,6 +26,10 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/dashboard', [AdminController::class, 'index'])
             ->name('dashboard');
 
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         // CRUD Data Penghuni
         Route::resource('penghuni', DataPenghuniController::class);
 
@@ -49,6 +53,10 @@ Route::middleware(['auth', 'role:owner'])
         Route::get('/dashboard', [OwnerController::class, 'index'])
             ->name('dashboard');
 
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         // CRUD Data Kamar
         Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
         Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
@@ -68,6 +76,10 @@ Route::middleware(['auth', 'role:penghuni'])
 
         Route::get('/dashboard', [PenghuniController::class, 'index'])
             ->name('dashboard');
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     });
 
