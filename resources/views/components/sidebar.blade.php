@@ -156,6 +156,15 @@
                 <span>Ajukan Pengaduan</span>
             </a>
 
+            <a href="#"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('profile.edit') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 21v-1a8 8 0 0 1 16 0v1" />
+                </svg>
+                <span>Profil</span>
+            </a>
         @endif
     </nav>
 </aside>

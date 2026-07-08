@@ -26,6 +26,10 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/dashboard', [AdminController::class, 'index'])
             ->name('dashboard');
 
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
         // CRUD Data Penghuni
         Route::resource('penghuni', DataPenghuniController::class);
 
@@ -38,7 +42,6 @@ Route::middleware(['auth', 'role:admin'])
         // Data Pengaduan
         Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
-
     });
 
 Route::middleware(['auth', 'role:owner'])
@@ -49,7 +52,7 @@ Route::middleware(['auth', 'role:owner'])
         Route::get('/dashboard', [OwnerController::class, 'index'])
             ->name('dashboard');
 
-        // Data Penghuni
+        // CRUD Data Penghuni
         Route::resource('penghuni', DataPenghuniController::class);
 
         // CRUD Data Kamar
@@ -61,7 +64,6 @@ Route::middleware(['auth', 'role:owner'])
         // Data Pengaduan
         Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
-
     });
 
 Route::middleware(['auth', 'role:penghuni'])
@@ -72,6 +74,9 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/dashboard', [PenghuniController::class, 'index'])
             ->name('dashboard');
 
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -88,7 +93,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])
         ->name('pengaduan.update-status');
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
