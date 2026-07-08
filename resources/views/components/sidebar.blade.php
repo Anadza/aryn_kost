@@ -1,5 +1,4 @@
 @php
-
     $isAdminOrOwner = auth()->user()->hasRole('admin') || auth()->user()->hasRole('owner');
     $roleForRoute = auth()->user()->hasRole('admin')
         ? 'admin'
@@ -13,13 +12,15 @@
     };
 @endphp
 
+{{-- Backdrop: cuma tampil di mobile saat sidebar kebuka --}}
 <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-200"
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0" @click="sidebarOpen = false" class="md:hidden z-30 fixed inset-0 bg-black/50"
     style="display: none;" x-cloak></div>
 
-<aside class="flex flex-col bg-primary w-64 h-screen overflow-y-auto transition-all duration-300 shrink-0"
+<aside
+    class="left-0 z-40 fixed inset-y-0 flex flex-col bg-primary w-64 overflow-y-auto transition-transform duration-300"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
     <div class="flex items-center gap-3 px-6 py-6 shrink-0">
@@ -108,7 +109,7 @@
                     <path d="M4 21v-1a8 8 0 0 1 16 0v1" />
                 </svg>
                 <span>Profil</span>
-            </a>
+            </div>
         @else
             {{-- Role: Penghuni --}}
             <a href="{{ route('penghuni.dashboard') }}"
