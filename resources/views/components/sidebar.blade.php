@@ -49,7 +49,7 @@
             </a>
 
             <a href="{{ $navRoute('kamar.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.kamar") ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.kamar.*") ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <path d="M2 11v7" />
@@ -58,16 +58,6 @@
                     <path d="M6 11V9" />
                 </svg>
                 <span>Data Kamar</span>
-            </a>
-
-            <a href="{{ $navRoute('booking.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.booking.*") ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
-                </svg>
-                <span>Booking</span>
             </a>
 
             <a href="{{ $navRoute('pembayaran.index') }}"
@@ -81,7 +71,7 @@
             </a>
 
             <a href="{{ $navRoute('penghuni.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.penghuni.*") ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.penghuni.*") ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <circle cx="9" cy="8" r="3" />
@@ -92,7 +82,7 @@
             </a>
 
             <a href="{{ $navRoute('pengaduan.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.pengaduan") ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.pengaduan.*") ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <path
@@ -113,7 +103,7 @@
         @else
             {{-- Role: Penghuni --}}
             <a href="{{ route('penghuni.dashboard') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.dashboard') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.dashboard') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" />
@@ -125,7 +115,7 @@
             </a>
 
             <a href="{{ $navRoute('kamar.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.kamar.*') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.kamar.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <path d="M2 4v16" />
@@ -137,7 +127,7 @@
             </a>
 
             <a href="{{ $navRoute('booking.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.booking.*') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.booking.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <circle cx="12" cy="8" r="4" />
@@ -147,7 +137,7 @@
             </a>
 
             <a href="{{ $navRoute('pembayaran.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pembayaran.*') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pembayaran.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <rect x="2" y="5" width="20" height="14" rx="2" />
@@ -157,7 +147,7 @@
             </a>
 
             <a href="{{ $navRoute('pengaduan.create') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pengaduan.*') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pengaduan.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <path
