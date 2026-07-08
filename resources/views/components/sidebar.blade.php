@@ -101,8 +101,8 @@
                 <span>Data Pengaduan</span>
             </a>
 
-            <a href="{{ $navRoute('profile.edit') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.profile.edit") ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+            <div
+                class="flex items-center gap-3 hover:bg-white/10 px-3 py-2.5 rounded-lg font-medium text-white/80 text-sm cursor-default">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <circle cx="12" cy="8" r="4" />
