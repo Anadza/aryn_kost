@@ -49,6 +49,9 @@ Route::middleware(['auth', 'role:owner'])
         Route::get('/dashboard', [OwnerController::class, 'index'])
             ->name('dashboard');
 
+        // Data Penghuni
+        Route::resource('penghuni', DataPenghuniController::class);
+
         // CRUD Data Kamar
         Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
         Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
