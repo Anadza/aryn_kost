@@ -29,6 +29,16 @@ Route::middleware(['auth', 'role:admin'])
         // CRUD Data Penghuni
         Route::resource('penghuni', DataPenghuniController::class);
 
+        // CRUD Data Kamar
+        Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+        Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
+        Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
+        Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
+
+        // Data Pengaduan
+        Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
+        Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
+
     });
 
 Route::middleware(['auth', 'role:owner'])
@@ -38,6 +48,16 @@ Route::middleware(['auth', 'role:owner'])
 
         Route::get('/dashboard', [OwnerController::class, 'index'])
             ->name('dashboard');
+
+        // CRUD Data Kamar
+        Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+        Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
+        Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
+        Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
+
+        // Data Pengaduan
+        Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
+        Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
 
     });
 
