@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataPenghuniController;
 use App\Http\Controllers\KamarController;
+use App\Http\Controllers\NotifikasiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +43,12 @@ Route::middleware(['auth', 'role:admin'])
         // Data Pengaduan
         Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
+
+        // Notifikasi
+        // Notifikasi (pembayaran, keluhan, booking dari penghuni)
+        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
+        Route::patch('/notifikasi/{notifikasi}/read', [NotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
     });
 
 Route::middleware(['auth', 'role:owner'])
