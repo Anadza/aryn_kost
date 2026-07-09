@@ -13,7 +13,9 @@ class AdminPembayaranController extends Controller
      */
     public function index()
     {
-        //
+        $pembayarans = Pembayaran::all();
+
+        return view('pembayaran.index', compact('pembayarans'));
     }
 
     /**
@@ -27,9 +29,9 @@ class AdminPembayaranController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Pembayaran $pembayaran)
     {
-        //
+
     }
 
     /**
@@ -37,7 +39,9 @@ class AdminPembayaranController extends Controller
      */
     public function show(Pembayaran $pembayaran)
     {
-        //
+        $pembayaran -> load(['penghuni', 'penghuni.kamar']);
+
+        return view('pembayaran.show', compact('pembayaran'));
     }
 
     /**
@@ -53,7 +57,17 @@ class AdminPembayaranController extends Controller
      */
     public function update(Request $request, Pembayaran $pembayaran)
     {
-        //
+        $validasiData = $request->validate([
+            'status' => 'required|in:belum lunas,lunas',
+        ]);
+
+        $pembayaran->update([
+            'status' => $validasiData['status'],
+        ]);
+
+        return redirect()
+            ->route('admin.pembayaran.show', $pembayaran -> id)
+            ->with('success', 'Status pembayaran berhasil diperbarui.');
     }
 
     /**
