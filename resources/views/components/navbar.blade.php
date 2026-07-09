@@ -35,35 +35,43 @@
         @endif
 
         <div class="flex items-center gap-4 shrink-0">
-            <button class="relative hover:bg-white/10 p-2 rounded-full text-white" aria-label="Notifikasi">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-                </svg>
-                <span class="top-1 right-1 absolute bg-red-500 border border-primary rounded-full w-2.5 h-2.5"></span>
-            </button>
+    @php
+        $showNotifikasi = auth()->user()->hasRole('admin') && \Illuminate\Support\Facades\Route::has('admin.notifikasi.index');
+        $unreadNotifikasiCount = $showNotifikasi ? \App\Models\Notifikasi::belumDibaca()->count() : 0;
+    @endphp
 
-            <x-dropdown align="right" width="48">
-                <x-slot name="trigger">
-                    <button
-                        class="flex justify-center items-center bg-white/15 hover:bg-white/25 rounded-full w-9 h-9 font-semibold text-white">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                    </button>
-                </x-slot>
-                <x-slot name="content">
-                    <x-dropdown-link href="#">
-                        {{ __('Profil') }}
-                    </x-dropdown-link>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <x-dropdown-link :href="route('logout')"
-                            onclick="event.preventDefault(); this.closest('form').submit();">
-                            {{ __('Log Out') }}
-                        </x-dropdown-link>
-                    </form>
-                </x-slot>
-            </x-dropdown>
-        </div>
+    <a href="{{ $showNotifikasi ? route('admin.notifikasi.index') : '#' }}"
+       class="relative hover:bg-white/10 p-2 rounded-full text-white" aria-label="Notifikasi">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+        </svg>
+        @if ($unreadNotifikasiCount > 0)
+            <span class="top-1 right-1 absolute bg-red-500 border border-primary rounded-full w-2.5 h-2.5"></span>
+        @endif
+    </a>
+
+    <x-dropdown align="right" width="48">
+        <x-slot name="trigger">
+            <button
+                class="flex justify-center items-center bg-white/15 hover:bg-white/25 rounded-full w-9 h-9 font-semibold text-white">
+                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+            </button>
+        </x-slot>
+        <x-slot name="content">
+            <x-dropdown-link href="#">
+                {{ __('Profil') }}
+            </x-dropdown-link>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-dropdown-link :href="route('logout')"
+                    onclick="event.preventDefault(); this.closest('form').submit();">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
+            </form>
+        </x-slot>
+    </x-dropdown>
+</div>
     </div>
 </header>
