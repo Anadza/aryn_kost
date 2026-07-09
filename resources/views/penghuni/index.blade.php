@@ -36,21 +36,6 @@
 
                     </h1>
 
-                    <!-- Tombol Tambah -->
-
-                    <button id="openModal"
-                        class="flex items-center gap-2 bg-[#23466E] hover:bg-[#18344F] shadow-md px-6 rounded-full h-11 text-white transition">
-
-                        <i class="text-sm fa-solid fa-plus"></i>
-
-                        <span class="font-medium">
-
-                            Tambah Penghuni
-
-                        </span>
-
-                    </button>
-
                 </div>
 
                 <!-- Search -->
