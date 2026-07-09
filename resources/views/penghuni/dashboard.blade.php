@@ -1,3 +1,4 @@
+@php session()->flash('isDashboard', true); @endphp
 <x-app-layout>
     <div class="space-y-6">
 
@@ -18,7 +19,9 @@
                     <div class="flex-1 space-y-2">
                         <div class="flex items-center gap-2">
                             <span class="font-semibold text-primary">Kamar A001</span>
-                            <x-badge color="green">Active</x-badge>
+                            <span class="inline-flex items-center bg-green-100 px-2.5 py-0.5 rounded-full font-semibold text-green-700 text-xs">
+                                Active
+                            </span>
                         </div>
                         <div class="gap-x-2 gap-y-1 grid grid-cols-2 text-sm">
                             <span class="text-gray-500">Check-in</span>
@@ -32,6 +35,7 @@
                 </div>
             </div>
 
+            <!-- Tagihan Bulan Ini -->
             <div class="bg-white shadow-sm p-6 rounded-xl">
                 <div class="flex justify-between items-start">
                     <h2 class="font-semibold text-primary text-lg">Tagihan Bulan Ini</h2>
@@ -39,11 +43,13 @@
                 </div>
                 <div class="flex items-center gap-3 mt-3">
                     <span class="font-bold text-primary text-2xl">Rp. 1.000.000</span>
-                    <x-badge color="red">Belum Dibayar</x-badge>
+                    <span class="inline-flex items-center bg-red-100 px-2.5 py-0.5 rounded-full font-semibold text-red-700 text-xs">
+                        Belum Dibayar
+                    </span>
                 </div>
                 <div class="flex justify-between mt-4 text-sm">
-                    <span class="text-gray-500">Tanggal Jatuh Tempo</span>
-                    <span class="font-medium text-gray-800">30 Juni 2026</span>
+                    <span class="text-grayCustom-500">Tanggal Jatuh Tempo</span>
+                    <span class="font-medium text-grayCustom-800">30 Juni 2026</span>
                 </div>
                 <button type="button"
                     class="bg-primary hover:bg-primary/90 mt-5 px-4 py-2.5 rounded-lg w-full font-semibold text-white text-sm transition">
@@ -52,61 +58,70 @@
             </div>
         </div>
 
+        <!-- Riwayat Pembayaran Terakhir -->
         <div class="bg-white shadow-sm p-6 rounded-xl">
             <h2 class="mb-4 font-semibold text-primary text-lg">Riwayat Pembayaran Terakhir</h2>
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[560px] text-sm">
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-grayCustom-100">
                         <tr>
                             <td class="py-4 pr-4">
-                                <p class="font-semibold text-gray-800">Juni 2026</p>
-                                <p class="text-gray-500">Tagihan Bulanan</p>
+                                <p class="font-semibold text-grayCustom-800">Juni 2026</p>
+                                <p class="text-grayCustom-500">Tagihan Bulanan</p>
                             </td>
                             <td class="py-4 pr-4">
-                                <p class="font-bold text-gray-800">Rp. 1.000.000</p>
-                                <p class="text-gray-500">30 Juni 2026</p>
+                                <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
+                                <p class="text-grayCustom-500">30 Juni 2026</p>
                             </td>
                             <td class="py-4 text-right">
-                                <x-badge color="red">Belum Lunas</x-badge>
+                                <span class="inline-flex items-center bg-red-100 px-2.5 py-0.5 rounded-full font-semibold text-red-700 text-xs">
+                                    Belum Lunas
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td class="py-4 pr-4">
-                                <p class="font-semibold text-gray-800">Mei 2026</p>
-                                <p class="text-gray-500">Tagihan Bulanan</p>
+                                <p class="font-semibold text-grayCustom-800">Mei 2026</p>
+                                <p class="text-grayCustom-500">Tagihan Bulanan</p>
                             </td>
                             <td class="py-4 pr-4">
-                                <p class="font-bold text-gray-800">Rp. 1.000.000</p>
-                                <p class="text-gray-500">27 Mei 2026</p>
+                                <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
+                                <p class="text-grayCustom-500">27 Mei 2026</p>
                             </td>
                             <td class="py-4 text-right">
-                                <x-badge color="green">Lunas</x-badge>
+                                <span class="inline-flex items-center bg-green-100 px-2.5 py-0.5 rounded-full font-semibold text-green-700 text-xs">
+                                    Lunas
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td class="py-4 pr-4">
-                                <p class="font-semibold text-gray-800">April 2026</p>
-                                <p class="text-gray-500">Tagihan Bulanan</p>
+                                <p class="font-semibold text-grayCustom-800">April 2026</p>
+                                <p class="text-grayCustom-500">Tagihan Bulanan</p>
                             </td>
                             <td class="py-4 pr-4">
-                                <p class="font-bold text-gray-800">Rp. 1.000.000</p>
-                                <p class="text-gray-500">27 April 2026</p>
+                                <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
+                                <p class="text-grayCustom-500">27 April 2026</p>
                             </td>
                             <td class="py-4 text-right">
-                                <x-badge color="green">Lunas</x-badge>
+                                <span class="inline-flex items-center bg-green-100 px-2.5 py-0.5 rounded-full font-semibold text-green-700 text-xs">
+                                    Lunas
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td class="py-4 pr-4">
-                                <p class="font-semibold text-gray-800">Maret 2026</p>
-                                <p class="text-gray-500">Tagihan Bulanan</p>
+                                <p class="font-semibold text-grayCustom-800">Maret 2026</p>
+                                <p class="text-grayCustom-500">Tagihan Bulanan</p>
                             </td>
                             <td class="py-4 pr-4">
-                                <p class="font-bold text-gray-800">Rp. 1.000.000</p>
-                                <p class="text-gray-500">27 Maret 2026</p>
+                                <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
+                                <p class="text-grayCustom-500">27 Maret 2026</p>
                             </td>
                             <td class="py-4 text-right">
-                                <x-badge color="green">Lunas</x-badge>
+                                <span class="inline-flex items-center bg-green-100 px-2.5 py-0.5 rounded-full font-semibold text-green-700 text-xs">
+                                    Lunas
+                                </span>
                             </td>
                         </tr>
                     </tbody>

@@ -9,24 +9,29 @@
             </svg>
         </button>
 
-        @if (auth()->user()->hasRole('penghuni'))
-            <div class="flex-1 min-w-0">
-                <h1 class="font-bold text-white text-lg md:text-2xl truncate">Hallo, {{ auth()->user()->name }}!!</h1>
-                <p class="text-white/80 text-sm truncate">Selamat datang di arynKost!</p>
-            </div>
-        @else
-            <div class="flex-1 max-w-md">
-                <div class="relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="top-1/2 left-4 absolute w-4 h-4 text-white/70 -translate-y-1/2">
-                        <circle cx="11" cy="11" r="7" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
-                    <input type="text" placeholder="Cari..."
-                        class="bg-transparent py-2.5 pr-4 pl-11 border border-white/40 focus:border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-white/40 w-full text-white text-sm placeholder-white/70">
+        @if (str_contains(request()->url(), 'dashboard'))
+            @if (auth()->user()->hasRole('penghuni'))
+                <div class="flex-1 min-w-0">
+                    <h1 class="font-bold text-white text-lg md:text-2xl truncate">Hallo, {{ auth()->user()->name }}!!</h1>
+                    <p class="text-white/80 text-sm truncate">Selamat datang di arynKost!</p>
                 </div>
-            </div>
+            @else
+                <div class="flex-1 max-w-md">
+                    <div class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="top-1/2 left-4 absolute w-4 h-4 text-white/70 -translate-y-1/2">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <input type="text" placeholder="Cari..."
+                            class="bg-transparent py-2.5 pr-4 pl-11 border border-white/40 focus:border-transparent rounded-full focus:outline-none focus:ring-2 focus:ring-white/40 w-full text-white text-sm placeholder-white/70">
+                    </div>
+                </div>
+            @endif
+        @else
+            {{-- Bagian tengah kosong bersih di halaman selain dashboard --}}
+            <div class="flex-1"></div>
         @endif
 
         <div class="flex items-center gap-4 shrink-0">
@@ -47,7 +52,7 @@
                     </button>
                 </x-slot>
                 <x-slot name="content">
-                    <x-dropdown-link :href="route('profile.edit')">
+                    <x-dropdown-link href="#">
                         {{ __('Profil') }}
                     </x-dropdown-link>
                     <form method="POST" action="{{ route('logout') }}">

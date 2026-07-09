@@ -6,22 +6,15 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+        <div class = "max-w-7xl mx-auto sm:px-6 lg:px-8 flex flex-col md:flex-row gap-6">
+            <div class = "h-[calc(100vh-180px)] w-full md:w-1/3 bg-white dark:bg-gray-800 shadow-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sm:p-8">
+                <div class="max-w-xl">
+                    @include('profile.partials.profile-information')
+                </div>
+            </div>
+            <div class = "h-[calc(100vh-180px)] w-full md:w-2/3 bg-white dark:bg-gray-800 shadow-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 sm:p-8">
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
                 </div>
             </div>
         </div>
