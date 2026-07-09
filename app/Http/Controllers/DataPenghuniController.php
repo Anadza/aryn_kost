@@ -46,9 +46,11 @@ class DataPenghuniController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $penghuni = Penghuni::findOrFail($id);
+
+        return view('penghuni.show', compact('penghuni'));
     }
 
     /**
