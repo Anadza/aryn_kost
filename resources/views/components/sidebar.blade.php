@@ -23,15 +23,9 @@
     class="left-0 z-40 fixed inset-y-0 flex flex-col bg-primary w-64 overflow-y-auto transition-transform duration-300"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
-    <div class="flex items-center gap-3 px-6 py-6 shrink-0">
-        <div class="flex justify-center items-center bg-white rounded-lg w-10 h-10 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#254D70" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                <path d="M3 11.5 12 4l9 7.5" />
-                <path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" />
-            </svg>
-        </div>
-        <span class="font-sans font-bold text-white text-xl">arynKost</span>
+    <div class="flex items-center gap-1 px-6 py-6 shrink-0">
+        <img src="{{ asset('logo.png') }}" alt="Logo arynKost" class="w-auto h-16 shrink-0">
+        <span class="font-sans font-bold text-white text-2xl">arynKost</span>
     </div>
 
     <nav class="flex-1 space-y-1 px-3 pb-6">
