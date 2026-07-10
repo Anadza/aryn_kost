@@ -84,6 +84,9 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        Route::get('/pengaduan/create', [PengaduanController::class, 'create'])->name('pengaduan.create');
+        Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
     });
 
 Route::middleware(['auth', 'verified'])->group(function () {
