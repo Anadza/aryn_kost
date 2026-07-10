@@ -11,11 +11,32 @@ class AdminPembayaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pembayarans = Pembayaran::all();
+    $search = $request->input('search');
+    $tanggal = $request->input('tanggal');
+    $statusFilter = $request->input('status');
 
-        return view('pembayaran.index', compact('pembayarans'));
+    $query = Pembayaran::with(['penghuni', 'kamar']);
+
+    if (!empty($search)) {
+        $query->whereHas('penghuni', function ($q) use ($search) {
+            $q->where('nama', 'like', '%' . $search . '%');
+        });
+    }
+
+    if (!empty($tanggal)) {
+        $query->whereDate('tanggal_bayar', $tanggal);
+    }
+
+    if (!empty($statusFilter)) {
+        $query->where('status', $statusFilter);
+    }
+
+    $pembayarans = $query->latest()->paginate(10);
+
+    return view('pembayaran.index', compact('pembayarans', 'search', 'tanggal', 'statusFilter'));
+
     }
 
     /**
