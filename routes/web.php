@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataPenghuniController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\Penghuni\PembayaranController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,7 +46,6 @@ Route::middleware(['auth', 'role:admin'])
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
 
         // Notifikasi
-        // Notifikasi (pembayaran, keluhan, booking dari penghuni)
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
         Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [NotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
@@ -84,6 +84,10 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        // Pembayaran Penghuni
+        Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
+        Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'upload'])->name('pembayaran.upload.post');
     });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -94,12 +98,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
     Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
     Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
-
-    Route::get('/pengaduan', [PengaduanController::class, 'index'])
-        ->name('pengaduan.index');
-
-    Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])
-        ->name('pengaduan.update-status');
 });
 
 require __DIR__ . '/auth.php';
