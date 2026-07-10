@@ -18,7 +18,7 @@
         <form method="GET" action="{{ route('pembayaran.index') }}" x-ref="searchForm"
             class="flex sm:flex-row flex-col sm:items-end gap-3 sm:gap-4">
             <div class="flex-1">
-                <label class="block mb-1 text-grayCustom-500 text-xs">Cari Penyewa</label>
+                <label class="block mb-1 text-grayCustom-500 text-xs">Cari Penghuni</label>
                 <div class="relative">
                     <span class="left-0 absolute inset-y-0 flex items-center pl-3 text-grayCustom-400">
                         <svg xmlns="http://w3.org" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
