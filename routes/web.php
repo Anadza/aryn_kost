@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataPenghuniController;
 use App\Http\Controllers\KamarController;
+use App\Http\Controllers\Admin\AdminPembayaranController;
 use App\Http\Controllers\NotifikasiController;
 
 Route::get('/', function () {
@@ -44,6 +45,10 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
 
+        // Data Pembayaran
+        Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
+        Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
+        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
         // Notifikasi
         // Notifikasi (pembayaran, keluhan, booking dari penghuni)
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
@@ -55,6 +60,10 @@ Route::middleware(['auth', 'role:owner'])
     ->prefix('owner')
     ->name('owner.')
     ->group(function () {
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::get('/dashboard', [OwnerController::class, 'index'])
             ->name('dashboard');
@@ -71,6 +80,10 @@ Route::middleware(['auth', 'role:owner'])
         // Data Pengaduan
         Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
+
+        // Data Pembayaran
+        Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
+        Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
     });
 
 Route::middleware(['auth', 'role:penghuni'])
@@ -88,12 +101,21 @@ Route::middleware(['auth', 'role:penghuni'])
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
     Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
     Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
     Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
     Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
     Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
+
+    // Route Halaman Pembayaran
+    Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
+    Route::post('/pembayaran', [AdminPembayaranController::class, 'store'])->name('pembayaran.store');
+    Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
+    Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
 
     Route::get('/pengaduan', [PengaduanController::class, 'index'])
         ->name('pengaduan.index');
