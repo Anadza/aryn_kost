@@ -12,7 +12,6 @@
     };
 @endphp
 
-{{-- Backdrop: cuma tampil di mobile saat sidebar kebuka --}}
 <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-200"
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100"
@@ -95,7 +94,7 @@
                 <span>Profil</span>
             </a>
         @else
-            {{-- Role: Penghuni --}}
+            {{-- Penghuni --}}
             <a href="{{ route('penghuni.dashboard') }}"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.dashboard') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -130,8 +129,8 @@
                 <span>Booking</span>
             </a>
 
-            <a href="{{ $navRoute('pembayaran.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pembayaran.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+            <a href="{{ route('penghuni.pembayaran.upload') }}"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pembayaran.upload') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <rect x="2" y="5" width="20" height="14" rx="2" />
