@@ -14,9 +14,31 @@
 
     <div x-data="kamarPage()" class="space-y-6 mx-auto px-6 pt-2 pb-8 max-w-7xl">
 
+        {{-- ===================== NOTIFIKASI TOAST MELAYANG ===================== --}}
         @if (session('success'))
-            <div class="bg-success-100 px-4 py-3 rounded-xl font-medium text-success-700 text-sm">
-                {{ session('success') }}
+            <div class="top-5 right-5 z-50 fixed w-full max-w-sm pointer-events-none">
+                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" x-cloak
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-2 sm:translate-y-0 sm:translate-x-2"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0"
+                    x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="flex items-start gap-3 bg-white shadow-xl p-4 border-emerald-500 border-l-4 rounded-xl pointer-events-auto">
+                    <div class="text-emerald-500 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-900 text-sm">Berhasil!</p>
+                        <p class="mt-0.5 text-gray-500 text-xs">{{ session('success') }}</p>
+                    </div>
+                    <button type="button" @click="show = false" class="text-gray-400 hover:text-gray-600 shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/xl" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         @endif
 
@@ -49,16 +71,18 @@
                 </select>
             </div>
 
-            <div class="sm:ml-auto">
-                <button type="button" @click="openAdd()"
-                    class="inline-flex justify-center items-center gap-2 bg-primary hover:bg-primary/90 px-4 py-2.5 rounded-xl w-full sm:w-auto font-semibold text-white text-sm transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Tambah Kamar
-                </button>
-            </div>
+            @can('kamar.create')
+                <div class="sm:ml-auto">
+                    <button type="button" @click="openAdd()"
+                        class="inline-flex justify-center items-center gap-2 bg-primary hover:bg-primary/90 px-4 py-2.5 rounded-xl w-full sm:w-auto font-semibold text-white text-sm transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Tambah Kamar
+                    </button>
+                </div>
+            @endcan
         </form>
 
         {{-- Table --}}
@@ -70,7 +94,8 @@
                 <div class="hidden md:block overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="border-grayCustom-100 border-b text-primary/70 text-xs text-left uppercase tracking-wide">
+                            <tr
+                                class="border-grayCustom-100 border-b text-primary/70 text-xs text-left uppercase tracking-wide">
                                 <th class="py-3 pr-4 font-medium">No</th>
                                 <th class="py-3 pr-4 font-medium">No. Kamar</th>
                                 <th class="py-3 pr-4 font-medium">Tipe</th>
@@ -81,14 +106,19 @@
                         </thead>
                         <tbody>
                             @foreach ($kamars as $index => $kamar)
-                                <tr class="hover:bg-grayCustom-50 border-grayCustom-50 border-b last:border-b-0 transition">
+                                <tr
+                                    class="hover:bg-grayCustom-50 border-grayCustom-5 border-b last:border-b-0 transition">
                                     <td class="py-4 pr-4 text-grayCustom-500">{{ $index + 1 }}</td>
-                                    <td class="py-4 pr-4 font-medium text-grayCustom-700 whitespace-nowrap">{{ $kamar->no_kamar }}</td>
+                                    <td class="py-4 pr-4 font-medium text-grayCustom-700 whitespace-nowrap">
+                                        {{ $kamar->no_kamar }}</td>
                                     <td class="py-4 pr-4 text-grayCustom-500 whitespace-nowrap">{{ $kamar->tipe }}</td>
-                                    <td class="py-4 pr-4 text-grayCustom-500 whitespace-nowrap">{{ $kamar->hargaFormatted() }}</td>
+                                    <td class="py-4 pr-4 text-grayCustom-500 whitespace-nowrap">
+                                        {{ $kamar->hargaFormatted() }}</td>
                                     <td class="py-4 pr-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
-                                            <span class="h-1.5 w-1.5 rounded-full {{ $kamar->statusDotClass() }}"></span>
+                                        <span
+                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
+                                            <span
+                                                class="h-1.5 w-1.5 rounded-full {{ $kamar->statusDotClass() }}"></span>
                                             {{ $kamar->statusLabel() }}
                                         </span>
                                     </td>
@@ -97,18 +127,25 @@
                                             <button type="button" title="Lihat detail"
                                                 @click="openDetail({{ Illuminate\Support\Js::from($kamar) }})"
                                                 class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </button>
-                                            <button type="button" title="Edit kamar"
-                                                @click="openEdit({{ Illuminate\Support\Js::from($kamar) }})"
-                                                class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />
-                                                </svg>
-                                            </button>
+                                            @can('kamar.edit')
+                                                <button type="button" title="Edit kamar"
+                                                    @click="openEdit({{ Illuminate\Support\Js::from($kamar) }})"
+                                                    class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />
+                                                    </svg>
+                                                </button>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -124,9 +161,11 @@
                             <div class="flex justify-between items-start gap-3">
                                 <div>
                                     <p class="font-semibold text-grayCustom-800">{{ $kamar->no_kamar }}</p>
-                                    <p class="mt-0.5 text-grayCustom-400 text-xs">{{ $kamar->tipe }} &middot; {{ $kamar->hargaFormatted() }}</p>
+                                    <p class="mt-0.5 text-grayCustom-400 text-xs">{{ $kamar->tipe }} &middot;
+                                        {{ $kamar->hargaFormatted() }}</p>
                                 </div>
-                                <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
+                                <span
+                                    class="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
                                     <span class="h-1.5 w-1.5 rounded-full {{ $kamar->statusDotClass() }}"></span>
                                     {{ $kamar->statusLabel() }}
                                 </span>
@@ -136,18 +175,25 @@
                                 <button type="button" title="Lihat detail"
                                     @click="openDetail({{ Illuminate\Support\Js::from($kamar) }})"
                                     class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                 </button>
-                                <button type="button" title="Edit kamar"
-                                    @click="openEdit({{ Illuminate\Support\Js::from($kamar) }})"
-                                    class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />
-                                    </svg>
-                                </button>
+                                @can('kamar.edit')
+                                    <button type="button" title="Edit kamar"
+                                        @click="openEdit({{ Illuminate\Support\Js::from($kamar) }})"
+                                        class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />
+                                        </svg>
+                                    </button>
+                                @endcan
                             </div>
                         </div>
                     @endforeach
@@ -187,9 +233,11 @@
                         <div class="flex justify-between items-center">
                             <dt class="text-grayCustom-400">Status</dt>
                             <dd>
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
                                     :class="statusBadgeClass(selected.status)">
-                                    <span class="rounded-full w-1.5 h-1.5" :class="statusDotClass(selected.status)"></span>
+                                    <span class="rounded-full w-1.5 h-1.5"
+                                        :class="statusDotClass(selected.status)"></span>
                                     <span x-text="statusLabel(selected.status)"></span>
                                 </span>
                             </dd>
@@ -207,185 +255,203 @@
         </div>
 
         {{-- ===================== MODAL: TAMBAH ===================== --}}
-        <div x-show="showAdd" x-cloak class="z-40 fixed inset-0 flex justify-center items-center bg-black/40 p-4"
-            @click.self="showAdd = false">
-            <div x-show="showAdd" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-sm">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-primary text-lg">Tambah Kamar</h3>
-                    <button type="button" @click="showAdd = false"
-                        class="text-grayCustom-400 hover:text-grayCustom-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <form method="POST" action="{{ route('kamar.store') }}" class="space-y-4">
-                    @csrf
-
-                    <div>
-                        <label class="block mb-1 font-medium text-grayCustom-500 text-xs">No. Kamar</label>
-                        <input type="text" name="no_kamar" required placeholder="Contoh: A011"
-                            class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
-                        @error('no_kamar')
-                            <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Tipe</label>
-                        <input type="text" name="tipe" required placeholder="Standar / Deluxe" list="tipe-options"
-                            class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
-                        <datalist id="tipe-options">
-                            <option value="Standar"></option>
-                            <option value="Deluxe"></option>
-                        </datalist>
-                        @error('tipe')
-                            <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Harga / Bulan (Rp)</label>
-                        <input type="number" name="harga" min="0" step="1000" required placeholder="1000000"
-                            class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
-                        @error('harga')
-                            <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Status</label>
-                        <select name="status" required
-                            class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
-                            <option value="kosong">Kosong</option>
-                            <option value="terisi">Terisi</option>
-                            <option value="booking">Booking</option>
-                        </select>
-                        @error('status')
-                            <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div class="flex justify-end gap-2 pt-2">
+        @can('kamar.create')
+            <div x-show="showAdd" x-cloak class="z-40 fixed inset-0 flex justify-center items-center bg-black/40 p-4"
+                @click.self="showAdd = false">
+                <div x-show="showAdd" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-primary text-lg">Tambah Kamar</h3>
                         <button type="button" @click="showAdd = false"
-                            class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">
-                            Batal
-                        </button>
-                        <button type="submit"
-                            class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
-                            Simpan
+                            class="text-grayCustom-400 hover:text-grayCustom-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                         </button>
                     </div>
-                </form>
-            </div>
-        </div>
 
-        {{-- ===================== MODAL: EDIT ===================== --}}
-        <div x-show="showEdit" x-cloak class="z-40 fixed inset-0 flex justify-center items-center bg-black/40 p-4"
-            @click.self="showEdit = false">
-            <div x-show="showEdit" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-sm">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-primary text-lg">Edit Kamar</h3>
-                    <button type="button" @click="showEdit = false"
-                        class="text-grayCustom-400 hover:text-grayCustom-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <template x-if="selected">
-                    <form method="POST" :action="'/kamar/' + selected.id" class="space-y-4">
+                    <form method="POST" action="{{ route('kamar.store') }}" class="space-y-4">
                         @csrf
-                        @method('PUT')
 
                         <div>
                             <label class="block mb-1 font-medium text-grayCustom-500 text-xs">No. Kamar</label>
-                            <input type="text" name="no_kamar" x-model="selected.no_kamar" required
+                            <input type="text" name="no_kamar" required placeholder="Contoh: A011"
                                 class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
+                            @error('no_kamar')
+                                <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
                             <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Tipe</label>
-                            <input type="text" name="tipe" x-model="selected.tipe" required list="tipe-options-edit"
+                            <input type="text" name="tipe" required placeholder="Standar / Deluxe"
+                                list="tipe-options"
                                 class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
-                            <datalist id="tipe-options-edit">
+                            <datalist id="tipe-options">
                                 <option value="Standar"></option>
                                 <option value="Deluxe"></option>
                             </datalist>
+                            @error('tipe')
+                                <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
                             <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Harga / Bulan (Rp)</label>
-                            <input type="number" name="harga" x-model="selected.harga" min="0" step="1000" required
+                            <input type="number" name="harga" min="0" step="1000" required
+                                placeholder="1000000"
                                 class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
+                            @error('harga')
+                                <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
                             <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Status</label>
-                            <select name="status" x-model="selected.status" required
+                            <select name="status" required
                                 class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
                                 <option value="kosong">Kosong</option>
                                 <option value="terisi">Terisi</option>
                                 <option value="booking">Booking</option>
                             </select>
+                            @error('status')
+                                <p class="mt-1 text-red-500 text-xs">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        <div class="flex justify-between items-center pt-2">
-                            <button type="button" @click="confirmDelete = true"
-                                class="hover:bg-red-50 px-3 py-2 rounded-xl font-semibold text-red-600 text-xs transition">
-                                Hapus Kamar
+                        <div class="flex justify-end gap-2 pt-2">
+                            <button type="button" @click="showAdd = false"
+                                class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">
+                                Batal
                             </button>
-
-                            <div class="flex gap-2">
-                                <button type="button" @click="showEdit = false"
-                                    class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">
-                                    Batal
-                                </button>
-                                <button type="submit"
-                                    class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
-                                    Simpan
-                                </button>
-                            </div>
+                            <button type="submit"
+                                class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
+                                Simpan
+                            </button>
                         </div>
                     </form>
-                </template>
+                </div>
             </div>
-        </div>
+        @endcan
+
+        {{-- ===================== MODAL: EDIT ===================== --}}
+        @can('kamar.edit')
+            <div x-show="showEdit" x-cloak class="z-40 fixed inset-0 flex justify-center items-center bg-black/40 p-4"
+                @click.self="showEdit = false">
+                <div x-show="showEdit" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-primary text-lg">Edit Kamar</h3>
+                        <button type="button" @click="showEdit = false"
+                            class="text-grayCustom-400 hover:text-grayCustom-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <template x-if="selected">
+                        <form method="POST" :action="'/kamar/' + selected.id" class="space-y-4">
+                            @csrf
+                            @method('PUT')
+
+                            <div>
+                                <label class="block mb-1 font-medium text-grayCustom-500 text-xs">No. Kamar</label>
+                                <input type="text" name="no_kamar" x-model="selected.no_kamar" required
+                                    class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
+                            </div>
+
+                            <div>
+                                <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Tipe</label>
+                                <input type="text" name="tipe" x-model="selected.tipe" required
+                                    list="tipe-options-edit"
+                                    class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
+                                <datalist id="tipe-options-edit">
+                                    <option value="Standar"></option>
+                                    <option value="Deluxe"></option>
+                                </datalist>
+                            </div>
+
+                            <div>
+                                <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Harga / Bulan
+                                    (Rp)</label>
+                                <input type="number" name="harga" x-model="selected.harga" min="0"
+                                    step="1000" required
+                                    class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
+                            </div>
+
+                            <div>
+                                <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Status</label>
+                                <select name="status" x-model="selected.status" required
+                                    class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
+                                    <option value="kosong">Kosong</option>
+                                    <option value="terisi">Terisi</option>
+                                    <option value="booking">Booking</option>
+                                </select>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-2">
+                                @can('kamar.delete')
+                                    <button type="button" @click="confirmDelete = true"
+                                        class="hover:bg-red-50 px-3 py-2 rounded-xl font-semibold text-red-600 text-xs transition">
+                                        Hapus Kamar
+                                    </button>
+                                @else
+                                    <div></div>
+                                @endcan
+
+                                <div class="flex gap-2">
+                                    <button type="button" @click="showEdit = false"
+                                        class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">
+                                        Batal
+                                    </button>
+                                    <button type="submit"
+                                        class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </template>
+                </div>
+            </div>
+        @endcan
 
         {{-- ===================== MODAL: KONFIRMASI HAPUS ===================== --}}
-        <div x-show="confirmDelete" x-cloak class="z-50 fixed inset-0 flex justify-center items-center bg-black/50 p-4"
-            @click.self="confirmDelete = false">
-            <div x-show="confirmDelete" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-xs text-center">
-                <h3 class="mb-3 font-bold text-red-600 text-lg">
-                    Hapus Kamar
-                </h3>
+        @can('kamar.delete')
+            <div x-show="confirmDelete" x-cloak
+                class="z-50 fixed inset-0 flex justify-center items-center bg-black/50 p-4"
+                @click.self="confirmDelete = false">
+                <div x-show="confirmDelete" x-transition
+                    class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-xs text-center">
+                    <h3 class="mb-3 font-bold text-red-600 text-lg">
+                        Hapus Kamar
+                    </h3>
 
-                <p class="text-grayCustom-700 text-sm">
-                    Yakin ingin menghapus kamar
-                    <span class="font-semibold text-grayCustom-900" x-text="selected ? selected.no_kamar : '-'"></span>?
-                </p>
+                    <p class="text-grayCustom-700 text-sm">
+                        Yakin ingin menghapus kamar
+                        <span class="font-semibold text-grayCustom-900"
+                            x-text="selected ? selected.no_kamar : '-'"></span>?
+                    </p>
 
-                <form method="POST" :action="selected ? '/kamar/' + selected.id : '#'" class="flex justify-center gap-3 mt-6">
-                    @csrf
-                    @method('DELETE')
+                    <form method="POST" :action="selected ? '/kamar/' + selected.id : '#'"
+                        class="flex justify-center gap-3 mt-6">
+                        @csrf
+                        @method('DELETE')
 
-                    <button type="button" @click="confirmDelete = false"
-                        class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">
-                        Batal
-                    </button>
+                        <button type="button" @click="confirmDelete = false"
+                            class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">
+                            Batal
+                        </button>
 
-                    <button type="submit"
-                        class="bg-red-600 hover:bg-red-700 shadow-sm px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
-                        Ya, Hapus
-                    </button>
-                </form>
+                        <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 shadow-sm px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
+                            Ya, Hapus
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-
+        @endcan
     </div>
 
     <script>
@@ -405,7 +471,9 @@
                     this.showDetail = true;
                 },
                 openEdit(kamar) {
-                    this.selected = { ...kamar };
+                    this.selected = {
+                        ...kamar
+                    };
                     this.showEdit = true;
                 },
                 formatRupiah(value) {
@@ -417,21 +485,21 @@
                         kosong: 'Kosong',
                         terisi: 'Terisi',
                         booking: 'Booking'
-                    }[status] ?? status;
+                    } [status] ?? status;
                 },
                 statusBadgeClass(status) {
                     return {
                         kosong: 'bg-grayCustom-100 text-grayCustom-600',
                         terisi: 'bg-success-100 text-success-700',
                         booking: 'bg-warning-100 text-warning-700',
-                    }[status] ?? 'bg-grayCustom-100 text-grayCustom-600';
+                    } [status] ?? 'bg-grayCustom-100 text-grayCustom-600';
                 },
                 statusDotClass(status) {
                     return {
                         kosong: 'bg-grayCustom-400',
                         terisi: 'bg-success-500',
                         booking: 'bg-warning-500',
-                    }[status] ?? 'bg-grayCustom-400';
+                    } [status] ?? 'bg-grayCustom-400';
                 },
             };
         }
