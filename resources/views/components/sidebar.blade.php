@@ -12,7 +12,6 @@
     };
 @endphp
 
-{{-- Backdrop: cuma tampil di mobile saat sidebar kebuka --}}
 <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-200"
     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="transition-opacity ease-linear duration-200" x-transition:leave-start="opacity-100"
@@ -23,15 +22,9 @@
     class="left-0 z-40 fixed inset-y-0 flex flex-col bg-primary w-64 overflow-y-auto transition-transform duration-300"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
 
-    <div class="flex items-center gap-3 px-6 py-6 shrink-0">
-        <div class="flex justify-center items-center bg-white rounded-lg w-10 h-10 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#254D70" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                <path d="M3 11.5 12 4l9 7.5" />
-                <path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" />
-            </svg>
-        </div>
-        <span class="font-sans font-bold text-white text-xl">arynKost</span>
+    <div class="flex items-center gap-1 px-6 py-6 shrink-0">
+        <img src="{{ asset('logo.png') }}" alt="Logo arynKost" class="w-auto h-16 shrink-0">
+        <span class="font-sans font-bold text-white text-2xl">arynKost</span>
     </div>
 
     <nav class="flex-1 space-y-1 px-3 pb-6">
@@ -91,17 +84,17 @@
                 <span>Data Pengaduan</span>
             </a>
 
-            <div
-                class="flex items-center gap-3 hover:bg-white/10 px-3 py-2.5 rounded-lg font-medium text-white/80 text-sm cursor-default">
+            <a href="{{ $navRoute('profile.edit') }}"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs("{$roleForRoute}.profile.edit") ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <circle cx="12" cy="8" r="4" />
                     <path d="M4 21v-1a8 8 0 0 1 16 0v1" />
                 </svg>
                 <span>Profil</span>
-            </div>
+            </a>
         @else
-            {{-- Role: Penghuni --}}
+            {{-- Penghuni --}}
             <a href="{{ route('penghuni.dashboard') }}"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.dashboard') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -136,8 +129,8 @@
                 <span>Booking</span>
             </a>
 
-            <a href="{{ $navRoute('pembayaran.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pembayaran.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+            <a href="{{ route('penghuni.pembayaran.upload') }}"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.pembayaran.upload') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <rect x="2" y="5" width="20" height="14" rx="2" />
@@ -158,6 +151,8 @@
 
             <a href="{{ route('penghuni.profile') }}"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.profile') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+            <a href="{{ $navRoute('profile.edit') }}"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('profile.edit') ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
                     <circle cx="12" cy="8" r="4" />
