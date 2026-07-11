@@ -94,6 +94,12 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/dashboard', [PenghuniController::class, 'index'])
             ->name('dashboard');
 
+        Route::get('/profile', [PenghuniController::class, 'profile'])
+            ->name('profile');
+
+        Route::patch('/profile', [PenghuniController::class, 'updateProfile'])
+            ->name('profile.update');
+
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
