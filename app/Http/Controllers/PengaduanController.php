@@ -12,9 +12,18 @@ use Illuminate\View\View;
 
 class PengaduanController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $pengaduans = Pengaduan::orderByDesc('tanggal')->orderByDesc('id')->get();
+        // JIKA yang login adalah PENGHUNI, filter data agar hanya melihat keluhannya sendiri
+        if ($request->user()->hasRole('penghuni')) {
+            $pengaduans = Pengaduan::where('penyewa', $request->user()->name)
+                ->orderByDesc('tanggal')
+                ->orderByDesc('id')
+                ->get();
+        } else {
+            // JIKA Admin atau Owner, tampilkan semua pengaduan
+            $pengaduans = Pengaduan::orderByDesc('tanggal')->orderByDesc('id')->get();
+        }
 
         $total = $pengaduans->count();
         $sedangDiproses = $pengaduans->whereIn('status', ['pending', 'diproses'])->count();
@@ -50,7 +59,7 @@ class PengaduanController extends Controller
 
         $pengaduan = Pengaduan::create([
             'tanggal' => $validated['tanggal'],
-            'penyewa' => $request->user()->name,
+            'penyewa' => $request->user()->name, // Mengikat ke nama user yang login
             'kamar' => $validated['kamar'],
             'kategori' => $validated['kategori'],
             'deskripsi' => $validated['deskripsi'],
@@ -69,7 +78,8 @@ class PengaduanController extends Controller
             'status' => 'belum_dibaca',
         ]);
 
-        return redirect()->route('penghuni.dashboard')
+        // DIUBAH: Redirect ke halaman INDEX pengaduan agar user bisa langsung melihat status keluhannya
+        return redirect()->route('penghuni.pengaduan.index')
             ->with('success', 'Keluhan berhasil dikirim. Admin akan segera menindaklanjuti.');
     }
 

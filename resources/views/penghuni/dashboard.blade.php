@@ -2,6 +2,41 @@
 <x-app-layout>
     <div class="space-y-6">
 
+        <!-- ================= MENU PINTASAN AKSES (QUICK LINKS) ================= -->
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+            <h2 class="mb-4 text-lg font-semibold text-primary">Menu Utama Penghuni</h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+                <!-- Tombol ke Halaman Indeks/Riwayat Pengaduan -->
+                <a href="{{ route('penghuni.pengaduan.index') }}" class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-gray-50 transition group">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100 text-orange-600 group-hover:scale-105 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-800 text-sm">Pengaduan & Keluhan</p>
+                        <p class="text-xs text-gray-500">Lihat riwayat status pengaduan Anda</p>
+                    </div>
+                </a>
+
+                <!-- Tombol Langsung Buat Keluhan Baru -->
+                <a href="{{ route('penghuni.pengaduan.create') }}" class="flex items-center gap-4 p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-gray-50 transition group">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-red-100 text-red-600 group-hover:scale-105 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-gray-800 text-sm">Buat Keluhan Baru</p>
+                        <p class="text-xs text-gray-500">Laporkan masalah fasilitas atau kamar</p>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <!-- ===================================================================== -->
+
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
             <!-- Kamar Saya -->
             <div class="rounded-xl bg-white p-6 shadow-sm">
@@ -51,10 +86,12 @@
                     <span class="text-grayCustom-500">Tanggal Jatuh Tempo</span>
                     <span class="font-medium text-grayCustom-800">30 Juni 2026</span>
                 </div>
-                <button type="button"
-                    class="mt-5 w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/90">
+
+                <!-- Sinkronisasi link upload pembayaran -->
+                <a href="{{ route('penghuni.pembayaran.upload') }}"
+                    class="block mt-5 w-full text-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-primary/90">
                     Bayar Sekarang
-                </button>
+                </a>
             </div>
         </div>
 
@@ -87,36 +124,6 @@
                             <td class="py-4 pr-4">
                                 <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
                                 <p class="text-grayCustom-500">27 Mei 2026</p>
-                            </td>
-                            <td class="py-4 text-right">
-                                <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
-                                    Lunas
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-4 pr-4">
-                                <p class="font-semibold text-grayCustom-800">April 2026</p>
-                                <p class="text-grayCustom-500">Tagihan Bulanan</p>
-                            </td>
-                            <td class="py-4 pr-4">
-                                <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
-                                <p class="text-grayCustom-500">27 April 2026</p>
-                            </td>
-                            <td class="py-4 text-right">
-                                <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
-                                    Lunas
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-4 pr-4">
-                                <p class="font-semibold text-grayCustom-800">Maret 2026</p>
-                                <p class="text-grayCustom-500">Tagihan Bulanan</p>
-                            </td>
-                            <td class="py-4 pr-4">
-                                <p class="font-bold text-grayCustom-800">Rp. 1.000.000</p>
-                                <p class="text-grayCustom-500">27 Maret 2026</p>
                             </td>
                             <td class="py-4 text-right">
                                 <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-semibold text-green-700">
