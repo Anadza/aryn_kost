@@ -2,37 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Pengaduan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PengaduanController extends Controller
 {
-    public function index(): View
-    {
-        $pengaduans = Pengaduan::orderByDesc('tanggal')->orderByDesc('id')->get();
-
-        $total = $pengaduans->count();
-        $sedangDiproses = $pengaduans->whereIn('status', ['pending', 'diproses'])->count();
-        $selesai = $pengaduans->where('status', 'selesai')->count();
-
-        return view('pengaduan.index', [
-            'pengaduans' => $pengaduans,
-            'total' => $total,
-            'sedangDiproses' => $sedangDiproses,
-            'selesai' => $selesai,
-        ]);
+    // Menampilkan Data (Index)
+public function index(Request $request)
+{
+    if ($request->user()->hasRole('penghuni')) {
+        // Ambil keluhan milik dia sendiri saja
+        $pengaduans = Pengaduan::where('penyewa', $request->user()->name)->orderByDesc('id')->get();
+        return view('penghuni.pengaduan.index', compact('pengaduans'));
     }
 
-    public function updateStatus(Request $request, Pengaduan $pengaduan): RedirectResponse
-    {
-        $request->validate([
-            'status' => 'required|in:pending,diproses,selesai',
-        ]);
+    // Untuk Admin/Owner
+    $pengaduans = Pengaduan::orderByDesc('id')->get();
+    return view('pengaduan.index', [
+        'pengaduans' => $pengaduans,
+        'total' => $pengaduans->count(),
+        'sedangDiproses' => $pengaduans->whereIn('status', ['pending', 'diproses'])->count(),
+        'selesai' => $pengaduans->where('status', 'selesai')->count(),
+    ]);
+}
 
-        $pengaduan->update(['status' => $request->status]);
+// Menampilkan Form Tambah Keluhan Penghuni
+public function create()
+{
+    return view('penghuni.pengaduan.create');
+}
 
-        return back()->with('success', 'Status pengaduan berhasil diperbarui.');
+// Menyimpan Keluhan Baru
+public function store(Request $request)
+{
+    // Validasi input
+    $request->validate([
+        'tanggal'   => 'required|date',
+        'kamar'     => 'required|string',
+        'kategori'  => 'required|string',
+        'deskripsi' => 'required|string',
+        'bukti'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Batasi max 2MB
+    ]);
+
+    // Handle Upload Bukti Foto jika ada
+    $namaFileBukti = null;
+    if ($request->hasFile('bukti')) {
+        $file = $request->file('bukti');
+        // Membuat nama file unik: bukti-pengaduan-171892182.jpg
+        $namaFileBukti = 'bukti-pengaduan-' . time() . '.' . $file->getClientOriginalExtension();
+        // Simpan ke folder public/storage/bukti-pengaduan
+        $file->storeAs('bukti-pengaduan', $namaFileBukti, 'public');
     }
+
+    // Simpan ke database
+    Pengaduan::create([
+        'tanggal'   => $request->tanggal,
+        'penyewa'   => $request->user()->name, // Mengambil nama yang sedang login
+        'kamar'     => $request->kamar,
+        'kategori'  => $request->kategori,
+        'deskripsi' => $request->deskripsi,
+        'bukti'     => $namaFileBukti, // Kolom ini sesuaikan dengan nama field di migrasi database kamu
+        'status'    => 'pending',
+    ]);
+
+    return redirect()->route('penghuni.pengaduan.index')->with('success', 'Laporan keluhan kamu sudah terkirim ke admin kos.');
+}
 }

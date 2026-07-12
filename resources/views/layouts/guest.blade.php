@@ -16,13 +16,10 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <div class="flex flex-col sm:justify-center items-center bg-secondary dark:bg-gray-900 pt-6 sm:pt-0 min-h-screen">
-        <div>
-            <a href="/">
-                {{-- <x-application-logo class="fill-current w-20 h-20 text-gray-500" /> --}}
-                ArynKost
-            </a>
+        <div class="flex items-center gap-3 justify-center">
+            <x-application-logo class="w-20 h-20 text-gray-500 fill-current" />
+            <span class="font-sans font-bold text-black text-2xl">arynKost</span>
         </div>
-
         <div
             class="bg-white dark:bg-gray-800 shadow-md mt-6 px-6 py-4 sm:rounded-lg w-full sm:max-w-md overflow-hidden">
             {{ $slot }}

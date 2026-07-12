@@ -10,12 +10,27 @@ class DataPenghuniController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $penghunis = Penghuni::latest()->paginate(10);
+    public function index(Request $request)
+{
+    $query = Penghuni::query();
 
-        return view('penghuni.index', compact('penghunis'));
+    // Pencarian nama penghuni
+    if ($request->filled('search')) {
+        $query->where('nama', 'like', '%' . $request->search . '%');
     }
+
+    // Filter status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $penghunis = $query
+        ->latest()
+        ->paginate(10)
+        ->appends($request->query());
+
+    return view('penghuni.index', compact('penghunis'));
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -46,9 +61,11 @@ class DataPenghuniController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $penghuni = Penghuni::findOrFail($id);
+
+        return view('penghuni.show', compact('penghuni'));
     }
 
     /**
