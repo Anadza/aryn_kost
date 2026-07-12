@@ -9,6 +9,24 @@
         </h2>
     </x-slot>
 
+    <div class="bg-[#F8EFD8] py-8 min-h-screen">
+
+        <div class="mx-auto max-w-7xl">
+
+            <!-- Card -->
+
+            <div class="bg-white shadow-lg rounded-[30px] overflow-hidden">
+
+                <!-- Header Card -->
+
+                <div class="flex justify-between items-center px-8 py-6">
+
+                    <h1 class="font-bold text-[#23466E] text-2xl">
+
+                        Data Penghuni
+
+                    </h1>
+
     <style>
         [x-cloak] {
             display: none !important;
