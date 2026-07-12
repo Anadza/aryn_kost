@@ -13,63 +13,62 @@ use Illuminate\View\View;
 class PengaduanController extends Controller
 {
     // Menampilkan Data (Index)
-public function index(Request $request)
-{
-    if ($request->user()->hasRole('penghuni')) {
-        // Ambil keluhan milik dia sendiri saja
-        $pengaduans = Pengaduan::where('penyewa', $request->user()->name)->orderByDesc('id')->get();
-        return view('penghuni.pengaduan.index', compact('pengaduans'));
+    public function index(Request $request): View
+    {
+        // Jika pengguna adalah penghuni, tampilkan data miliknya saja dengan pagination
+        if ($request->user()->hasRole('penghuni')) {
+            $pengaduans = Pengaduan::where('penyewa', $request->user()->name)
+                                   ->orderByDesc('id')
+                                   ->paginate(10);
+            return view('penghuni.pengaduan.index', compact('pengaduans'));
+        }
+
+        // Jika Admin/Owner, hitung statistik total
+        $total = Pengaduan::count();
+        $sedangDiproses = Pengaduan::whereIn('status', ['pending', 'diproses'])->count();
+        $selesai = Pengaduan::where('status', 'selesai')->count();
+
+        // 3. Ambil data pengaduan dengan pagination
+        $pengaduans = Pengaduan::orderByDesc('id')->paginate(10);
+
+        // 4. Kirim semua variabel ke view
+        return view('pengaduan.index', compact('pengaduans', 'total', 'sedangDiproses', 'selesai'));
     }
 
-    // Untuk Admin/Owner
-    $pengaduans = Pengaduan::orderByDesc('id')->get();
-    return view('pengaduan.index', [
-        'pengaduans' => $pengaduans,
-        'total' => $pengaduans->count(),
-        'sedangDiproses' => $pengaduans->whereIn('status', ['pending', 'diproses'])->count(),
-        'selesai' => $pengaduans->where('status', 'selesai')->count(),
-    ]);
-}
-
-// Menampilkan Form Tambah Keluhan Penghuni
-public function create()
-{
-    return view('penghuni.pengaduan.create');
-}
-
-// Menyimpan Keluhan Baru
-public function store(Request $request)
-{
-    // Validasi input
-    $request->validate([
-        'tanggal'   => 'required|date',
-        'kamar'     => 'required|string',
-        'kategori'  => 'required|string',
-        'deskripsi' => 'required|string',
-        'bukti'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Batasi max 2MB
-    ]);
-
-    // Handle Upload Bukti Foto jika ada
-    $namaFileBukti = null;
-    if ($request->hasFile('bukti')) {
-        $file = $request->file('bukti');
-        // Membuat nama file unik: bukti-pengaduan-171892182.jpg
-        $namaFileBukti = 'bukti-pengaduan-' . time() . '.' . $file->getClientOriginalExtension();
-        // Simpan ke folder public/storage/bukti-pengaduan
-        $file->storeAs('bukti-pengaduan', $namaFileBukti, 'public');
+    // Menampilkan Form Tambah Keluhan Penghuni
+    public function create(): View
+    {
+        return view('penghuni.pengaduan.create');
     }
 
-    // Simpan ke database
-    Pengaduan::create([
-        'tanggal'   => $request->tanggal,
-        'penyewa'   => $request->user()->name, // Mengambil nama yang sedang login
-        'kamar'     => $request->kamar,
-        'kategori'  => $request->kategori,
-        'deskripsi' => $request->deskripsi,
-        'bukti'     => $namaFileBukti, // Kolom ini sesuaikan dengan nama field di migrasi database kamu
-        'status'    => 'pending',
-    ]);
+    // Menyimpan Keluhan Baru
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'tanggal'   => 'required|date',
+            'kamar'     => 'required|string',
+            'kategori'  => 'required|string',
+            'deskripsi' => 'required|string',
+            'bukti'     => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    return redirect()->route('penghuni.pengaduan.index')->with('success', 'Laporan keluhan kamu sudah terkirim ke admin kos.');
-}
+        $namaFileBukti = null;
+        if ($request->hasFile('bukti')) {
+            $file = $request->file('bukti');
+            $namaFileBukti = 'bukti-pengaduan-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('bukti-pengaduan', $namaFileBukti, 'public');
+        }
+
+        Pengaduan::create([
+            'tanggal'   => $request->tanggal,
+            'penyewa'   => $request->user()->name,
+            'kamar'     => $request->kamar,
+            'kategori'  => $request->kategori,
+            'deskripsi' => $request->deskripsi,
+            'bukti'     => $namaFileBukti,
+            'status'    => 'pending',
+        ]);
+
+        return redirect()->route('penghuni.pengaduan.index')->with('success', 'Laporan keluhan kamu sudah terkirim ke admin kos.');
+    }
 }

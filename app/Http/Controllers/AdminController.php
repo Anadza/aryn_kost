@@ -7,6 +7,7 @@ use App\Models\Penghuni;
 use App\Models\Pengaduan;
 use App\Models\Tagihan;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -18,33 +19,39 @@ class AdminController extends Controller
         // Total penyewa aktif
         $penyewaAktif = Penghuni::where('status', 'Active')->count();
 
-        // Bulan saat ini
-        $bulanIni = now()->locale('id')->translatedFormat('F Y');
+        // Nama bulan & tahun saat ini untuk filter (Contoh hasil: "Juli 2026")
+        $bulanIniTeks = now()->locale('id')->translatedFormat('F Y');
 
-        // Pendapatan bulan ini
-        $pendapatanBulanIni = Tagihan::where('status_pembayaran', 'Lunas')
-            ->sum('jumlah_tagihan');
+        // Pendapatan Bulan Ini
+$bulanIniTeks = now()->locale('id')->translatedFormat('F Y');
 
-        // Total seluruh pendapatan
+// Filter berdasarkan status Lunas DAN teks bulan berjalan
+$pendapatanBulanIni = Tagihan::where('status_pembayaran', 'Lunas')
+    ->where('bulan_tagihan', $bulanIniTeks)
+    ->sum('jumlah_tagihan');
+
+// Total seluruh pendapatan: Tetap akumulasi total semuanya
+$totalPendapatan = Tagihan::where('status_pembayaran', 'Lunas')
+    ->sum('jumlah_tagihan');
+
+        // Total Seluruh Pendapatan:
         $totalPendapatan = Tagihan::where('status_pembayaran', 'Lunas')
             ->sum('jumlah_tagihan');
 
-        // Pembayaran yang belum lunas
-        $pembayaranTertunda = Tagihan::where('status_pembayaran', '!=', 'Lunas')
-            ->count();
-
+        // Pembayaran Tertunda
+        $pembayaranTertunda = Tagihan::where('status_pembayaran', '!=', 'Lunas')->count();
         // Grafik pendapatan per bulan
-        $grafikPemasukan = Tagihan::where('status_pembayaran', 'Lunas')
-            ->get()
+        $grafikData = Tagihan::where('status_pembayaran', 'Lunas')
+            ->select('bulan_tagihan', DB::raw('SUM(jumlah_tagihan) as total'))
+            ->selectRaw('MIN(tanggal_jatuh_tempo) as urutan')
             ->groupBy('bulan_tagihan')
-            ->map(function ($group) {
-                return $group->sum('jumlah_tagihan');
-            });
+            ->orderBy('urutan', 'asc')
+            ->get();
+
+        $grafikPemasukan = $grafikData->pluck('total', 'bulan_tagihan');
 
         // Pengaduan terbaru
-        $pengaduanTerbaru = Pengaduan::latest()
-            ->take(5)
-            ->get();
+        $pengaduanTerbaru = Pengaduan::latest()->paginate(3);
 
         return view('admin.dashboard', compact(
             'totalKamar',
