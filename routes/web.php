@@ -80,6 +80,15 @@ Route::middleware(['auth', 'role:penghuni'])
 
         Route::get('/dashboard', [PenghuniController::class, 'index'])
             ->name('dashboard');
+        
+        Route::get('/booking', [PenghuniController::class, 'booking'])
+            ->name('booking');
+            
+        Route::get('/booking/{kamar}', [PenghuniController::class, 'showBooking'])
+            ->name('booking.show'); 
+            
+        Route::get('/booking/{kamar}/confirm', [PenghuniController::class, 'confirmBooking'])
+            ->name('booking.confirm');    
 
         Route::get('/profile', [PenghuniController::class, 'profile'])
             ->name('profile');
