@@ -12,6 +12,7 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\Admin\AdminPembayaranController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\Penghuni\PembayaranController;
+use App\Http\Controllers\Penghuni\NotifikasiController as PenghuniNotifikasiController;
 
 // Halaman Utama
 Route::get('/', function () {
@@ -114,6 +115,11 @@ Route::middleware(['auth', 'role:penghuni'])
         // Pembayaran Penghuni
         Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
         Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'upload'])->name('pembayaran.upload.post');
+
+        // Notifikasi Penghuni
+        Route::get('/notifikasi', [PenghuniNotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::patch('/notifikasi/read-all', [PenghuniNotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
+        Route::patch('/notifikasi/{notifikasi}/read', [PenghuniNotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
     });
 
 require __DIR__ . '/auth.php';

@@ -38,14 +38,72 @@
         @endif
 
         <div class="flex shrink-0 items-center gap-4">
-            <button class="relative rounded-full p-2 text-white hover:bg-white/10" aria-label="Notifikasi">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
-                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-                </svg>
-                <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
-            </button>
+            {{-- Notifikasi --}}
+            @if (auth()->user()->hasRole('admin'))
+                <a href="{{ route('admin.notifikasi.index') }}"
+                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
+                    aria-label="Notifikasi">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-6 w-6">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                    </svg>
+
+                    <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                </a>
+            @elseif (auth()->user()->hasRole('penghuni'))
+                @php
+                    $belumDibacaPenghuni = \App\Models\NotifikasiPenghuni::untukPenghuni(auth()->user()->name)
+                        ->belumDibaca()
+                        ->count();
+                @endphp
+                <a href="{{ route('penghuni.notifikasi.index') }}"
+                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
+                    aria-label="Notifikasi">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-6 w-6">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                    </svg>
+
+                    @if ($belumDibacaPenghuni > 0)
+                        <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                    @endif
+                </a>
+            @else
+                <a href="#"
+                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
+                    aria-label="Notifikasi">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="h-6 w-6">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                    </svg>
+
+                    <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                </a>
+            @endif
 
             <x-dropdown align="right" width="48">
                 <x-slot name="trigger">

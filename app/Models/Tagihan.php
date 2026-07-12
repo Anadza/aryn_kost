@@ -14,6 +14,7 @@ class Tagihan extends Model
         'jumlah_tagihan',
         'tanggal_jatuh_tempo',
         'nomor_tagihan',
+        'nama_penghuni',
         'status_pembayaran',
         'bukti_pembayaran_path',
         'tanggal_upload_bukti',
