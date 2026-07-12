@@ -19,7 +19,10 @@
             </style>
         @endif
     </head>
-    <body class="w-full bg-[#EFE4D2] dark:bg-[#0a0a0a] text-[#1b1b18] min-h-screen flex flex-col">
+    <body class="w-full bg-cover text-[#1b1b18] min-h-screen flex flex-col bg-center bg-no-repeat dark:bg-[#0a0a0a] dark:text-[#EDEDEC]"
+          style = "background-image: url( {{ asset('images/kamar/background.jpg') }} )">
+
+        <div class = "absolute inset-0 bg-[#EFE4D2]/80 dark:bg-[#0a0a0a]/90 -z-10"></div>
         <header class="w-full text-sm not-has-[nav]:hidden">
             @if (Route::has('login'))
                 <nav class="bg-[#254D70] w-full flex items-center justify-between gap-4 p-4 lg:px-8">
