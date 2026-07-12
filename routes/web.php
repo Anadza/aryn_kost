@@ -34,11 +34,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
     Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
     Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
-
-    // Route Pembayaran
-    Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
-    Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
-    Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
 });
 
 // ==================== ROLE: ADMIN ====================
@@ -65,7 +60,9 @@ Route::middleware(['auth', 'role:admin'])
         // Data Pembayaran
         Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
-        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
+        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])
+            ->middleware('permission:pembayaran.edit')
+            ->name('pembayaran.update');
 
         // Notifikasi
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');

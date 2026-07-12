@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Pembayaran;
+use App\Models\Tagihan;
 use Illuminate\Http\Request;
 
 class AdminPembayaranController extends Controller
@@ -13,30 +13,30 @@ class AdminPembayaranController extends Controller
      */
     public function index(Request $request)
     {
-    $search = $request->input('search');
-    $tanggal = $request->input('tanggal');
-    $statusFilter = $request->input('status');
+        $search = $request->input('search');
+        $tanggal = $request->input('tanggal');
+        $statusFilter = $request->input('status');
 
-    $query = Pembayaran::with(['penghuni', 'kamar']);
+        $query = Tagihan::query();
 
-    if (!empty($search)) {
-        $query->whereHas('penghuni', function ($q) use ($search) {
-            $q->where('nama', 'like', '%' . $search . '%');
-        });
-    }
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nomor_tagihan', 'like', '%'.$search.'%')
+                    ->orWhere('bulan_tagihan', 'like', '%'.$search.'%');
+            });
+        }
 
-    if (!empty($tanggal)) {
-        $query->whereDate('tanggal_bayar', $tanggal);
-    }
+        if (! empty($tanggal)) {
+            $query->whereDate('tanggal_upload_bukti', $tanggal);
+        }
 
-    if (!empty($statusFilter)) {
-        $query->where('status', $statusFilter);
-    }
+        if (! empty($statusFilter)) {
+            $query->where('status_pembayaran', $statusFilter);
+        }
 
-    $pembayarans = $query->latest()->paginate(10);
+        $pembayarans = $query->latest()->paginate(10)->withQueryString();
 
-    return view('pembayaran.index', compact('pembayarans', 'search', 'tanggal', 'statusFilter'));
-
+        return view('pembayaran.index', compact('pembayarans', 'search', 'tanggal', 'statusFilter'));
     }
 
     /**
@@ -50,25 +50,23 @@ class AdminPembayaranController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Pembayaran $pembayaran)
+    public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pembayaran $pembayaran)
+    public function show(Tagihan $pembayaran)
     {
-        $pembayaran -> load(['penghuni', 'penghuni.kamar']);
-
         return view('pembayaran.show', compact('pembayaran'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pembayaran $pembayaran)
+    public function edit(Tagihan $pembayaran)
     {
         //
     }
@@ -76,25 +74,21 @@ class AdminPembayaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pembayaran $pembayaran)
+    public function update(Request $request, Tagihan $pembayaran)
     {
-        $validasiData = $request->validate([
-            'status' => 'required|in:belum lunas,lunas',
+        $validated = $request->validate([
+            'status_pembayaran' => 'required|in:Belum Dibayar,Menunggu Konfirmasi,Lunas',
         ]);
 
-        $pembayaran->update([
-            'status' => $validasiData['status'],
-        ]);
+        $pembayaran->update($validated);
 
-        return redirect()
-            ->route('admin.pembayaran.show', $pembayaran -> id)
-            ->with('success', 'Status pembayaran berhasil diperbarui.');
+        return back()->with('success', 'Status pembayaran berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pembayaran $pembayaran)
+    public function destroy(Tagihan $pembayaran)
     {
         //
     }
