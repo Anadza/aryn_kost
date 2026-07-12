@@ -28,6 +28,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Route Kamar
+    Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+    Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
+    Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
+    Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
+
+    // Route Pembayaran
+    Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
+    Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
+    Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
 });
 
 // ==================== ROLE: ADMIN ====================
