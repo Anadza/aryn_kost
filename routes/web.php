@@ -11,12 +11,15 @@ use App\Http\Controllers\DataPenghuniController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\NotifikasiController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::middleware(['auth', 'verified'])
-    ->get('/dashboard', DashboardController::class)
+    ->get('/dashboard', function () {
+        return view('dashboard');
+    })
     ->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])
@@ -46,7 +49,7 @@ Route::middleware(['auth', 'role:admin'])
 
         // Notifikasi
         // Notifikasi (pembayaran, keluhan, booking dari penghuni)
-        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('admin.notifikasi.index');
         Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [NotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
     });

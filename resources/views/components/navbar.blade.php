@@ -12,7 +12,8 @@
         @if (str_contains(request()->url(), 'dashboard'))
             @if (auth()->user()->hasRole('penghuni'))
                 <div class="flex-1 min-w-0">
-                    <h1 class="font-bold text-white text-lg md:text-2xl truncate">Hallo, {{ auth()->user()->name }}!!</h1>
+                    <h1 class="font-bold text-white text-lg md:text-2xl truncate">Hallo, {{ auth()->user()->name }}!!
+                    </h1>
                     <p class="text-white/80 text-sm truncate">Selamat datang di arynKost!</p>
                 </div>
             @else
@@ -35,43 +36,47 @@
         @endif
 
         <div class="flex items-center gap-4 shrink-0">
-    @php
-        $showNotifikasi = auth()->user()->hasRole('admin') && \Illuminate\Support\Facades\Route::has('admin.notifikasi.index');
-        $unreadNotifikasiCount = $showNotifikasi ? \App\Models\Notifikasi::belumDibaca()->count() : 0;
-    @endphp
+            @php
+                $showNotifikasi =
+                    auth()->user()->hasRole('admin') &&
+                    \Illuminate\Support\Facades\Route::has('admin.notifikasi.index');
+                $unreadNotifikasiCount = $showNotifikasi ? \App\Models\Notifikasi::belumDibaca()->count() : 0;
+            @endphp
 
-    <a href="{{ $showNotifikasi ? route('admin.notifikasi.index') : '#' }}"
-       class="relative hover:bg-white/10 p-2 rounded-full text-white" aria-label="Notifikasi">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-        </svg>
-        @if ($unreadNotifikasiCount > 0)
-            <span class="top-1 right-1 absolute bg-red-500 border border-primary rounded-full w-2.5 h-2.5"></span>
-        @endif
-    </a>
+            <!-- Tombol Notifikasi di Pojok Kanan Atas -->
+            <a href="{{ route('admin.notifikasi.index') }}"
+                class="relative p-2 text-gray-400 hover:text-gray-500 rounded-full focus:outline-none transition z-50">
+                <span class="sr-only">Lihat Notifikasi</span>
+                <!-- Ikon Lonceng -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                </svg>
 
-    <x-dropdown align="right" width="48">
-        <x-slot name="trigger">
-            <button
-                class="flex justify-center items-center bg-white/15 hover:bg-white/25 rounded-full w-9 h-9 font-semibold text-white">
-                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-            </button>
-        </x-slot>
-        <x-slot name="content">
-            <x-dropdown-link href="#">
-                {{ __('Profil') }}
-            </x-dropdown-link>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault(); this.closest('form').submit();">
-                    {{ __('Log Out') }}
-                </x-dropdown-link>
-            </form>
-        </x-slot>
-    </x-dropdown>
-</div>
+                <span class="absolute top-2 right-2 block h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white"></span>
+            </a>
+
+            <x-dropdown align="right" width="48">
+                <x-slot name="trigger">
+                    <button
+                        class="flex justify-center items-center bg-white/15 hover:bg-white/25 rounded-full w-9 h-9 font-semibold text-white">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </button>
+                </x-slot>
+                <x-slot name="content">
+                    <x-dropdown-link href="#">
+                        {{ __('Profil') }}
+                    </x-dropdown-link>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                </x-slot>
+            </x-dropdown>
+        </div>
     </div>
 </header>
