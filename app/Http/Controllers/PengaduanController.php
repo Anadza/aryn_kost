@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use App\Models\NotifikasiPenghuni;
 
 class PengaduanController extends Controller
 {
@@ -70,6 +71,36 @@ public function store(Request $request)
         'status'    => 'pending',
     ]);
 
-    return redirect()->route('penghuni.pengaduan.index')->with('success', 'Laporan keluhan kamu sudah terkirim ke admin kos.');
-}
+        $pengaduan->update(['status' => $request->status]);
+
+        return back()->with('success', 'Status pengaduan berhasil diperbarui.');
+    }
+    // Update Status Pengaduan (Admin/Owner) + kirim notifikasi ke penghuni
+    public function updateStatus(Request $request, Pengaduan $pengaduan): RedirectResponse
+    {
+        $request->validate([
+            'status' => 'required|in:pending,diproses,selesai',
+        ]);
+
+        $pengaduan->update(['status' => $request->status]);
+
+        // Kirim notifikasi ke penghuni saat pengaduan mulai diproses / selesai
+        if (in_array($request->status, ['diproses', 'selesai'], true)) {
+            NotifikasiPenghuni::create([
+                'nama_penghuni' => $pengaduan->penyewa,
+                'jenis' => 'pengaduan',
+                'judul' => $request->status === 'selesai'
+                    ? 'Pengaduan Selesai Diproses'
+                    : 'Pengaduan Sedang Diproses',
+                'pesan' => $request->status === 'selesai'
+                    ? "Pengaduan kamu terkait \"{$pengaduan->kategori}\" sudah selesai ditangani oleh admin kos."
+                    : "Pengaduan kamu terkait \"{$pengaduan->kategori}\" sedang diproses oleh admin kos.",
+                'kamar' => $pengaduan->kamar,
+                'data' => ['pengaduan_id' => $pengaduan->id, 'status' => $request->status],
+                'status' => 'belum_dibaca',
+            ]);
+        }
+
+        return back()->with('success', 'Status pengaduan berhasil diperbarui.');
+    }
 }
