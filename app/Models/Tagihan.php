@@ -24,4 +24,9 @@ class Tagihan extends Model
         'tanggal_jatuh_tempo' => 'date',
         'tanggal_upload_bukti' => 'datetime',
     ];
+
+    public function jumlahTagihanFormatted(): string
+    {
+        return 'Rp ' . number_format($this->jumlah_tagihan, 0, ',', '.');
+    }
 }

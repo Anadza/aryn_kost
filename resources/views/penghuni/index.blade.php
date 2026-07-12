@@ -33,7 +33,7 @@
         }
     </style>
 
-    <div x-data="penghuniPage()" class="space-y-6 mx-auto -mt-4 pb- max-w-7xl8 spx-6">
+    <div x-data="penghuniPage()" class="space-y-6 mx-auto -mt-4 px-6 pb-8 max-w-7xl">
 
         {{-- ===================== NOTIFIKASI TOAST MELAYANG ===================== --}}
         <div class="top-5 right-5 z-50 fixed space-y-3 w-full max-w-sm pointer-events-none">
@@ -48,7 +48,9 @@
                     class="flex items-start gap-3 bg-white shadow-xl p-4 border-emerald-500 border-l-4 rounded-xl pointer-events-auto">
                     <div class="text-emerald-500 shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
                         </svg>
                     </div>
                     <div class="flex-1">
@@ -56,8 +58,10 @@
                         <p class="mt-0.5 text-gray-500 text-xs">{{ session('success') }}</p>
                     </div>
                     <button type="button" @click="show = false" class="text-gray-400 hover:text-gray-600 shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
@@ -74,7 +78,9 @@
                     class="flex items-start gap-3 bg-white shadow-xl p-4 border-red-500 border-l-4 rounded-xl pointer-events-auto">
                     <div class="text-red-500 shrink-0">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                clip-rule="evenodd" />
                         </svg>
                     </div>
                     <div class="flex-1">
@@ -82,15 +88,17 @@
                         <p class="mt-0.5 text-gray-500 text-xs">{{ session('success_delete') }}</p>
                     </div>
                     <button type="button" @click="show = false" class="text-gray-400 hover:text-gray-600 shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
             @endif
         </div>
 
-        {{-- Search & Filter (Diperbaiki mekanisme auto-submit nya) --}}
+        {{-- Search & Filter --}}
         <form method="GET" action="{{ route($routePrefix . '.penghuni.index') }}"
             class="flex sm:flex-row flex-col sm:items-end gap-3 sm:gap-4">
             <div class="flex-1">
@@ -103,8 +111,7 @@
                         </svg>
                     </span>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Penghuni..."
-                        autocomplete="off"
-                        @input.debounce.400ms="this.form.submit()"
+                        autocomplete="off" @input.debounce.400ms="this.form.submit()"
                         class="bg-white shadow-sm py-2.5 pr-4 pl-9 border border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full sm:max-w-xs text-grayCustom-700 text-sm placeholder-grayCustom-400">
                 </div>
             </div>
@@ -113,7 +120,9 @@
                 <label class="block mb-1 text-grayCustom-500 text-xs">Status</label>
                 <select name="status" onchange="this.form.submit()"
                     class="bg-white shadow-sm border border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full sm:w-44 text-grayCustom-700 text-sm">
-                    <option value="" {{ request('status') === null || request('status') === '' ? 'selected' : '' }}>Semua Status</option>
+                    <option value=""
+                        {{ request('status') === null || request('status') === '' ? 'selected' : '' }}>Semua Status
+                    </option>
                     <option value="Active" {{ request('status') === 'Active' ? 'selected' : '' }}>Active</option>
                     <option value="Inactive" {{ request('status') === 'Inactive' ? 'selected' : '' }}>Inactive</option>
                 </select>
@@ -141,7 +150,8 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="border-grayCustom-100 border-b text-primary/70 text-xs text-left uppercase tracking-wide">
+                            <tr
+                                class="border-grayCustom-100 border-b text-primary/70 text-xs text-left uppercase tracking-wide">
                                 <th class="py-3 pr-4 font-medium">No</th>
                                 <th class="py-3 pr-4 font-medium">Nama Penghuni</th>
                                 <th class="py-3 pr-4 font-medium text-center">Nomor Kamar</th>
@@ -153,18 +163,25 @@
                         </thead>
                         <tbody>
                             @foreach ($penghunis as $index => $penghuni)
-                                <tr class="hover:bg-grayCustom-50 border-grayCustom-5 border-b last:border-b-0 transition">
-                                    <td class="py-4 pr-4 text-grayCustom-500">{{ $penghunis->firstItem() + $index }}</td>
-                                    <td class="py-4 pr-4 font-medium text-grayCustom-700 whitespace-nowrap">{{ $penghuni->nama }}</td>
-                                    <td class="py-4 pr-4 text-grayCustom-500 text-center whitespace-nowrap">{{ $penghuni->nomor_kamar }}</td>
-                                    <td class="py-4 pr-4 text-grayCustom-500 text-center whitespace-nowrap">{{ $penghuni->no_hp }}</td>
+                                <tr
+                                    class="hover:bg-grayCustom-50 border-grayCustom-5 border-b last:border-b-0 transition">
+                                    <td class="py-4 pr-4 text-grayCustom-500">{{ $penghunis->firstItem() + $index }}
+                                    </td>
+                                    <td class="py-4 pr-4 font-medium text-grayCustom-700 whitespace-nowrap">
+                                        {{ $penghuni->nama }}</td>
+                                    <td class="py-4 pr-4 text-grayCustom-500 text-center whitespace-nowrap">
+                                        {{ $penghuni->nomor_kamar }}</td>
+                                    <td class="py-4 pr-4 text-grayCustom-500 text-center whitespace-nowrap">
+                                        {{ $penghuni->no_hp }}</td>
                                     <td class="py-4 pr-4 text-grayCustom-500 text-center whitespace-nowrap">
                                         {{ \Carbon\Carbon::parse($penghuni->check_in)->format('d M Y') }}
                                     </td>
                                     <td class="py-4 pr-4 text-center whitespace-nowrap">
-                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
+                                        <span
+                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
                                             :class="statusBadgeClass('{{ $penghuni->status }}')">
-                                            <span class="rounded-full w-1.5 h-1.5" :class="statusDotClass('{{ $penghuni->status }}')"></span>
+                                            <span class="rounded-full w-1.5 h-1.5"
+                                                :class="statusDotClass('{{ $penghuni->status }}')"></span>
                                             {{ $penghuni->status }}
                                         </span>
                                     </td>
@@ -173,17 +190,24 @@
                                             <button type="button" title="Lihat detail"
                                                 @click="openDetail({{ Illuminate\Support\Js::from($penghuni) }})"
                                                 class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                             </button>
                                             @can('penghuni.edit')
                                                 <button type="button" title="Edit"
                                                     @click="openEdit({{ Illuminate\Support\Js::from($penghuni) }})"
                                                     class="hover:bg-grayCustom-100 p-1.5 rounded-lg text-grayCustom-400 hover:text-primary transition">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487z" />
                                                     </svg>
                                                 </button>
                                             @endcan
@@ -195,9 +219,28 @@
                     </table>
                 </div>
 
-                <div class="mt-4 pt-4 border-grayCustom-100 border-t">
-                    {{ $penghunis->appends(request()->query())->links() }}
-                </div>
+                {{-- ===================== PAGINATION MINIMALIS MODERN (SAMA SEPERTI KAMAR) ===================== --}}
+                @if ($penghunis->hasPages())
+                    <div class="flex justify-end items-center gap-2 mt-4 pt-4 border-gray-200 border-t text-xs">
+                        @if (!$penghunis->onFirstPage())
+                            <a href="{{ $penghunis->appends(request()->query())->previousPageUrl() }}"
+                                class="hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded font-semibold text-gray-700 transition">
+                                ←
+                            </a>
+                        @endif
+
+                        <span class="bg-gray-50 px-2.5 py-1 border border-gray-200 rounded font-medium text-gray-700">
+                            {{ $penghunis->currentPage() }}/{{ $penghunis->lastPage() }}
+                        </span>
+
+                        @if ($penghunis->hasMorePages())
+                            <a href="{{ $penghunis->appends(request()->query())->nextPageUrl() }}"
+                                class="hover:bg-gray-100 px-2 py-1 border border-gray-300 rounded font-semibold text-gray-700 transition">
+                                →
+                            </a>
+                        @endif
+                    </div>
+                @endif
             @endif
         </div>
 
@@ -207,8 +250,10 @@
             <div x-show="showDetail" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-sm">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-bold text-primary text-lg">Detail Penghuni</h3>
-                    <button type="button" @click="showDetail = false" class="text-grayCustom-400 hover:text-grayCustom-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <button type="button" @click="showDetail = false"
+                        class="text-grayCustom-400 hover:text-grayCustom-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -235,9 +280,11 @@
                         <div class="flex justify-between items-center">
                             <dt class="text-grayCustom-400">Status</dt>
                             <dd>
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
                                     :class="statusBadgeClass(selected.status)">
-                                    <span class="rounded-full w-1.5 h-1.5" :class="statusDotClass(selected.status)"></span>
+                                    <span class="rounded-full w-1.5 h-1.5"
+                                        :class="statusDotClass(selected.status)"></span>
                                     <span x-text="selected.status"></span>
                                 </span>
                             </dd>
@@ -261,8 +308,10 @@
                 <div x-show="showAdd" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-md">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-primary text-lg">Tambah Data Penghuni</h3>
-                        <button type="button" @click="showAdd = false" class="text-grayCustom-400 hover:text-grayCustom-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <button type="button" @click="showAdd = false"
+                            class="text-grayCustom-400 hover:text-grayCustom-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
@@ -272,18 +321,21 @@
                         @csrf
                         <div>
                             <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Nama</label>
-                            <input type="text" name="nama" value="{{ old('nama') }}" required placeholder="Masukkan nama penghuni"
+                            <input type="text" name="nama" value="{{ old('nama') }}" required
+                                placeholder="Masukkan nama penghuni"
                                 class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
                         </div>
                         <div class="gap-4 grid grid-cols-2">
                             <div>
                                 <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Nomor Kamar</label>
-                                <input type="text" name="nomor_kamar" value="{{ old('nomor_kamar') }}" required placeholder="Contoh : A01"
+                                <input type="text" name="nomor_kamar" value="{{ old('nomor_kamar') }}" required
+                                    placeholder="Contoh : A01"
                                     class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
                             </div>
                             <div>
                                 <label class="block mb-1 font-medium text-grayCustom-500 text-xs">No HP</label>
-                                <input type="text" name="no_hp" value="{{ old('no_hp') }}" required placeholder="08xxxxxxxxxx"
+                                <input type="text" name="no_hp" value="{{ old('no_hp') }}" required
+                                    placeholder="08xxxxxxxxxx"
                                     class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">
                             </div>
                         </div>
@@ -304,8 +356,10 @@
                             </div>
                         </div>
                         <div class="flex justify-end gap-2 pt-2">
-                            <button type="button" @click="showAdd = false" class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">Batal</button>
-                            <button type="submit" class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">Simpan</button>
+                            <button type="button" @click="showAdd = false"
+                                class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">Batal</button>
+                            <button type="submit"
+                                class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -319,8 +373,10 @@
                 <div x-show="showEdit" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-md">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-primary text-lg">Edit Data Penghuni</h3>
-                        <button type="button" @click="showEdit = false" class="text-grayCustom-400 hover:text-grayCustom-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <button type="button" @click="showEdit = false"
+                            class="text-grayCustom-400 hover:text-grayCustom-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
@@ -373,8 +429,10 @@
                                 @endcan
 
                                 <div class="flex gap-2">
-                                    <button type="button" @click="showEdit = false" class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">Batal</button>
-                                    <button type="submit" class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">Simpan</button>
+                                    <button type="button" @click="showEdit = false"
+                                        class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">Batal</button>
+                                    <button type="submit"
+                                        class="bg-primary hover:bg-primary/90 px-4 py-2 rounded-xl font-semibold text-white text-sm transition">Simpan</button>
                                 </div>
                             </div>
                         </form>
@@ -385,9 +443,11 @@
 
         {{-- ===================== MODAL: KONFIRMASI HAPUS ===================== --}}
         @can('penghuni.delete')
-            <div x-show="confirmDelete" x-cloak class="z-50 fixed inset-0 flex justify-center items-center bg-black/50 p-4"
+            <div x-show="confirmDelete" x-cloak
+                class="z-50 fixed inset-0 flex justify-center items-center bg-black/50 p-4"
                 @click.self="confirmDelete = false">
-                <div x-show="confirmDelete" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-xs text-center">
+                <div x-show="confirmDelete" x-transition
+                    class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-xs text-center">
                     <h3 class="mb-3 font-bold text-red-600 text-lg">Hapus Penghuni</h3>
                     <p class="text-grayCustom-700 text-sm">
                         Yakin ingin menghapus data penghuni
@@ -397,15 +457,18 @@
                     <form method="POST" id="formDeletePenghuni" class="flex justify-center gap-3 mt-6">
                         @csrf
                         @method('DELETE')
-                        <button type="button" @click="confirmDelete = false" class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">Batal</button>
-                        <button type="submit" class="bg-red-600 hover:bg-red-700 shadow-sm px-4 py-2 rounded-xl font-semibold text-white text-sm transition">Ya, Hapus</button>
+                        <button type="button" @click="confirmDelete = false"
+                            class="hover:bg-grayCustom-100 px-4 py-2 rounded-xl font-semibold text-grayCustom-500 text-sm transition">Batal</button>
+                        <button type="submit"
+                            class="bg-red-600 hover:bg-red-700 shadow-sm px-4 py-2 rounded-xl font-semibold text-white text-sm transition">Ya,
+                            Hapus</button>
                     </form>
                 </div>
             </div>
         @endcan
     </div>
 
-    {{-- ========================= JAVASCRIPT STATE (ALPINES.JS) ========================= --}}
+    {{-- ========================= JAVASCRIPT STATE (ALPINE.JS) ========================= --}}
     <script>
         function penghuniPage() {
             return {
@@ -423,13 +486,16 @@
                     this.showDetail = true;
                 },
                 openEdit(data) {
-                    this.selected = { ...data };
+                    this.selected = {
+                        ...data
+                    };
                     this.showEdit = true;
 
                     this.$nextTick(() => {
                         const editForm = document.getElementById('formEditPenghuni');
                         if (editForm) {
-                            editForm.action = window.location.origin + `/${@json($routePrefix)}/penghuni/${data.id}`;
+                            editForm.action = window.location.origin +
+                                `/${@json($routePrefix)}/penghuni/${data.id}`;
                         }
                     });
                 },
@@ -441,19 +507,24 @@
                     this.$nextTick(() => {
                         const deleteForm = document.getElementById('formDeletePenghuni');
                         if (deleteForm) {
-                            deleteForm.action = window.location.origin + `/${@json($routePrefix)}/penghuni/${data.id}`;
+                            deleteForm.action = window.location.origin +
+                                `/${@json($routePrefix)}/penghuni/${data.id}`;
                         }
                     });
                 },
                 formatDate(value) {
                     if (!value) return '-';
                     const date = new Date(value);
-                    return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                    return date.toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                    });
                 },
                 statusBadgeClass(status) {
-                    return status === 'Active'
-                        ? 'bg-success-100 text-success-700'
-                        : 'bg-grayCustom-100 text-grayCustom-600';
+                    return status === 'Active' ?
+                        'bg-success-100 text-success-700' :
+                        'bg-grayCustom-100 text-grayCustom-600';
                 },
                 statusDotClass(status) {
                     return status === 'Active' ? 'bg-success-500' : 'bg-grayCustom-400';

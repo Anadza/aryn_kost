@@ -85,7 +85,7 @@
             @endcan
         </form>
 
-        {{-- Table --}}
+        {{-- Table Container --}}
         <div class="bg-white shadow-lg p-4 sm:p-6 rounded-2xl overflow-hidden">
             @if ($kamars->isEmpty())
                 <p class="py-10 text-grayCustom-400 text-sm text-center">Tidak ada data kamar yang cocok.</p>
@@ -94,8 +94,7 @@
                 <div class="hidden md:block overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr
-                                class="border-grayCustom-100 border-b text-primary/70 text-xs text-left uppercase tracking-wide">
+                            <tr class="border-grayCustom-100 border-b text-primary/70 text-xs text-left uppercase tracking-wide">
                                 <th class="py-3 pr-4 font-medium">No</th>
                                 <th class="py-3 pr-4 font-medium">No. Kamar</th>
                                 <th class="py-3 pr-4 font-medium">Tipe</th>
@@ -106,19 +105,17 @@
                         </thead>
                         <tbody>
                             @foreach ($kamars as $index => $kamar)
-                                <tr
-                                    class="hover:bg-grayCustom-50 border-grayCustom-5 border-b last:border-b-0 transition">
-                                    <td class="py-4 pr-4 text-grayCustom-500">{{ $index + 1 }}</td>
+                                <tr class="hover:bg-grayCustom-50 border-grayCustom-5 border-b last:border-b-0 transition">
+                                    {{-- Penomoran dinamis agar berlanjut otomatis di page berikutnya --}}
+                                    <td class="py-4 pr-4 text-grayCustom-500">{{ $kamars->firstItem() + $index }}</td>
                                     <td class="py-4 pr-4 font-medium text-grayCustom-700 whitespace-nowrap">
                                         {{ $kamar->no_kamar }}</td>
                                     <td class="py-4 pr-4 text-grayCustom-500 whitespace-nowrap">{{ $kamar->tipe }}</td>
                                     <td class="py-4 pr-4 text-grayCustom-500 whitespace-nowrap">
                                         {{ $kamar->hargaFormatted() }}</td>
                                     <td class="py-4 pr-4 whitespace-nowrap">
-                                        <span
-                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
-                                            <span
-                                                class="h-1.5 w-1.5 rounded-full {{ $kamar->statusDotClass() }}"></span>
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
+                                            <span class="h-1.5 w-1.5 rounded-full {{ $kamar->statusDotClass() }}"></span>
                                             {{ $kamar->statusLabel() }}
                                         </span>
                                     </td>
@@ -164,8 +161,7 @@
                                     <p class="mt-0.5 text-grayCustom-400 text-xs">{{ $kamar->tipe }} &middot;
                                         {{ $kamar->hargaFormatted() }}</p>
                                 </div>
-                                <span
-                                    class="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
+                                <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold {{ $kamar->statusBadgeClass() }}">
                                     <span class="h-1.5 w-1.5 rounded-full {{ $kamar->statusDotClass() }}"></span>
                                     {{ $kamar->statusLabel() }}
                                 </span>
@@ -198,6 +194,27 @@
                         </div>
                     @endforeach
                 </div>
+
+                {{-- ===================== RENDER PAGINATION MINIMALIS ===================== --}}
+                @if ($kamars->hasPages())
+                    <div class="flex justify-end items-center gap-2 mt-4 pt-4 border-grayCustom-100 border-t text-xs">
+                        @if (!$kamars->onFirstPage())
+                            <a href="{{ $kamars->appends(request()->query())->previousPageUrl() }}"
+                               class="hover:bg-gray-100 px-2 py-1 border border-grayCustom-200 rounded text-grayCustom-600 transition">
+                                ←
+                            </a>
+                        @endif
+
+                        <span class="font-medium text-grayCustom-600">{{ $kamars->currentPage() }}/{{ $kamars->lastPage() }}</span>
+
+                        @if ($kamars->hasMorePages())
+                            <a href="{{ $kamars->appends(request()->query())->nextPageUrl() }}"
+                               class="hover:bg-gray-100 px-2 py-1 border border-grayCustom-200 rounded text-grayCustom-600 transition">
+                                →
+                            </a>
+                        @endif
+                    </div>
+                @endif
             @endif
         </div>
 
@@ -233,8 +250,7 @@
                         <div class="flex justify-between items-center">
                             <dt class="text-grayCustom-400">Status</dt>
                             <dd>
-                                <span
-                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
                                     :class="statusBadgeClass(selected.status)">
                                     <span class="rounded-full w-1.5 h-1.5"
                                         :class="statusDotClass(selected.status)"></span>
@@ -373,8 +389,7 @@
                             </div>
 
                             <div>
-                                <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Harga / Bulan
-                                    (Rp)</label>
+                                <label class="block mb-1 font-medium text-grayCustom-500 text-xs">Harga / Bulan (Rp)</label>
                                 <input type="number" name="harga" x-model="selected.harga" min="0"
                                     step="1000" required
                                     class="shadow-sm border-grayCustom-200 focus:border-primary rounded-xl focus:ring-primary w-full text-sm">

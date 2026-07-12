@@ -14,6 +14,10 @@ class PembayaranController extends Controller
         $tagihan = Tagihan::latest()->first();
 
         return view('penghuni.pembayaran.upload', compact('tagihan'));
+
+        $riwayatPembayaran = Tagihan::where('user_id', auth()->id())
+                                ->orderByDesc('created_at')
+                                ->paginate(5);
     }
     public function upload(Request $request, $id)
     {

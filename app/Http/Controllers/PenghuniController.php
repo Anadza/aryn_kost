@@ -15,15 +15,23 @@ class PenghuniController extends Controller
      */
     public function index(Request $request): View
     {
+        // 1. Data penghuni & kamar
         $penghuniData = Penghuni::where('nama', $request->user()->name)->first();
-
         $kamarSaya = $penghuniData
             ? Kamar::where('no_kamar', $penghuniData->nomor_kamar)->first()
             : null;
 
-        $tagihanAktif = Tagihan::latest()->first();
+        // 2. Tagihan Aktif (Milik User yang Login)
+        $tagihanAktif = Tagihan::where('user_id', auth()->id())
+            ->latest()
+            ->first();
 
-        $riwayatPembayaran = Tagihan::orderByDesc('id')->skip(1)->take(5)->get();
+        // 3. Riwayat Pembayaran (Milik User yang Login)
+        // Sekarang kita filter berdasarkan user_id, bukan berdasarkan ID tagihan
+        $riwayatPembayaran = Tagihan::where('user_id', auth()->id())
+            ->orderByDesc('id')
+            ->paginate(5)
+            ->withQueryString();
 
         return view('penghuni.dashboard', compact(
             'penghuniData',
@@ -32,7 +40,6 @@ class PenghuniController extends Controller
             'riwayatPembayaran',
         ));
     }
-
     /**
      * Halaman Profil Penghuni
      */
