@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tagihan;
 use Illuminate\Http\Request;
+use App\Models\NotifikasiPenghuni;
 
 class AdminPembayaranController extends Controller
 {
@@ -60,6 +61,8 @@ class AdminPembayaranController extends Controller
      */
     public function show(Tagihan $pembayaran)
     {
+        $pembayaran->load(['penghuni', 'penghuni.kamar']);
+
         return view('pembayaran.show', compact('pembayaran'));
     }
 
@@ -81,6 +84,25 @@ class AdminPembayaranController extends Controller
         ]);
 
         $pembayaran->update($validated);
+
+        // Kirim notifikasi ke penghuni terkait, jika tagihan ini sudah tertaut ke penghuni (nama_penghuni)
+        if ($pembayaran->nama_penghuni) {
+            NotifikasiPenghuni::create([
+                'nama_penghuni' => $pembayaran->nama_penghuni,
+                'jenis' => 'tagihan',
+                'judul' => $validated['status_pembayaran'] === 'Lunas'
+                    ? 'Pembayaran Dikonfirmasi'
+                    : 'Status Tagihan Diperbarui',
+                'pesan' => $validated['status_pembayaran'] === 'Lunas'
+                    ? "Pembayaran tagihan {$pembayaran->nomor_tagihan} ({$pembayaran->bulan_tagihan}) sudah dikonfirmasi lunas oleh admin."
+                    : "Status tagihan {$pembayaran->nomor_tagihan} ({$pembayaran->bulan_tagihan}) diperbarui menjadi \"{$validated['status_pembayaran']}\".",
+                'data' => [
+                    'jumlah' => $pembayaran->jumlah_tagihan,
+                    'status_pembayaran' => $validated['status_pembayaran'],
+                ],
+                'status' => 'belum_dibaca',
+            ]);
+        }
 
         return back()->with('success', 'Status pembayaran berhasil diperbarui.');
     }

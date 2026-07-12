@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Penghuni;
+use App\Models\NotifikasiPenghuni;
 
 class DataPenghuniController extends Controller
 {
@@ -11,26 +12,26 @@ class DataPenghuniController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    $query = Penghuni::query();
+    {
+        $query = Penghuni::query();
 
-    // Pencarian nama penghuni
-    if ($request->filled('search')) {
-        $query->where('nama', 'like', '%' . $request->search . '%');
+        // Pencarian nama penghuni
+        if ($request->filled('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $penghunis = $query
+            ->latest()
+            ->paginate(10)
+            ->appends($request->query());
+
+        return view('penghuni.index', compact('penghunis'));
     }
-
-    // Filter status
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    $penghunis = $query
-        ->latest()
-        ->paginate(10)
-        ->appends($request->query());
-
-    return view('penghuni.index', compact('penghunis'));
-}
     /**
      * Show the form for creating a new resource.
      */
@@ -52,7 +53,19 @@ class DataPenghuniController extends Controller
             'status'    => 'required'
         ]);
 
-        Penghuni::create($validated);
+        $penghuni = Penghuni::create($validated);
+
+        if ($penghuni->status === 'Active') {
+            NotifikasiPenghuni::create([
+                'nama_penghuni' => $penghuni->nama,
+                'jenis' => 'booking',
+                'judul' => 'Booking Kamar Aktif',
+                'pesan' => "Booking kamu untuk kamar {$penghuni->nomor_kamar} sudah dikonfirmasi admin dan sekarang aktif.",
+                'kamar' => $penghuni->nomor_kamar,
+                'data' => ['check_in' => optional($penghuni->check_in)->format('Y-m-d')],
+                'status' => 'belum_dibaca',
+            ]);
+        }
 
         return redirect()
             ->route('admin.penghuni.index')
@@ -100,6 +113,19 @@ class DataPenghuniController extends Controller
         $penghuni = Penghuni::findOrFail($id);
 
         $penghuni->update($validated);
+        $statusSebelumnya = $penghuni->status;
+
+        if ($statusSebelumnya !== 'Active' && $penghuni->status === 'Active') {
+            NotifikasiPenghuni::create([
+                'nama_penghuni' => $penghuni->nama,
+                'jenis' => 'booking',
+                'judul' => 'Booking Kamar Aktif',
+                'pesan' => "Booking kamu untuk kamar {$penghuni->nomor_kamar} sudah dikonfirmasi admin dan sekarang aktif.",
+                'kamar' => $penghuni->nomor_kamar,
+                'data' => ['check_in' => optional($penghuni->check_in)->format('Y-m-d')],
+                'status' => 'belum_dibaca',
+            ]);
+        }
 
         return redirect()
             ->route('admin.penghuni.index')
@@ -116,6 +142,6 @@ class DataPenghuniController extends Controller
 
         return redirect()
             ->route('admin.penghuni.index')
-            ->with('success_delete','Data penghuni berhasil dihapus.');
+            ->with('success_delete', 'Data penghuni berhasil dihapus.');
     }
 }
