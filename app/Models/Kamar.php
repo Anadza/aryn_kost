@@ -52,4 +52,32 @@ class Kamar extends Model
     {
         return 'Rp'.number_format((float) $this->harga, 0, ',', '.');
     }
+
+    public function fasilitasArray(): array
+    {
+        if (blank($this->fasilitas)) {
+            return [];
+        }
+
+        return collect(explode(',', $this->fasilitas))
+            ->map(fn ($item) => trim($item))
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    public function fotoUrl(): string
+    {
+        return match (strtolower(trim($this->tipe))) {
+
+            'standar' => asset('images/kamar/standar.png'),
+
+            'deluxe'  => asset('images/kamar/deluxe.png'),
+
+            'vip'     => asset('images/kamar/vip.png'),
+
+            default   => asset('images/kamar/default-room.jpg'),
+
+        };
+    }
 }

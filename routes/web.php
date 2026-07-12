@@ -29,6 +29,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Route Kamar
+    Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+    Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
+    Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
+    Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
 });
 
 // ==================== ROLE: ADMIN ====================
@@ -55,7 +61,9 @@ Route::middleware(['auth', 'role:admin'])
         // Data Pembayaran
         Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
-        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
+        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])
+            ->middleware('permission:pembayaran.edit')
+            ->name('pembayaran.update');
 
         // Notifikasi
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
@@ -95,6 +103,19 @@ Route::middleware(['auth', 'role:penghuni'])
     ->name('penghuni.')
     ->group(function () {
 
+        Route::get('/dashboard', [PenghuniController::class, 'index'])
+            ->name('dashboard');
+
+        // Profile Penghuni
+        
+        Route::get('/booking', [PenghuniController::class, 'booking'])
+            ->name('booking');
+            
+        Route::get('/booking/{kamar}', [PenghuniController::class, 'showBooking'])
+            ->name('booking.show'); 
+            
+        Route::get('/booking/{kamar}/confirm', [PenghuniController::class, 'confirmBooking'])
+            ->name('booking.confirm');    
         Route::get('/dashboard', [PenghuniController::class, 'index'])->name('dashboard');
 
         // Data pengaduan penghuni
@@ -107,10 +128,6 @@ Route::middleware(['auth', 'role:penghuni'])
 
         Route::patch('/profile', [PenghuniController::class, 'updateProfile'])
             ->name('profile.update');
-
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         // Pembayaran Penghuni
         Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
