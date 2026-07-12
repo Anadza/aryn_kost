@@ -104,6 +104,8 @@ Route::middleware(['auth', 'role:penghuni'])
 
         Route::get('/dashboard', [PenghuniController::class, 'index'])
             ->name('dashboard');
+
+        // Profile Penghuni
         
         Route::get('/booking', [PenghuniController::class, 'booking'])
             ->name('booking');
@@ -126,13 +128,12 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::patch('/profile', [PenghuniController::class, 'updateProfile'])
             ->name('profile.update');
 
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
         // Pembayaran Penghuni
-        Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
-        Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'upload'])->name('pembayaran.upload.post');
+        Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])
+            ->name('pembayaran.upload');
+
+        Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'upload'])
+            ->name('pembayaran.upload.post');
     });
 
 require __DIR__ . '/auth.php';
