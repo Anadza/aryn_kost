@@ -69,6 +69,11 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
         Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [NotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
+
+        // Route Profil Admin
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
 // ==================== ROLE: OWNER ====================
@@ -95,6 +100,11 @@ Route::middleware(['auth', 'role:owner'])
         // Data Pembayaran
         Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
+
+        // Route Profil Owner
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
 // ==================== ROLE: PENGHUNI ====================
@@ -107,15 +117,15 @@ Route::middleware(['auth', 'role:penghuni'])
             ->name('dashboard');
 
         // Profile Penghuni
-        
+
         Route::get('/booking', [PenghuniController::class, 'booking'])
             ->name('booking');
-            
+
         Route::get('/booking/{kamar}', [PenghuniController::class, 'showBooking'])
-            ->name('booking.show'); 
-            
+            ->name('booking.show');
+
         Route::get('/booking/{kamar}/confirm', [PenghuniController::class, 'confirmBooking'])
-            ->name('booking.confirm');    
+            ->name('booking.confirm');
         Route::get('/dashboard', [PenghuniController::class, 'index'])->name('dashboard');
 
         // Data pengaduan penghuni
