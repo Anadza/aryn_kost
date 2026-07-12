@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['tanggal', 'penyewa', 'kamar', 'kategori', 'deskripsi', 'status'])]
+#[Fillable(['tanggal', 'penyewa', 'kamar', 'kategori', 'deskripsi', 'bukti', 'status'])]
 class Pengaduan extends Model
 {
     use HasFactory;
 
     protected function casts(): array
     {
-        return [
-            'tanggal' => 'date',
-        ];
+        return ['tanggal' => 'date'];
     }
 
     public function statusLabel(): string
