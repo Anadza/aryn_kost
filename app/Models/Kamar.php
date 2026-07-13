@@ -50,7 +50,7 @@ class Kamar extends Model
 
     public function hargaFormatted(): string
     {
-        return 'Rp'.number_format((float) $this->harga, 0, ',', '.');
+        return 'Rp' . number_format((float) $this->harga, 0, ',', '.');
     }
 
     public function fasilitasArray(): array
@@ -69,15 +69,36 @@ class Kamar extends Model
     public function fotoUrl(): string
     {
         return match (strtolower(trim($this->tipe))) {
-
             'standar' => asset('images/kamar/standar.png'),
-
             'deluxe'  => asset('images/kamar/deluxe.png'),
-
             'vip'     => asset('images/kamar/vip.png'),
-
             default   => asset('images/kamar/default-room.jpg'),
-
         };
+    }
+
+    /**
+     * Semua booking milik kamar
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'kamar_id', 'id');
+    }
+
+    /**
+     * Booking yang masih menunggu persetujuan
+     */
+    public function pendingBooking()
+    {
+        return $this->hasOne(Booking::class, 'kamar_id', 'id')
+            ->where('status', Booking::STATUS_MENUNGGU);
+    }
+
+    /**
+     * Booking terakhir
+     */
+    public function latestBooking()
+    {
+        return $this->hasOne(Booking::class, 'kamar_id', 'id')
+            ->latestOfMany();
     }
 }

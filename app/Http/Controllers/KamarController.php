@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kamar;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class KamarController extends Controller
@@ -14,12 +14,14 @@ class KamarController extends Controller
         $search = trim((string) $request->query('search', ''));
         $status = (string) $request->query('status', '');
 
-        $query = Kamar::query();
+        $query = Kamar::with([
+            'pendingBooking.user'
+        ]);
 
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('no_kamar', 'like', "%{$search}%")
-                    ->orWhere('tipe', 'like', "%{$search}%");
+                  ->orWhere('tipe', 'like', "%{$search}%");
             });
         }
 
@@ -27,7 +29,9 @@ class KamarController extends Controller
             $query->where('status', $status);
         }
 
-        $kamars = $query->orderBy('no_kamar')->get();
+        $kamars = $query
+            ->orderBy('no_kamar')
+            ->get();
 
         return view('kamar.index', [
             'kamars' => $kamars,
@@ -40,9 +44,9 @@ class KamarController extends Controller
     {
         $data = $request->validate([
             'no_kamar' => 'required|string|max:20|unique:kamars,no_kamar',
-            'tipe' => 'required|string|max:50',
-            'harga' => 'required|numeric|min:0',
-            'status' => 'required|in:kosong,terisi,booking',
+            'tipe'     => 'required|string|max:50',
+            'harga'    => 'required|numeric|min:0',
+            'status'   => 'required|in:kosong,terisi,booking',
         ]);
 
         Kamar::create($data);
@@ -53,10 +57,10 @@ class KamarController extends Controller
     public function update(Request $request, Kamar $kamar): RedirectResponse
     {
         $data = $request->validate([
-            'no_kamar' => 'required|string|max:20|unique:kamars,no_kamar,'.$kamar->id,
-            'tipe' => 'required|string|max:50',
-            'harga' => 'required|numeric|min:0',
-            'status' => 'required|in:kosong,terisi,booking',
+            'no_kamar' => 'required|string|max:20|unique:kamars,no_kamar,' . $kamar->id,
+            'tipe'     => 'required|string|max:50',
+            'harga'    => 'required|numeric|min:0',
+            'status'   => 'required|in:kosong,terisi,booking',
         ]);
 
         $kamar->update($data);
