@@ -40,21 +40,6 @@ class PenghuniController extends Controller
             'riwayatPembayaran',
         ));
     }
-    /**
-     * Halaman Profil Penghuni
-     */
-    public function profile(): View
-    {
-        return view('penghuni.profile_penghuni.edit');
-    }
-
-    /**
-     * Update Profil Penghuni
-     */
-    public function updateProfile(Request $request)
-    {
-        // Akan dikerjakan setelah fitur booking selesai
-    }
 
     /**
      * Halaman Booking Kamar

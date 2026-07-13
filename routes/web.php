@@ -135,13 +135,11 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/pengaduan/create', [PengaduanController::class, 'create'])->name('pengaduan.create');
         Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
-        Route::get('/profile', [PenghuniController::class, 'profile'])
-            ->name('profile');
 
-        Route::patch('/profile', [PenghuniController::class, 'updateProfile'])
-            ->name('profile.update');
-
-        Route::post('/profile', [PenghuniController::class, 'store'])->name('profile.store');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/profile/picture', [ProfileController::class, 'store'])->name('profile.store');
 
         // Pembayaran Penghuni
         Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
