@@ -30,9 +30,7 @@ class KamarController extends Controller
             $query->where('status', $status);
         }
 
-        $kamars = $query
-            ->orderBy('no_kamar')
-            ->get();
+        $kamars = Kamar::orderBy('no_kamar', 'asc')->paginate(10);
 
         return view('kamar.index', [
             'kamars' => $kamars,
