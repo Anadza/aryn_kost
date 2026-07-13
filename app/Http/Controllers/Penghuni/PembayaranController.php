@@ -11,13 +11,16 @@ class PembayaranController extends Controller
 {
     public function index()
     {
-        $tagihan = Tagihan::latest()->first();
-
-        return view('penghuni.pembayaran.upload', compact('tagihan'));
+        $tagihan = Tagihan::where('user_id', auth()->id())
+                      ->where('status_pembayaran', 'Belum Dibayar')
+                      ->latest()
+                      ->first();
 
         $riwayatPembayaran = Tagihan::where('user_id', auth()->id())
                                 ->orderByDesc('created_at')
                                 ->paginate(5);
+
+        return view('penghuni.pembayaran.upload', compact('tagihan', 'riwayatPembayaran'));
     }
     public function upload(Request $request, $id)
     {
