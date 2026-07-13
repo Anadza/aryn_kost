@@ -7,9 +7,7 @@
 
     $navRoute = function (string $name) use ($roleForRoute) {
         $full = "{$roleForRoute}.{$name}";
-        return \Illuminate\Support\Facades\Route::has($full)
-            ? route($full)
-            : '#';
+        return \Illuminate\Support\Facades\Route::has($full) ? route($full) : '#';
     };
 @endphp
 
@@ -17,17 +15,10 @@
     <div class="flex items-center justify-between gap-4 px-2 py-4 md:px-4">
 
         {{-- Tombol Toggle Sidebar --}}
-        <button @click="sidebarOpen = !sidebarOpen"
-            class="shrink-0 rounded-lg p-2 text-white hover:bg-white/10"
+        <button @click="sidebarOpen = !sidebarOpen" class="shrink-0 rounded-lg p-2 text-white hover:bg-white/10"
             aria-label="Toggle sidebar">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="h-6 w-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
                 <path d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
@@ -54,23 +45,22 @@
         <div class="flex shrink-0 items-center gap-4">
             {{-- Notifikasi --}}
             @if (auth()->user()->hasRole('admin'))
+                @php
+                    $belumDibacaAdmin = \App\Models\Notifikasi::belumDibaca()->count();
+                @endphp
                 <a href="{{ route('admin.notifikasi.index') }}"
-                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
-                    aria-label="Notifikasi">
+                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition" aria-label="Notifikasi">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-6 w-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
                         <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
                         <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
                     </svg>
 
-                    <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                    @if ($belumDibacaAdmin > 0)
+                        <span
+                            class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                    @endif
                 </a>
             @elseif (auth()->user()->hasRole('penghuni'))
                 @php
@@ -79,43 +69,31 @@
                         ->count();
                 @endphp
                 <a href="{{ route('penghuni.notifikasi.index') }}"
-                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
-                    aria-label="Notifikasi">
+                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition" aria-label="Notifikasi">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-6 w-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
                         <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
                         <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
                     </svg>
 
                     @if ($belumDibacaPenghuni > 0)
-                        <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                        <span
+                            class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
                     @endif
                 </a>
             @else
-                <a href="#"
-                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
+                <a href="#" class="relative rounded-full p-2 text-white hover:bg-white/10 transition"
                     aria-label="Notifikasi">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-6 w-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
                         <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
                         <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
                     </svg>
 
-                    <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
+                    <span
+                        class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
                 </a>
             @endif
 
@@ -138,8 +116,7 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <x-dropdown-link
-                            :href="route('logout')"
+                        <x-dropdown-link :href="route('logout')"
                             onclick="event.preventDefault(); this.closest('form').submit();">
 
                             {{ __('Log Out') }}
