@@ -1,26 +1,6 @@
-<<<<<<< HEAD
-@php
-    $roleForRoute = auth()->user()->hasRole('admin')
-        ? 'admin'
-        : (auth()->user()->hasRole('owner')
-            ? 'owner'
-            : 'penghuni');
-
-    $navRoute = function (string $name) use ($roleForRoute) {
-        $full = "{$roleForRoute}.{$name}";
-        return \Illuminate\Support\Facades\Route::has($full) ? route($full) : '#';
-    };
-@endphp
-
 <header class="sticky top-0 z-20 bg-primary">
     <div class="flex items-center justify-between gap-4 px-2 py-4 md:px-4">
 
-        {{-- Tombol Toggle Sidebar --}}
-=======
-<header class="sticky top-0 z-20 bg-primary">
-    <div class="flex items-center justify-between gap-4 px-2 py-4 md:px-4">
-
->>>>>>> aa26a3e9fc77b7e4ba966e881fb3828f3c73396e
         <button @click="sidebarOpen = !sidebarOpen" class="shrink-0 rounded-lg p-2 text-white hover:bg-white/10"
             aria-label="Toggle sidebar">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
