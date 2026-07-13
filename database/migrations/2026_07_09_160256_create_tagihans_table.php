@@ -11,25 +11,26 @@ return new class extends Migration
         Schema::create('tagihans', function (Blueprint $table) {
             $table->id();
 
-            // Data Tagihan
-            $table->string('bulan_tagihan');
-            $table->decimal('jumlah_tagihan', 12, 2);
-            $table->date('tanggal_jatuh_tempo');
+            $table->unsignedBigInteger('user_id')->nullable();
+
             $table->string('nomor_tagihan')->unique();
-
-            // Status Pembayaran
+            $table->integer('jumlah_tagihan');
+            $table->string('bulan_tagihan');
             $table->string('status_pembayaran')->default('Belum Dibayar');
-
-            // Data Unggahan Pembayaran
             $table->string('bukti_pembayaran_path')->nullable();
+            $table->string('nama_penghuni')->nullable(); // Kolom dari file alter sebelumnya
+            $table->date('tanggal_jatuh_tempo')->nullable();
             $table->timestamp('tanggal_upload_bukti')->nullable();
 
-            $table->timestamps();
+            $table->timestamps(); 
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('tagihans');
+        Schema::dropIfExists('tagihans'); {
+        };
     }
 };

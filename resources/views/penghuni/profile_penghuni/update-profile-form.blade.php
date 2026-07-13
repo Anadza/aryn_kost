@@ -90,41 +90,6 @@
                 class="w-full rounded-lg border-gray-300 resize-none focus:border-[#1E4363] focus:ring-[#1E4363]"></textarea>
         </div>
 
-        {{-- Upload Foto --}}
-        <div class="mb-8">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">
-                Foto Profil
-            </h3>
-            <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center">
-                <div
-                    id="preview-container"
-                    class="hidden mb-4">
-                    <img
-                        id="preview-image"
-                        class="w-32 h-32 rounded-full object-cover mx-auto shadow">
-                </div>
-                <div
-                    id="upload-icon"
-                    class="text-6xl">
-                    📷
-                </div>
-                <p class="text-gray-500 mt-4">
-                    Upload Foto Profil
-                </p>
-                <label
-                    for="foto"
-                    class="inline-block mt-4 bg-[#1E4363] hover:bg-[#16324b] text-white px-6 py-2 rounded-lg cursor-pointer transition">
-                    Pilih Foto
-                </label>
-                <input
-                    type="file"
-                    id="foto"
-                    name="foto"
-                    accept="image/*"
-                    class="hidden">
-            </div>
-        </div>
-
         {{-- Informasi Kamar --}}
         <div class="border-t pt-8">
             <h3 class="text-lg font-semibold text-gray-800 mb-6">

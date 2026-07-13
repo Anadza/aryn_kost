@@ -14,6 +14,7 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\Penghuni\PembayaranController;
 use App\Http\Controllers\BookingController;
 
+use App\Http\Controllers\Penghuni\NotifikasiController as PenghuniNotifikasiController;
 
 // Halaman Utama
 Route::get('/', function () {
@@ -36,11 +37,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/kamar', [KamarController::class, 'store'])->name('kamar.store');
     Route::put('/kamar/{kamar}', [KamarController::class, 'update'])->name('kamar.update');
     Route::delete('/kamar/{kamar}', [KamarController::class, 'destroy'])->name('kamar.destroy');
-
-    // Route Pembayaran
-    Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
-    Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
-    Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
 });
 
 // ==================== ROLE: ADMIN ====================
@@ -67,12 +63,20 @@ Route::middleware(['auth', 'role:admin'])
         // Data Pembayaran
         Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
-        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])->name('pembayaran.update');
+        Route::put('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'update'])
+            ->middleware('permission:pembayaran.edit')
+            ->name('pembayaran.update');
 
         // Notifikasi
         Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
-        Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
+        Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'readAll'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [NotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
+
+        // Route Profil Admin
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/profile/picture', [ProfileController::class, 'store'])->name('profile.store');
     });
 
     // Admin menyetujui / menolak booking, tetap lewat menu Data Kamar
@@ -108,6 +112,12 @@ Route::middleware(['auth', 'role:owner'])
         // Data Pembayaran
         Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
         Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
+
+        // Route Profil Owner
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/profile/picture', [ProfileController::class, 'store'])->name('profile.store');
     });
 
 // ==================== ROLE: PENGHUNI ====================
@@ -118,15 +128,17 @@ Route::middleware(['auth', 'role:penghuni'])
 
         Route::get('/dashboard', [PenghuniController::class, 'index'])
             ->name('dashboard');
-        
+
+        // Profile Penghuni
+
         Route::get('/booking', [PenghuniController::class, 'booking'])
             ->name('booking');
-            
+
         Route::get('/booking/{kamar}', [PenghuniController::class, 'showBooking'])
-            ->name('booking.show'); 
-            
+            ->name('booking.show');
+
         Route::get('/booking/{kamar}/confirm', [PenghuniController::class, 'confirmBooking'])
-            ->name('booking.confirm');    
+            ->name('booking.confirm');
         Route::get('/dashboard', [PenghuniController::class, 'index'])->name('dashboard');
 
         // Data pengaduan penghuni
@@ -134,19 +146,23 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/pengaduan/create', [PengaduanController::class, 'create'])->name('pengaduan.create');
         Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
         Route::patch('/pengaduan/{pengaduan}/status', [PengaduanController::class, 'updateStatus'])->name('pengaduan.update-status');
-        Route::get('/profile', [PenghuniController::class, 'profile'])
-            ->name('profile');
-
-        Route::patch('/profile', [PenghuniController::class, 'updateProfile'])
-            ->name('profile.update');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/profile/picture', [ProfileController::class, 'store'])->name('profile.store');
 
         // Pembayaran Penghuni
         Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
         Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'upload'])->name('pembayaran.upload.post');
+
+        // Notifikasi Penghuni
+        Route::get('/notifikasi', [PenghuniNotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::patch('/notifikasi/read-all', [PenghuniNotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
+        Route::patch('/notifikasi/{notifikasi}/read', [PenghuniNotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
+
+        // Route Tagihan Penghuni
+        Route::get('/tagihan', [PembayaranController::class, 'tagihan'])->name('tagihan.index');
     });
 
     // Penghuni mengajukan booking
