@@ -49,8 +49,8 @@ Route::middleware(['auth', 'role:admin'])
 
         // Notifikasi
         // Notifikasi (pembayaran, keluhan, booking dari penghuni)
-        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('admin.notifikasi.index');
-        Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
+        Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
+        Route::patch('/notifikasi/read-all', [NotifikasiController::class, 'readAll'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [NotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
     });
 
