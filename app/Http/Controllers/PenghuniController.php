@@ -7,6 +7,7 @@ use App\Models\Penghuni;
 use App\Models\Tagihan;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class PenghuniController extends Controller
 {
