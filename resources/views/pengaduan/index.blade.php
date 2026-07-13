@@ -1,12 +1,10 @@
 <x-app-layout>
     <style>
-        [x-cloak] {
-            display: none !important;
-        }
+        [x-cloak] { display: none !important; }
     </style>
 
     <div x-data="adminPengaduanPage()" class="mx-auto max-w-7xl space-y-6 p-6">
-        <!-- Statistik Ringkas Admin -->
+        <!-- Ringkas Admin -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div class="rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
                 <p class="text-sm font-medium text-gray-500">Total Pengaduan</p>
@@ -56,15 +54,27 @@
                                         {{ $pengaduan->status === 'pending' ? 'Pending' : ($pengaduan->status === 'diproses' ? 'Diproses' : 'Selesai') }}
                                     </span>
                                 </td>
-                                <td class="whitespace-nowrap px-6 py-4 text-center">
-                                    <button type="button" title="Lihat detail & aksi"
-                                        @click="openModal({{ Illuminate\Support\Js::from($pengaduan) }})"
-                                        class="rounded-xl p-2 text-gray-400 transition hover:bg-gray-100 hover:text-[#1E3A5F]">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="mx-auto h-5 w-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    </button>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    <div class="flex items-center justify-center gap-2">
+                                        {{-- Lihat Detail --}}
+                                        <button type="button" title="Lihat Detail"
+                                            @click="openModal({{ Illuminate\Support\Js::from($pengaduan) }})"
+                                            class="rounded-xl p-2 text-gray-400 transition hover:bg-gray-100 hover:text-[#1E3A5F]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </button>
+
+                                        {{-- Edit Status --}}
+                                        <button type="button" title="Edit Status"
+                                            @click="openModal({{ Illuminate\Support\Js::from($pengaduan) }})"
+                                            class="rounded-xl p-2 text-gray-400 transition hover:bg-gray-100 hover:text-[#1E3A5F]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487a2.25 2.25 0 113.182 3.182L8.25 18.463 3 20.5l1.037-5.25L16.862 4.487z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -96,7 +106,7 @@
             </div>
         </div>
 
-        {{-- ===================== MODAL POP-UP: DETAIL & PILIHAN AKSI STATUS ===================== --}}
+        {{-- ===================== DETAIL & PILIHAN AKSI STATUS ===================== --}}
         <div x-show="showModal" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" @click.self="showModal = false">
             <div x-show="showModal" x-transition class="w-full max-w-lg overflow-hidden rounded-3xl bg-white p-6 shadow-2xl">
 
@@ -136,7 +146,7 @@
                             <div class="mt-1 max-h-32 overflow-y-auto break-words rounded-xl border bg-gray-50 p-3 text-gray-800" x-text="selected.deskripsi"></div>
                         </div>
 
-                        {{-- Menampilkan Foto Bukti jika ada --}}
+                        {{-- Menampilkan Foto Bukti --}}
                         <template x-if="selected.bukti">
                             <div>
                                 <span class="mb-1 block text-xs font-medium uppercase text-gray-400">Foto Bukti Keluhan</span>
@@ -146,7 +156,7 @@
                     </div>
                 </template>
 
-                {{-- Form Aksi Perubahan Status di dalam Modal --}}
+                {{-- Form Aksi Perubahan Status --}}
                 <div class="mt-5 flex justify-end gap-2 border-t pt-4">
                     <button type="button" @click="showModal = false" class="rounded-xl px-4 py-2.5 font-semibold text-gray-500 transition hover:bg-gray-100">Tutup</button>
 
@@ -166,7 +176,7 @@
                             <template x-if="selected.status !== 'selesai'">
                                 <button type="submit" name="status" value="selesai" class="rounded-xl bg-emerald-600 px-4 py-2.5 font-semibold text-white transition hover:bg-emerald-700">
                                     Selesaikan
-                                </button>
+                            </button>
                             </template>
                         </form>
                     </template>
