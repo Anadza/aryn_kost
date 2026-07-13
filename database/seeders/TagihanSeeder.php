@@ -47,11 +47,12 @@ class TagihanSeeder extends Seeder
         foreach ($daftarBulan as $bln) {
 
             // Acak jumlah kamar yang keluar tagihan di bulan ini
-            $jumlahKamarBayar = rand(12, 18);
+            $limitKamar = min($totalPenghuni, rand(12, 18));
 
-            for ($i = 0; $i < $jumlahKamarBayar; $i++) {
+            $penghuniBulanIni = $daftarPenghuni->random($limitKamar);
 
-                // Variasi status pembayaran
+            foreach ($penghuniBulanIni as $penghuni) {
+
                 $acak = rand(1, 10);
                 if ($acak <= 8) {
                     $status = 'Lunas';
@@ -71,6 +72,7 @@ class TagihanSeeder extends Seeder
                 $nomorTagihan = 'NTB/' . str_pad($counterInvoice, 5, '0', STR_PAD_LEFT) . '/2026';
 
                 $data[] = [
+                    'user_id'               => $penghuni->user_id, // <--- Menghubungkan ke ID User yang sudah ada di tabel Penghuni
                     'bulan_tagihan'         => $bln['nama'],
                     'jumlah_tagihan'        => rand(1200, 1800) * 1000,
                     'tanggal_jatuh_tempo'   => "2026-{$bln['angka']}-10",
