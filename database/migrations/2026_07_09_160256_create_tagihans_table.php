@@ -8,9 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('tagihans', function (Blueprint $table) {
+        Schema::create('tagihans', function (Blueprint $table) {
+            $table->id();
 
-            $table->unsignedBigInteger('user_id')->nullable()->after('id');
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->string('nomor_tagihan')->unique();
+            $table->integer('jumlah_tagihan');
+            $table->string('bulan_tagihan');
+            $table->string('status_pembayaran')->default('Belum Dibayar');
+            $table->string('bukti_pembayaran_path')->nullable();
+            $table->string('nama_penghuni')->nullable(); // Kolom dari file alter sebelumnya
+            $table->date('tanggal_jatuh_tempo')->nullable();
+            $table->timestamp('tanggal_upload_bukti')->nullable();
+
+            $table->timestamps(); 
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
@@ -18,9 +30,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('tagihans', function (Blueprint $table) {
-            $table->dropForeign(['user_id']); 
-            $table->dropColumn('user_id');
-        });
+        Schema::dropIfExists('tagihans'); {
+        };
     }
 };

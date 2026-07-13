@@ -10,6 +10,7 @@ class Tagihan extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'bulan_tagihan',
         'jumlah_tagihan',
         'tanggal_jatuh_tempo',
