@@ -13,7 +13,7 @@ use App\Models\NotifikasiPenghuni;
 
 class PengaduanController extends Controller
 {
-    // Menampilkan Data (Index)
+    // Menampilkan Data
     public function index(Request $request): View
     {
         // Jika pengguna adalah penghuni, tampilkan data miliknya saja dengan pagination
@@ -29,10 +29,10 @@ class PengaduanController extends Controller
         $sedangDiproses = Pengaduan::whereIn('status', ['pending', 'diproses'])->count();
         $selesai = Pengaduan::where('status', 'selesai')->count();
 
-        // 3. Ambil data pengaduan dengan pagination
+        // Ambil data pengaduan dengan pagination
         $pengaduans = Pengaduan::orderByDesc('id')->paginate(10);
 
-        // 4. Kirim semua variabel ke view
+        // Kirim semua variabel ke view
         return view('pengaduan.index', compact('pengaduans', 'total', 'sedangDiproses', 'selesai'));
     }
 
@@ -71,5 +71,21 @@ class PengaduanController extends Controller
         ]);
 
         return redirect()->route('penghuni.pengaduan.index')->with('success', 'Laporan keluhan kamu sudah terkirim ke admin kos.');
+    }
+
+    // Mengubah Status Progress Pengaduan (Oleh Admin)
+    public function updateStatus(Request $request, Pengaduan $pengaduan): RedirectResponse
+    {
+        // Validasi input status yang dikirim dari form
+        $request->validate([
+            'status' => 'required|in:pending,diproses,selesai',
+        ]);
+
+        // Update status pengaduan
+        $pengaduan->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Status pengaduan berhasil diperbarui menjadi: ' . ucfirst($request->status));
     }
 }
