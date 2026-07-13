@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Nama dan Favicon -->
-        <title>ArynKost</title>
+        <title>arynKost</title>
         <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('logof.png') }}">
 
         @fonts
@@ -19,29 +19,29 @@
             </style>
         @endif
     </head>
-    <body class="w-full bg-cover text-[#1b1b18] min-h-screen flex flex-col bg-center bg-no-repeat dark:bg-[#0a0a0a] dark:text-[#EDEDEC]"
+    <body class="flex min-h-screen w-full flex-col bg-cover bg-center bg-no-repeat text-[#1b1b18] dark:bg-[#0a0a0a] dark:text-[#EDEDEC]"
           style = "background-image: url( {{ asset('images/kamar/background.jpg') }} )">
 
         <div class = "absolute inset-0 bg-[#EFE4D2]/80 dark:bg-[#0a0a0a]/90 -z-10"></div>
-        <header class="w-full text-sm not-has-[nav]:hidden">
+        <header class="not-has-[nav]:hidden w-full text-sm">
             @if (Route::has('login'))
-                <nav class="bg-[#254D70] w-full flex items-center justify-between gap-4 p-4 lg:px-8">
+                <nav class="flex w-full items-center justify-between gap-4 bg-[#254D70] p-4 lg:px-8">
                     <div class="flex items-center gap-4 px-6">
-                        <img src="{{ asset('logo.png') }}" alt="Logo ArynKost" class="w-auto h-16">
-                        <span class="font-sans font-bold text-white text-2xl">ArynKost</span>
+                        <img src="{{ asset('logo.png') }}" alt="Logo ArynKost" class="h-16 w-auto">
+                        <span class="font-sans text-2xl font-bold text-white">arynKost</span>
                     </div>
                     <div class="flex items-center gap-4">
                     @auth
                         <a
                             href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#FDFDFC] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
+                            class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#FDFDFC] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                         >
                             Dashboard
                         </a>
                     @else
                         <a
                             href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#FDFDFC] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
+                            class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#FDFDFC] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
                         >
                             Log in
                         </a>
@@ -50,11 +50,11 @@
                 </nav>
             @endif
         </header>
-        <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
+        <div class="starting:opacity-0 duration-750 flex w-full items-center justify-center opacity-100 transition-opacity lg:grow">
             <div class = "text-center">
-                <h1 class="text-4xl lg:text-5xl font-bold mb-2">Selamat Datang di ArynKost</h1>
-                <p class="text-lg lg:text-xl text-[#1b1b18] dark:text-[#EDEDEC] mb-6">Kost Nyaman, WiFi Kencang, Tugas Aman</p>
-                <a href="{{ route('register') }}" class="inline-block px-6 py-3 bg-[#254D70] dark:bg-[#EDEDEC] text-[#FDFDFC] dark:text-[#0a0a0a] rounded-md hover:bg-[#3E3E3A] dark:hover:bg-[#62605b] transition-colors duration-300">Daftar Sekarang</a>
+                <h1 class="mb-2 text-4xl font-bold lg:text-5xl">Selamat Datang di arynKost</h1>
+                <p class="mb-6 text-lg text-[#1b1b18] lg:text-xl dark:text-[#EDEDEC]">Kost Nyaman, WiFi Kencang, Tugas Aman</p>
+                <a href="{{ route('register') }}" class="inline-block rounded-md bg-[#254D70] px-6 py-3 text-[#FDFDFC] transition-colors duration-300 hover:bg-[#3E3E3A] dark:bg-[#EDEDEC] dark:text-[#0a0a0a] dark:hover:bg-[#62605b]">Daftar Sekarang</a>
             </div>
         </div>
     </body>
