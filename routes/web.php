@@ -149,6 +149,9 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/notifikasi', [PenghuniNotifikasiController::class, 'index'])->name('notifikasi.index');
         Route::patch('/notifikasi/read-all', [PenghuniNotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [PenghuniNotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
+
+        // Route Tagihan Penghuni
+        Route::get('/tagihan', [PembayaranController::class, 'tagihan'])->name('tagihan.index');
     });
 
 require __DIR__ . '/auth.php';
