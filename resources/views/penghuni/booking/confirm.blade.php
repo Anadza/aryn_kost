@@ -119,9 +119,19 @@
                         </h3>
 
                         {{-- Nanti action akan diarahkan ke proses simpan booking --}}
-                        <form action="#" method="POST">
+                        <form action="{{ route('booking.store', $kamar) }}" method="POST">
 
                             @csrf
+
+                            @if ($errors->any())
+                                <div class="mb-6 rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
                             {{-- Check In --}}
                             <div class="mb-6">
@@ -152,12 +162,11 @@
                                     name="durasi"
                                     class="w-full rounded-lg border-gray-300 focus:border-[#254D70] focus:ring-[#254D70]">
 
-                                    <option value="">Pilih Durasi</option>
-
-                                    <option value="1">1 Bulan</option>
-                                    <option value="3">3 Bulan</option>
-                                    <option value="6">6 Bulan</option>
-                                    <option value="12">12 Bulan</option>
+                                        <option value="">Pilih Durasi</option>
+                                        <option value="1" {{ old('durasi') == '1' ? 'selected' : '' }}>1 Bulan</option>
+                                        <option value="3" {{ old('durasi') == '3' ? 'selected' : '' }}>3 Bulan</option>
+                                        <option value="6" {{ old('durasi') == '6' ? 'selected' : '' }}>6 Bulan</option>
+                                        <option value="12" {{ old('durasi') == '12' ? 'selected' : '' }}>12 Bulan</option>
 
                                 </select>
 

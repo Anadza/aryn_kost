@@ -218,7 +218,7 @@
             @endif
         </div>
 
-        {{-- ===================== MODAL: DETAIL ===================== --}}
+       {{-- ===================== MODAL: DETAIL ===================== --}}
         <div x-show="showDetail" x-cloak class="z-40 fixed inset-0 flex justify-center items-center bg-black/40 p-4"
             @click.self="showDetail = false">
             <div x-show="showDetail" x-transition class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-sm">
@@ -234,6 +234,95 @@
                 </div>
 
                 <template x-if="selected">
+                    <div>
+                        <dl class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <dt class="text-grayCustom-400">No. Kamar</dt>
+                                <dd class="font-semibold text-grayCustom-800" x-text="selected.no_kamar"></dd>
+                            </div>
+                            <div class="flex justify-between">
+                                <dt class="text-grayCustom-400">Tipe</dt>
+                                <dd class="font-semibold text-grayCustom-800" x-text="selected.tipe"></dd>
+                            </div>
+                            <div class="flex justify-between">
+                                <dt class="text-grayCustom-400">Harga / Bulan</dt>
+                                <dd class="font-semibold text-grayCustom-800" x-text="formatRupiah(selected.harga)"></dd>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <dt class="text-grayCustom-400">Status</dt>
+                                <dd>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-semibold text-xs"
+                                        :class="statusBadgeClass(selected.status)">
+                                        <span class="rounded-full w-1.5 h-1.5"
+                                            :class="statusDotClass(selected.status)"></span>
+                                        <span x-text="statusLabel(selected.status)"></span>
+                                    </span>
+                                </dd>
+                            </div>
+                        </dl>
+
+                        {{-- ============ TAMBAHAN: Pengajuan Booking ============ --}}
+                        <template x-if="selected.pendingBooking">
+                            <div class="mt-5 pt-4 border-grayCustom-100 border-t">
+                                <h4 class="mb-2 font-semibold text-grayCustom-700 text-sm">Pengajuan Booking</h4>
+
+                                <dl class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <dt class="text-grayCustom-400">Nama Penghuni</dt>
+                                        <dd class="font-medium text-grayCustom-800"
+                                            x-text="selected.pendingBooking.user.name"></dd>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <dt class="text-grayCustom-400">Durasi Sewa</dt>
+                                        <dd class="font-medium text-grayCustom-800"
+                                            x-text="selected.pendingBooking.durasi + ' Bulan'"></dd>
+                                    </div>
+                                    <div class="flex justify-between gap-4">
+                                        <dt class="shrink-0 text-grayCustom-400">Catatan</dt>
+                                        <dd class="font-medium text-grayCustom-800 text-right"
+                                            x-text="selected.pendingBooking.catatan || '-'"></dd>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <dt class="text-grayCustom-400">Status Booking</dt>
+                                        <dd>
+                                            <span
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full font-semibold text-warning-700 text-xs bg-warning-100">
+                                                Menunggu
+                                            </span>
+                                        </dd>
+                                    </div>
+                                </dl>
+
+                                @can('kamar.edit')
+                                    <div class="flex gap-2 mt-4">
+                                        <form method="POST"
+                                            :action="'/booking/' + selected.pendingBooking.id + '/approve'"
+                                            onsubmit="return confirm('Setujui booking ini?')" class="flex-1">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="bg-success-600 hover:bg-success-700 py-2 rounded-xl w-full font-semibold text-white text-sm transition">
+                                                Setujui
+                                            </button>
+                                        </form>
+
+                                        <form method="POST"
+                                            :action="'/booking/' + selected.pendingBooking.id + '/reject'"
+                                            onsubmit="return confirm('Tolak booking ini?')" class="flex-1">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="bg-red-600 hover:bg-red-700 py-2 rounded-xl w-full font-semibold text-white text-sm transition">
+                                                Tolak
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endcan
+                            </div>
+                        </template>
+                        {{-- ============ AKHIR TAMBAHAN ============ --}}
+                    </div>
                     <dl class="space-y-3 text-sm">
                         <div class="flex justify-between">
                             <dt class="text-grayCustom-400">No. Kamar</dt>

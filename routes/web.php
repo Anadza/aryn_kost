@@ -12,6 +12,8 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\Admin\AdminPembayaranController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\Penghuni\PembayaranController;
+use App\Http\Controllers\BookingController;
+
 use App\Http\Controllers\Penghuni\NotifikasiController as PenghuniNotifikasiController;
 
 // Halaman Utama
@@ -76,6 +78,15 @@ Route::middleware(['auth', 'role:admin'])
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::post('/profile/picture', [ProfileController::class, 'store'])->name('profile.store');
     });
+
+    // Admin menyetujui / menolak booking, tetap lewat menu Data Kamar
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::patch('/booking/{booking}/approve', [BookingController::class, 'approve'])
+            ->name('booking.approve');
+        Route::patch('/booking/{booking}/reject', [BookingController::class, 'reject'])
+            ->name('booking.reject');
+    });
+
 
 // ==================== ROLE: OWNER ====================
 Route::middleware(['auth', 'role:owner'])
@@ -153,5 +164,12 @@ Route::middleware(['auth', 'role:penghuni'])
         // Route Tagihan Penghuni
         Route::get('/tagihan', [PembayaranController::class, 'tagihan'])->name('tagihan.index');
     });
+
+    // Penghuni mengajukan booking
+    Route::middleware(['auth', 'role:penghuni'])->group(function () {
+        Route::post('/kamar/{kamar}/booking', [BookingController::class, 'store'])
+            ->name('booking.store');
+    });
+
 
 require __DIR__ . '/auth.php';
