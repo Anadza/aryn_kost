@@ -33,7 +33,6 @@
         @if (str_contains(request()->url(), 'dashboard'))
             @if (auth()->user()->hasRole('penghuni'))
                 <div class="min-w-0 flex-1">
-<<<<<<< HEAD
                     <h1 class="truncate text-lg font-bold text-white md:text-2xl">
                         Hallo, {{ auth()->user()->name }}!!
                     </h1>
@@ -41,7 +40,6 @@
                         Selamat datang di arynKost!
                     </p>
                 </div>
-=======
                     <h1 class="truncate text-lg font-bold text-white md:text-2xl">Hallo, {{ auth()->user()->name }}!!
                     </h1>
                     <p class="truncate text-sm text-white/80">Selamat datang di arynKost!</p>
@@ -60,7 +58,6 @@
                     </div>
                 </div>
             @endif --}}
->>>>>>> aa26a3e9fc77b7e4ba966e881fb3828f3c73396e
             @else
                 <div class="flex-1"></div>
             @endif
@@ -68,37 +65,6 @@
             <div class="flex-1"></div>
         @endif
 
-<<<<<<< HEAD
-        {{-- Menu Kanan --}}
-        <div class="flex shrink-0 items-center gap-4">
-            {{-- Notifikasi --}}
-            @if (auth()->user()->hasRole('admin'))
-                @php
-                    $belumDibacaAdmin = \App\Models\Notifikasi::belumDibaca()->count();
-                @endphp
-                <a href="{{ route('admin.notifikasi.index') }}"
-                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition" aria-label="Notifikasi">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
-                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-                    </svg>
-
-                    @if ($belumDibacaAdmin > 0)
-                        <span
-                            class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
-                    @endif
-                </a>
-            @elseif (auth()->user()->hasRole('penghuni'))
-                @php
-                    $belumDibacaPenghuni = \App\Models\NotifikasiPenghuni::untukPenghuni(auth()->user()->name)
-                        ->belumDibaca()
-                        ->count();
-                @endphp
-                <a href="{{ route('penghuni.notifikasi.index') }}"
-                    class="relative rounded-full p-2 text-white hover:bg-white/10 transition" aria-label="Notifikasi">
-=======
         <div class="flex shrink-0 items-center gap-4">
             <button class="relative rounded-full p-2 text-white hover:bg-white/10" aria-label="Notifikasi">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -108,7 +74,6 @@
                 </svg>
                 <span class="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-primary bg-red-500"></span>
             </button>
->>>>>>> aa26a3e9fc77b7e4ba966e881fb3828f3c73396e
 
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
