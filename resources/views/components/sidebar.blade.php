@@ -107,18 +107,6 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ $navRoute('kamar.index') }}"
-                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.kamar.*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 shrink-0">
-                    <path d="M2 4v16" />
-                    <path d="M2 8h18a2 2 0 0 1 2 2v10" />
-                    <path d="M2 17h20" />
-                    <path d="M6 8v-2a2 2 0 0 1 2-2h3" />
-                </svg>
-                <span>Kamar Pribadi</span>
-            </a>
-
             <a href="{{ route('penghuni.booking') }}"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition {{ request()->routeIs('penghuni.booking*') ? 'bg-[#567B9D] text-white shadow-sm' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
