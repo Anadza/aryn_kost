@@ -1,3 +1,7 @@
+# Link Demo Aplikasi
+
+Demo Aplikasi: https://youtu.be/qAPgjYqzJ48
+
 # Aryn Kost - Aplikasi Mobile Manajemen Kost
 
 Aplikasi mobile berbasis **Flutter** untuk manajemen kost (boarding house), yang menyediakan tiga jenis akses pengguna: **Admin**, **Owner**, dan **Penghuni**. Aplikasi ini memudahkan proses pencarian kamar, booking, pembayaran/tagihan, pengaduan, hingga pengelolaan data kamar dan penghuni — semuanya dari perangkat mobile.

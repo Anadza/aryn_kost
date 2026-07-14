@@ -1,3 +1,7 @@
+# Link Demo Aplikasi
+
+Demo Aplikasi: https://youtu.be/qAPgjYqzJ48
+
 # Aryn Kost - Backend & Dashboard Admin
 
 Aplikasi backend dan dashboard admin berbasis **Laravel 13** untuk mengelola sistem manajemen kost (boarding house), mencakup data kamar, penghuni, booking, pengaduan, tagihan, dan pembayaran. Backend ini menyediakan halaman web (dashboard multi-role: Admin, Owner, Penghuni) sekaligus **REST API** yang dikonsumsi oleh aplikasi mobile Flutter (**Aryn Kost**).
