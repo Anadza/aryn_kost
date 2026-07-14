@@ -76,7 +76,7 @@ class _PembayaranScreenState extends State<PembayaranScreen> {
                 decoration: BoxDecoration(color: stColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
                 child: Text(st, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: stColor)))),
               DataCell(Row(children: [
-                IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () {}),
+                IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showDetail(t)),
                 IconButton(icon: Icon(Icons.edit_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showStatusDialog(t['id'], st)),
               ])),
             ]);
@@ -89,6 +89,44 @@ class _PembayaranScreenState extends State<PembayaranScreen> {
   String _fmt(dynamic n) {
     final val = int.tryParse(n.toString()) ?? 0;
     return val.toString().replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.');
+  }
+
+  void _showDetail(Map<String, dynamic> t) {
+    final user = t['user'] ?? {};
+    showDialog(context: context, builder: (ctx) => AlertDialog(
+      title: const Text('Detail Pembayaran', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _detailRow('Nomor Tagihan', t['nomor_tagihan']?.toString() ?? '-'),
+            _detailRow('Bulan', t['bulan_tagihan']?.toString() ?? '-'),
+            _detailRow('Total', 'Rp ${_fmt(t['jumlah_tagihan'])}'),
+            _detailRow('Penghuni', user['name']?.toString() ?? '-'),
+            _detailRow('Jatuh Tempo', t['tanggal_jatuh_tempo']?.toString().substring(0, 10) ?? '-'),
+            _detailRow('Status', t['status_pembayaran']?.toString() ?? '-'),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Tutup', style: TextStyle(color: primaryColor))),
+      ],
+    ));
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 100, child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
+          const Text(': ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Expanded(child: Text(value)),
+        ],
+      ),
+    );
   }
 
   void _showStatusDialog(int id, String current) {

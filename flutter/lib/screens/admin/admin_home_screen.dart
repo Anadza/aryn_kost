@@ -9,6 +9,8 @@ import 'data_pengaduan_screen.dart';
 import 'pembayaran_screen.dart';
 import 'profil_screen.dart';
 
+import '../../widgets/notification_bottom_sheet.dart';
+
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
   @override
@@ -32,7 +34,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         backgroundColor: primaryColor, elevation: 0, foregroundColor: Colors.white,
         title: Text(_title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
         actions: [
-          IconButton(icon: const Icon(Icons.notifications_outlined), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.notifications_outlined), onPressed: () => showNotificationSheet(context, isAdmin: true)),
           const Padding(padding: EdgeInsets.only(right: 12),
             child: CircleAvatar(radius: 16, backgroundColor: Colors.white24, child: Icon(Icons.person, color: Colors.white, size: 18))),
         ],

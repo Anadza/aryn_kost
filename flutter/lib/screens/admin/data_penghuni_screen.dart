@@ -115,7 +115,7 @@ class _DataPenghuniScreenState extends State<DataPenghuniScreen> {
                     Text(p['status'] ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: isActive ? Colors.green : Colors.grey)),
                   ]))),
                 DataCell(Row(children: [
-                  IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () {}),
+                  IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showDetail(p)),
                   IconButton(icon: Icon(Icons.edit_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showForm(p: p)),
                 ])),
               ]);
@@ -125,5 +125,44 @@ class _DataPenghuniScreenState extends State<DataPenghuniScreen> {
       ),
       const SizedBox(height: 16),
     ]);
+  }
+
+  void _showDetail(Map<String, dynamic> p) {
+    showDialog(context: context, builder: (ctx) => AlertDialog(
+      title: const Text('Detail Penghuni', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _detailRow('Nama', p['nama']?.toString() ?? '-'),
+            _detailRow('Kamar', p['nomor_kamar']?.toString() ?? '-'),
+            _detailRow('No. HP', p['no_hp']?.toString() ?? '-'),
+            _detailRow('Tgl Lahir', p['tanggal_lahir']?.toString() ?? '-'),
+            _detailRow('Gender', p['jenis_kelamin']?.toString() ?? '-'),
+            _detailRow('Alamat', p['alamat']?.toString() ?? '-'),
+            _detailRow('Check-In', p['check_in']?.toString() ?? '-'),
+            _detailRow('Status', p['status']?.toString() ?? '-'),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Tutup', style: TextStyle(color: primaryColor))),
+      ],
+    ));
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 90, child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
+          const Text(': ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Expanded(child: Text(value)),
+        ],
+      ),
+    );
   }
 }

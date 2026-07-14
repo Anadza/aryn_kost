@@ -60,7 +60,12 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
             ]))
           : GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 16, mainAxisSpacing: 16, childAspectRatio: 0.62),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: MediaQuery.of(context).size.width > 800 ? 4 : MediaQuery.of(context).size.width > 500 ? 3 : 2,
+              crossAxisSpacing: 16, 
+              mainAxisSpacing: 16, 
+              mainAxisExtent: 380,
+            ),
             itemCount: _kamars.length,
             itemBuilder: (ctx, i) => _kamarCard(_kamars[i]),
           ),
@@ -121,11 +126,51 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
               foregroundColor: st == 'kosong' ? Colors.white : Colors.grey.shade600,
               padding: const EdgeInsets.symmetric(vertical: 10),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-            onPressed: st == 'kosong' ? () {} : null,
+            onPressed: st == 'kosong' ? () => _showBookingDialog(k) : null,
             child: Text(st == 'kosong' ? 'Pesan Sekarang' : 'Tidak Tersedia', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
           )),
         ]))),
       ]),
     );
+  }
+
+  void _showBookingDialog(Map<String, dynamic> k) {
+    final durasiC = TextEditingController(text: '1');
+    final catatanC = TextEditingController();
+
+    showDialog(context: context, builder: (ctx) => AlertDialog(
+      title: const Text('Booking Kamar', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
+      content: SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Text('Anda akan memesan kamar ${k['no_kamar']} dengan harga ${k['harga_formatted']}/bulan.', style: const TextStyle(fontSize: 13)),
+        const SizedBox(height: 16),
+        TextField(controller: durasiC, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Durasi (Bulan)', border: OutlineInputBorder())),
+        const SizedBox(height: 12),
+        TextField(controller: catatanC, maxLines: 3, decoration: const InputDecoration(labelText: 'Catatan (Opsional)', border: OutlineInputBorder())),
+      ])),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Batal')),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+          onPressed: () async {
+            final durasi = int.tryParse(durasiC.text) ?? 1;
+            final body = {'durasi': durasi, 'catatan': catatanC.text};
+            
+            Navigator.pop(ctx);
+            setState(() => _loading = true);
+            
+            final ok = await _svc.bookKamar(k['id'], body);
+            
+            if (ok) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking berhasil! Silakan cek menu tagihan untuk pembayaran.'), backgroundColor: Colors.green));
+              _load();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal melakukan booking.'), backgroundColor: Colors.red));
+              setState(() => _loading = false);
+            }
+          },
+          child: const Text('Konfirmasi Booking', style: TextStyle(color: Colors.white)),
+        ),
+      ],
+    ));
   }
 }

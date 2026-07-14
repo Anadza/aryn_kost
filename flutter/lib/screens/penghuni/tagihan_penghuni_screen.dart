@@ -63,6 +63,7 @@ class _TagihanPenghuniScreenState extends State<TagihanPenghuniScreen> {
                 DataColumn(label: Text('JUMLAH', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Color(0xFF6B7280)))),
                 DataColumn(label: Text('JATUH TEMPO', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Color(0xFF6B7280)))),
                 DataColumn(label: Text('STATUS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Color(0xFF6B7280)))),
+                DataColumn(label: Text('AKSI', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: Color(0xFF6B7280)))),
               ],
               rows: List.generate(_list.length, (i) {
                 final t = _list[i];
@@ -77,10 +78,49 @@ class _TagihanPenghuniScreenState extends State<TagihanPenghuniScreen> {
                   DataCell(Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(color: stColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
                     child: Text(st, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: stColor)))),
+                  DataCell(
+                    st == 'Belum Dibayar'
+                        ? ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                              minimumSize: const Size(0, 30),
+                            ),
+                            onPressed: () => _confirmPayment(t['id']),
+                            child: const Text('Sudah Bayar', style: TextStyle(fontSize: 11, color: Colors.white)),
+                          )
+                        : const Text('-', style: TextStyle(color: Colors.grey)),
+                  ),
                 ]);
               }),
             )),
       ),
     ]));
+  }
+
+  void _confirmPayment(int id) async {
+    showDialog(context: context, builder: (ctx) => AlertDialog(
+      title: const Text('Konfirmasi Pembayaran'),
+      content: const Text('Apakah Anda sudah membayar tagihan ini secara tunai/transfer ke admin?'),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Belum')),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+          onPressed: () async {
+            Navigator.pop(ctx);
+            setState(() => _loading = true);
+            final ok = await _svc.confirmTagihan(id);
+            if (ok) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Pembayaran berhasil dikonfirmasi ke admin.'), backgroundColor: Colors.green));
+              _load();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Gagal mengirim konfirmasi.'), backgroundColor: Colors.red));
+              setState(() => _loading = false);
+            }
+          }, 
+          child: const Text('Sudah Bayar', style: TextStyle(color: Colors.white))
+        ),
+      ],
+    ));
   }
 }

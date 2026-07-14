@@ -120,4 +120,36 @@ class CrudService {
     final data = json.decode(res.body);
     return data['data'] ?? [];
   }
+
+  Future<bool> bookKamar(int id, Map<String, dynamic> body) async {
+    final h = await _headers();
+    final res = await http.post(Uri.parse('$baseUrl/kamar/$id/booking'), headers: h, body: json.encode(body));
+    return res.statusCode == 200;
+  }
+
+  Future<bool> confirmTagihan(int id) async {
+    final h = await _headers();
+    final res = await http.post(Uri.parse('$baseUrl/tagihan/$id/confirm'), headers: h);
+    return res.statusCode == 200;
+  }
+
+  Future<List<dynamic>> fetchMyNotifikasi() async {
+    final h = await _headers();
+    final res = await http.get(Uri.parse('$baseUrl/my/notifikasi'), headers: h);
+    if (res.statusCode == 200) {
+      final data = json.decode(res.body);
+      return data['data'] ?? [];
+    }
+    return [];
+  }
+
+  Future<List<dynamic>> fetchAdminNotifikasi() async {
+    final h = await _headers();
+    final res = await http.get(Uri.parse('$baseUrl/notifikasi'), headers: h);
+    if (res.statusCode == 200) {
+      final data = json.decode(res.body);
+      return data['data'] ?? [];
+    }
+    return [];
+  }
 }

@@ -133,7 +133,7 @@ class _DataKamarScreenState extends State<DataKamarScreen> {
                     ]),
                   )),
                   DataCell(Row(children: [
-                    IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () {}),
+                    IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showDetail(k)),
                     IconButton(icon: Icon(Icons.edit_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showForm(kamar: k)),
                   ])),
                 ]);
@@ -144,5 +144,44 @@ class _DataKamarScreenState extends State<DataKamarScreen> {
       ),
       const SizedBox(height: 16),
     ]);
+  }
+
+  void _showDetail(Map<String, dynamic> k) {
+    showDialog(context: context, builder: (ctx) => AlertDialog(
+      title: const Text('Detail Kamar', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _detailRow('No. Kamar', k['no_kamar']?.toString() ?? '-'),
+            _detailRow('Tipe', k['tipe']?.toString() ?? '-'),
+            _detailRow('Harga', k['harga_formatted']?.toString() ?? '-'),
+            _detailRow('Status', k['status']?.toString().toUpperCase() ?? '-'),
+            _detailRow('Fasilitas', (k['fasilitas'] as List?)?.join(', ') ?? 'Tidak ada data'),
+            _detailRow('Kapasitas', k['kapasitas']?.toString() ?? '-'),
+            _detailRow('Ukuran', k['ukuran']?.toString() ?? '-'),
+            _detailRow('Kasur', k['kasur']?.toString() ?? '-'),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Tutup', style: TextStyle(color: primaryColor))),
+      ],
+    ));
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 90, child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
+          const Text(': ', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+          Expanded(child: Text(value)),
+        ],
+      ),
+    );
   }
 }
