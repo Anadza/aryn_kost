@@ -154,7 +154,7 @@ Route::middleware(['auth', 'role:penghuni'])
 
         // Pembayaran Penghuni
         Route::get('/pembayaran/upload', [PembayaranController::class, 'index'])->name('pembayaran.upload');
-        Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'upload'])->name('pembayaran.upload.post');
+        Route::post('/pembayaran/confirm/{id}', [PembayaranController::class, 'confirm'])->name('pembayaran.confirm');
 
         // Notifikasi Penghuni
         Route::get('/notifikasi', [PenghuniNotifikasiController::class, 'index'])->name('notifikasi.index');
