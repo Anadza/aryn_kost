@@ -105,8 +105,8 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: isAvailable ? primaryColor.withOpacity(0.3) : Colors.grey.shade200),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 8, offset: const Offset(0, 2))],
+        border: Border.all(color: isAvailable ? primaryColor.withValues(alpha: 0.3) : Colors.grey.shade200),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 8, offset: const Offset(0, 2))],
       ),
       clipBehavior: Clip.antiAlias,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -115,7 +115,7 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
           Image.asset(
             'assets/images/kamar/${k['tipe'].toString().toLowerCase()}.png',
             height: 110, width: double.infinity, fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
+            errorBuilder: (_, _, _) => Container(
               height: 110, color: const Color(0xFFF3F4F6),
               child: const Center(child: Icon(Icons.apartment, size: 36, color: Colors.grey)))),
           // Gradient overlay
@@ -123,7 +123,7 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter, end: Alignment.bottomCenter,
-                colors: [Colors.transparent, Colors.black.withOpacity(0.3)])))),
+                colors: [Colors.transparent, Colors.black.withValues(alpha: 0.3)])))),
           Positioned(top: 8, left: 8, child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(color: stColor, borderRadius: BorderRadius.circular(20)),
@@ -209,7 +209,7 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
               Row(children: [
                 Container(
                   width: 48, height: 48,
-                  decoration: BoxDecoration(color: primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: primaryColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.hotel_rounded, color: primaryColor, size: 24)),
                 const SizedBox(width: 12),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -239,7 +239,7 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
               Row(children: [
                 IconButton(
                   style: IconButton.styleFrom(
-                      backgroundColor: primaryColor.withOpacity(0.1),
+                      backgroundColor: primaryColor.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                   icon: const Icon(Icons.remove, color: primaryColor),
                   onPressed: () { if (durasi > 1) setModal(() => durasi--); }),
@@ -248,7 +248,7 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: primaryColor)))),
                 IconButton(
                   style: IconButton.styleFrom(
-                      backgroundColor: primaryColor.withOpacity(0.1),
+                      backgroundColor: primaryColor.withValues(alpha: 0.1),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                   icon: const Icon(Icons.add, color: primaryColor),
                   onPressed: () => setModal(() => durasi++)),
@@ -257,7 +257,7 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
               // Total
               Container(
                 padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(color: primaryColor.withOpacity(0.05), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: primaryColor.withValues(alpha: 0.05), borderRadius: BorderRadius.circular(12)),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   const Text('Total Pembayaran:', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                   Text(
@@ -299,7 +299,8 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
                     try {
                       final ok = await _svc.bookKamar(k['id'], {'durasi': durasi, 'catatan': catatanC.text});
                       if (ok) {
-                        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Row(children: [
                             Icon(Icons.check_circle, color: Colors.white),
                             SizedBox(width: 8),
@@ -309,16 +310,21 @@ class _BookingKamarScreenState extends State<BookingKamarScreen> {
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         ));
+                        }
                         _load();
                       } else {
-                        if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('Gagal melakukan booking. Coba lagi.'),
                           backgroundColor: Colors.red));
+                        }
                         setState(() => _loading = false);
                       }
                     } catch (e) {
-                      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Error: $e'), backgroundColor: Colors.red));
+                      }
                       setState(() => _loading = false);
                     }
                   },

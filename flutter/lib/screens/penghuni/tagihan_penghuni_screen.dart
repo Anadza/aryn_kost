@@ -31,7 +31,7 @@ class _TagihanPenghuniScreenState extends State<TagihanPenghuniScreen> {
       // Header
       Container(
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
         padding: const EdgeInsets.all(20),
         child: Row(children: [
           const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -46,7 +46,7 @@ class _TagihanPenghuniScreenState extends State<TagihanPenghuniScreen> {
       Container(
         width: double.infinity,
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
         padding: const EdgeInsets.all(20),
         child: _list.isEmpty
           ? const Padding(padding: EdgeInsets.all(40), child: Center(child: Column(children: [
@@ -76,7 +76,7 @@ class _TagihanPenghuniScreenState extends State<TagihanPenghuniScreen> {
                   DataCell(Text('${t['jumlah_tagihan_formatted'] ?? ''}')),
                   DataCell(Text('${t['tanggal_jatuh_tempo'] ?? ''}')),
                   DataCell(Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: stColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                    decoration: BoxDecoration(color: stColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
                     child: Text(st, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: stColor)))),
                   DataCell(
                     st == 'Belum Dibayar'

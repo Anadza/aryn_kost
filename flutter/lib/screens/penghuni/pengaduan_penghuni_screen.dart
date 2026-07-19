@@ -33,7 +33,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
           // Header
           Container(
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
             padding: const EdgeInsets.all(20),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text('Pengaduan & Keluhan Saya',
@@ -57,7 +57,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
           // Content
           Container(
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
             child: _loading
               ? const Padding(padding: EdgeInsets.all(48), child: Center(child: CircularProgressIndicator(color: primaryColor)))
               : _list.isEmpty
@@ -100,7 +100,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
                             Container(
                               width: 40, height: 40,
                               decoration: BoxDecoration(
-                                  color: stColor.withOpacity(0.1),
+                                  color: stColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Icon(stIcon, color: stColor, size: 20)),
                             const SizedBox(width: 12),
@@ -133,7 +133,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                    color: stColor.withOpacity(0.1),
+                                    color: stColor.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                                   Icon(stIcon, size: 12, color: stColor),
@@ -178,7 +178,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
               const SizedBox(height: 16),
               Row(children: [
                 Container(width: 48, height: 48,
-                  decoration: BoxDecoration(color: Colors.orange.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: Colors.orange.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                   child: const Icon(Icons.report_problem_outlined, color: Colors.orange, size: 24)),
                 const SizedBox(width: 12),
                 const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -202,7 +202,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
               const Text('Kategori Masalah', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: kategori,
+                initialValue: kategori,
                 items: ['Fasilitas Kamar', 'Air / Listrik', 'Fasilitas Umum', 'Lainnya']
                     .map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                 onChanged: (v) => setModal(() => kategori = v!),
@@ -255,7 +255,8 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
                     if (ctx2.mounted) Navigator.pop(ctx2);
                     if (ok) {
                       _load();
-                      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Row(children: [
                           Icon(Icons.check_circle, color: Colors.white),
                           SizedBox(width: 8),
@@ -264,8 +265,10 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
                         backgroundColor: Colors.green.shade600,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
+                      }
                     } else {
-                      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const Row(children: [
                           Icon(Icons.error_outline, color: Colors.white),
                           SizedBox(width: 8),
@@ -274,6 +277,7 @@ class _PengaduanPenghuniScreenState extends State<PengaduanPenghuniScreen> {
                         backgroundColor: Colors.red.shade600,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
+                      }
                     }
                   },
                   child: const Text('Kirim Laporan',

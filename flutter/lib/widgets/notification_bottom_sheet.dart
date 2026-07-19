@@ -68,10 +68,10 @@ class _NotificationBottomSheetState extends State<NotificationBottomSheet> {
                       final n = _notifs[i];
                       final isUnread = n['status'] == 'belum_dibaca';
                       return Container(
-                        color: isUnread ? primaryColor.withOpacity(0.05) : Colors.transparent,
+                        color: isUnread ? primaryColor.withValues(alpha: 0.05) : Colors.transparent,
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: primaryColor.withOpacity(0.1),
+                            backgroundColor: primaryColor.withValues(alpha: 0.1),
                             child: const Icon(Icons.notifications_active, color: primaryColor, size: 20),
                           ),
                           title: Text(n['judul'] ?? 'Notifikasi', style: TextStyle(fontWeight: isUnread ? FontWeight.bold : FontWeight.normal, fontSize: 14)),

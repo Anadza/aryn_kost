@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'assets/images/logo.png',
                       width: 80,
                       height: 80,
-                      errorBuilder: (_, __, ___) => Container(
+                      errorBuilder: (_, _, _) => Container(
                         width: 80, height: 80,
                         decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(12)),
                         child: const Icon(Icons.apartment, color: Colors.white, size: 48),
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
+                      color: Colors.black.withValues(alpha: 0.08),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),

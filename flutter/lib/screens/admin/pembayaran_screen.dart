@@ -73,7 +73,7 @@ class _PembayaranScreenState extends State<PembayaranScreen> {
               DataCell(Text('${t['bulan_tagihan'] ?? ''}')),
               DataCell(Text('Rp ${_fmt(t['jumlah_tagihan'])}')),
               DataCell(Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: stColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: stColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
                 child: Text(st, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: stColor)))),
               DataCell(Row(children: [
                 IconButton(icon: Icon(Icons.visibility_outlined, color: Colors.grey.shade400, size: 20), onPressed: () => _showDetail(t)),
@@ -133,7 +133,7 @@ class _PembayaranScreenState extends State<PembayaranScreen> {
     String selected = current;
     showDialog(context: context, builder: (ctx) => AlertDialog(
       title: const Text('Ubah Status Pembayaran', style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold)),
-      content: DropdownButtonFormField<String>(value: selected,
+      content: DropdownButtonFormField<String>(initialValue: selected,
         items: ['Belum Dibayar', 'Menunggu Konfirmasi', 'Lunas'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
         onChanged: (v) => selected = v!, decoration: const InputDecoration(border: OutlineInputBorder())),
       actions: [

@@ -43,7 +43,7 @@ class AppDrawer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               child: Row(children: [
                 Image.asset('assets/images/logof.png', width: 40, height: 40,
-                  errorBuilder: (_, __, ___) => Container(width: 40, height: 40,
+                  errorBuilder: (_, _, _) => Container(width: 40, height: 40,
                     decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(8)),
                     child: const Icon(Icons.apartment, color: Colors.white))),
                 const SizedBox(width: 12),
@@ -56,12 +56,12 @@ class AppDrawer extends StatelessWidget {
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: isSelected ? Colors.white.withOpacity(0.15) : Colors.transparent,
+                  color: isSelected ? Colors.white.withValues(alpha: 0.15) : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: ListTile(
-                  leading: Icon(item.icon, color: Colors.white.withOpacity(isSelected ? 1 : 0.7), size: 20),
-                  title: Text(item.label, style: TextStyle(color: Colors.white.withOpacity(isSelected ? 1 : 0.7), fontSize: 14, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal)),
+                  leading: Icon(item.icon, color: Colors.white.withValues(alpha: isSelected ? 1 : 0.7), size: 20),
+                  title: Text(item.label, style: TextStyle(color: Colors.white.withValues(alpha: isSelected ? 1 : 0.7), fontSize: 14, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal)),
                   dense: true,
                   onTap: () { Navigator.pop(context); onTap(item.index); },
                 ),
@@ -72,8 +72,8 @@ class AppDrawer extends StatelessWidget {
             Container(
               margin: const EdgeInsets.all(8),
               child: ListTile(
-                leading: Icon(Icons.logout, color: Colors.white.withOpacity(0.7), size: 20),
-                title: Text('Logout', style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 14)),
+                leading: Icon(Icons.logout, color: Colors.white.withValues(alpha: 0.7), size: 20),
+                title: Text('Logout', style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 14)),
                 dense: true,
                 onTap: () async {
                   await AuthService.logout();

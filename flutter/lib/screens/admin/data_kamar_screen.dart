@@ -38,12 +38,12 @@ class _DataKamarScreenState extends State<DataKamarScreen> {
       content: SingleChildScrollView(child: Column(mainAxisSize: MainAxisSize.min, children: [
         TextField(controller: noC, decoration: const InputDecoration(labelText: 'No. Kamar', border: OutlineInputBorder())),
         const SizedBox(height: 12),
-        DropdownButtonFormField<String>(value: tipe, items: ['Standar','Deluxe','VIP'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+        DropdownButtonFormField<String>(initialValue: tipe, items: ['Standar','Deluxe','VIP'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
           onChanged: (v) => tipe = v!, decoration: const InputDecoration(labelText: 'Tipe', border: OutlineInputBorder())),
         const SizedBox(height: 12),
         TextField(controller: hargaC, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Harga / Bulan', border: OutlineInputBorder())),
         const SizedBox(height: 12),
-        DropdownButtonFormField<String>(value: status, items: ['kosong','terisi','booking'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+        DropdownButtonFormField<String>(initialValue: status, items: ['kosong','terisi','booking'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
           onChanged: (v) => status = v!, decoration: const InputDecoration(labelText: 'Status', border: OutlineInputBorder())),
       ])),
       actions: [
@@ -52,7 +52,7 @@ class _DataKamarScreenState extends State<DataKamarScreen> {
           style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
           onPressed: () async {
             final body = {'no_kamar': noC.text, 'tipe': tipe, 'harga': int.tryParse(hargaC.text) ?? 0, 'status': status};
-            final ok = isEdit ? await _svc.updateKamar(kamar!['id'], body) : await _svc.storeKamar(body);
+            final ok = isEdit ? await _svc.updateKamar(kamar['id'], body) : await _svc.storeKamar(body);
             if (ctx.mounted) Navigator.pop(ctx);
             if (ok) { _load(); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isEdit ? 'Kamar diperbarui!' : 'Kamar ditambahkan!'), backgroundColor: Colors.green)); }
           },
@@ -126,7 +126,7 @@ class _DataKamarScreenState extends State<DataKamarScreen> {
                   DataCell(Text('${k['harga_formatted']}')),
                   DataCell(Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: stColor.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                    decoration: BoxDecoration(color: stColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
                     child: Row(mainAxisSize: MainAxisSize.min, children: [
                       if (st == 'terisi') Container(width: 6, height: 6, margin: const EdgeInsets.only(right: 4), decoration: BoxDecoration(color: stColor, shape: BoxShape.circle)),
                       Text(st[0].toUpperCase() + st.substring(1), style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: stColor)),

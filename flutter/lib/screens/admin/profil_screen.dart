@@ -69,7 +69,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
         final summaryContent = Container(
           width: double.infinity,
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
           padding: const EdgeInsets.all(24),
           child: Column(children: [
             CircleAvatar(radius: 48, backgroundColor: primaryColor,
@@ -80,7 +80,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             Text(_email, style: const TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
             const SizedBox(height: 4),
             Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-              decoration: BoxDecoration(color: primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(color: primaryColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
               child: Text(_role, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: primaryColor))),
             const SizedBox(height: 24),
             SizedBox(width: double.infinity, child: OutlinedButton.icon(
@@ -100,7 +100,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
         final formContent = Container(
           width: double.infinity,
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
           padding: const EdgeInsets.all(24),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text('Perbarui Profil', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: primaryColor)),

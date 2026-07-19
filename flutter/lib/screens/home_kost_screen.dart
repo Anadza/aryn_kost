@@ -59,7 +59,7 @@ class HomeKostScreen extends StatelessWidget {
             child: Image.asset(
               'assets/images/kamar/background.jpg',
               fit: BoxFit.cover,
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withValues(alpha: 0.85),
               colorBlendMode: BlendMode.lighten,
             ),
           ),

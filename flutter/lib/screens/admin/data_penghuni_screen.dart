@@ -46,7 +46,7 @@ class _DataPenghuniScreenState extends State<DataPenghuniScreen> {
         const SizedBox(height: 12),
         TextField(controller: checkInC, decoration: const InputDecoration(labelText: 'Check In (YYYY-MM-DD)', border: OutlineInputBorder())),
         const SizedBox(height: 12),
-        DropdownButtonFormField<String>(value: status, items: ['Active','Inactive'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+        DropdownButtonFormField<String>(initialValue: status, items: ['Active','Inactive'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
           onChanged: (v) => status = v!, decoration: const InputDecoration(labelText: 'Status', border: OutlineInputBorder())),
       ])),
       actions: [
@@ -55,7 +55,7 @@ class _DataPenghuniScreenState extends State<DataPenghuniScreen> {
           style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
           onPressed: () async {
             final body = {'nama': namaC.text, 'nomor_kamar': kamarC.text, 'no_hp': hpC.text, 'check_in': checkInC.text, 'status': status};
-            final ok = isEdit ? await _svc.updatePenghuni(p!['id'], body) : await _svc.storePenghuni(body);
+            final ok = isEdit ? await _svc.updatePenghuni(p['id'], body) : await _svc.storePenghuni(body);
             if (ctx.mounted) Navigator.pop(ctx);
             if (ok) { _load(); ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(isEdit ? 'Penghuni diperbarui!' : 'Penghuni ditambahkan!'), backgroundColor: Colors.green)); }
           },
@@ -107,9 +107,9 @@ class _DataPenghuniScreenState extends State<DataPenghuniScreen> {
                 DataCell(Text('${p['nama']}', style: const TextStyle(fontWeight: FontWeight.bold))),
                 DataCell(Text('${p['nomor_kamar']}')),
                 DataCell(Text('${p['no_hp']}')),
-                DataCell(Text('${p['check_in']?.toString().split('T').first ?? ''}')),
+                DataCell(Text(p['check_in']?.toString().split('T').first ?? '')),
                 DataCell(Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(color: (isActive ? Colors.green : Colors.grey).withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: (isActive ? Colors.green : Colors.grey).withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
                     Container(width: 6, height: 6, margin: const EdgeInsets.only(right: 4), decoration: BoxDecoration(color: isActive ? Colors.green : Colors.grey, shape: BoxShape.circle)),
                     Text(p['status'] ?? '', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: isActive ? Colors.green : Colors.grey)),

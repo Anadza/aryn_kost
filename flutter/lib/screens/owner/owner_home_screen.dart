@@ -87,7 +87,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
                   decoration: BoxDecoration(border: Border.all(color: const Color(0xFFF3F4F6)), borderRadius: BorderRadius.circular(8)),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                      decoration: BoxDecoration(color: color.withOpacity(0.15), borderRadius: BorderRadius.circular(12)),
+                      decoration: BoxDecoration(color: color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(12)),
                       child: Text(st[0].toUpperCase() + st.substring(1), style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color))),
                     const SizedBox(height: 6),
                     Text('${p['penyewa']} · Kamar ${p['kamar']} · ${p['kategori']}', style: const TextStyle(fontSize: 13, color: Color(0xFF4B5563))),
@@ -102,12 +102,12 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
 
   Widget _card(Widget child) => Container(
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12),
-      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+      boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
     padding: const EdgeInsets.all(20), child: child);
 
   Widget _statCard(String title, String value) => Container(
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12),
-      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+      boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
     padding: const EdgeInsets.all(16),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
       Text(title, style: const TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
@@ -127,7 +127,7 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
             Text('Rp${_short(total)}', style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: primaryColor)),
             const SizedBox(height: 4),
             Container(width: double.infinity, height: h < 4 ? 4 : h,
-              decoration: BoxDecoration(color: primaryColor.withOpacity(0.8), borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))),
+              decoration: BoxDecoration(color: primaryColor.withValues(alpha: 0.8), borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))),
             const SizedBox(height: 6),
             Text(bulan.split(' ').first, style: const TextStyle(fontSize: 10, color: Color(0xFF6B7280))),
           ])));

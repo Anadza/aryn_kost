@@ -79,7 +79,7 @@ class _PenghuniHomeScreenState extends State<PenghuniHomeScreen> {
               if (kamar != null) ...[
                 ClipRRect(borderRadius: BorderRadius.circular(8),
                   child: Image.asset('assets/images/kamar/${kamar['tipe'].toString().toLowerCase()}.png', height: 120, width: double.infinity, fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(height: 120, color: const Color(0xFFF3F4F6),
+                    errorBuilder: (_, _, _) => Container(height: 120, color: const Color(0xFFF3F4F6),
                       child: const Center(child: Icon(Icons.apartment, color: Colors.grey, size: 40))))),
                 const SizedBox(height: 12),
                 Row(children: [
@@ -165,14 +165,14 @@ class _PenghuniHomeScreenState extends State<PenghuniHomeScreen> {
 
   Widget _card(Widget child) => Container(
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12),
-      boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)]),
+      boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8)]),
     padding: const EdgeInsets.all(20), child: child);
 
   Widget _quickLink(IconData icon, String title, String sub, Color color, VoidCallback onTap) => Expanded(
     child: InkWell(onTap: onTap, child: Container(padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(color: const Color(0xFFF9FAFB), border: Border.all(color: const Color(0xFFF3F4F6)), borderRadius: BorderRadius.circular(12)),
       child: Row(children: [
-        Container(width: 48, height: 48, decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+        Container(width: 48, height: 48, decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
           child: Icon(icon, color: color, size: 24)),
         const SizedBox(width: 12),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -190,7 +190,7 @@ class _PenghuniHomeScreenState extends State<PenghuniHomeScreen> {
   Widget _statusBadge(String st) {
     final color = st == 'Lunas' ? Colors.green : st == 'Menunggu Konfirmasi' ? Colors.amber : Colors.red;
     return Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12)),
       child: Text(st, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color)));
   }
 }
