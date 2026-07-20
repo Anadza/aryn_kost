@@ -10,6 +10,7 @@ class Penghuni extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'nama',
         'tanggal_lahir',
         'jenis_kelamin',
