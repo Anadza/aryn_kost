@@ -263,7 +263,7 @@
                         </dl>
 
                         {{-- ============ TAMBAHAN: Pengajuan Booking ============ --}}
-                        <template x-if="selected.pendingBooking">
+                        <template x-if="selected.status === 'booking' && selected.pending_booking">
                             <div class="mt-5 pt-4 border-grayCustom-100 border-t">
                                 <h4 class="mb-2 font-semibold text-grayCustom-700 text-sm">Pengajuan Booking</h4>
 
@@ -271,17 +271,17 @@
                                     <div class="flex justify-between">
                                         <dt class="text-grayCustom-400">Nama Penghuni</dt>
                                         <dd class="font-medium text-grayCustom-800"
-                                            x-text="selected.pendingBooking.user.name"></dd>
+                                            x-text="selected.pending_booking.user.name"></dd>
                                     </div>
                                     <div class="flex justify-between">
                                         <dt class="text-grayCustom-400">Durasi Sewa</dt>
                                         <dd class="font-medium text-grayCustom-800"
-                                            x-text="selected.pendingBooking.durasi + ' Bulan'"></dd>
+                                            x-text="selected.pending_booking.durasi + ' Bulan'"></dd>
                                     </div>
                                     <div class="flex justify-between gap-4">
                                         <dt class="shrink-0 text-grayCustom-400">Catatan</dt>
                                         <dd class="font-medium text-grayCustom-800 text-right"
-                                            x-text="selected.pendingBooking.catatan || '-'"></dd>
+                                            x-text="selected.pending_booking.catatan || '-'"></dd>
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <dt class="text-grayCustom-400">Status Booking</dt>
@@ -297,18 +297,18 @@
                                 @can('kamar.edit')
                                     <div class="flex gap-2 mt-4">
                                         <form method="POST"
-                                            :action="'/booking/' + selected.pendingBooking.id + '/approve'"
+                                            :action="'/booking/' + selected.pending_booking.id + '/approve'"
                                             onsubmit="return confirm('Setujui booking ini?')" class="flex-1">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit"
                                                 class="bg-success-600 hover:bg-success-700 py-2 rounded-xl w-full font-semibold text-white text-sm transition">
-                                                Setujui
+                                                Setuju
                                             </button>
                                         </form>
 
                                         <form method="POST"
-                                            :action="'/booking/' + selected.pendingBooking.id + '/reject'"
+                                            :action="'/booking/' + selected.pending_booking.id + '/reject'"
                                             onsubmit="return confirm('Tolak booking ini?')" class="flex-1">
                                             @csrf
                                             @method('PATCH')

@@ -22,7 +22,7 @@ class KamarController extends Controller
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
                 $q->where('no_kamar', 'like', "%{$search}%")
-                  ->orWhere('tipe', 'like', "%{$search}%");
+                    ->orWhere('tipe', 'like', "%{$search}%");
             });
         }
 
@@ -30,7 +30,9 @@ class KamarController extends Controller
             $query->where('status', $status);
         }
 
-        $kamars = Kamar::orderBy('no_kamar', 'asc')->paginate(10);
+        $kamars = $query
+            ->orderBy('no_kamar')
+            ->paginate(10);
 
         return view('kamar.index', [
             'kamars' => $kamars,
