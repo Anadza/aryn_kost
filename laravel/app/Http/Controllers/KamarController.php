@@ -37,20 +37,6 @@ class KamarController extends Controller
             'search' => $search,
             'statusFilter' => $status,
         ]);
-        $search = $request->input('search');
-        $statusFilter = $request->input('status');
-
-        $kamars = Kamar::query()
-            ->when($search, function ($query, $search) {
-                $query->where('no_kamar', 'like', "%{$search}%");
-            })
-            ->when($statusFilter, function ($query, $statusFilter) {
-                $query->where('status', $statusFilter);
-            })
-            ->orderBy('no_kamar', 'asc')
-            ->paginate(10);
-
-        return view('kamar.index', compact('kamars', 'search', 'statusFilter'));
     }
     public function store(Request $request): RedirectResponse
     {

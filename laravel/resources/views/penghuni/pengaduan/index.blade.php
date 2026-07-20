@@ -46,6 +46,7 @@
                 <h1 class="text-xl font-bold text-[#1E3A5F]">Pengaduan & Keluhan Saya</h1>
                 <p class="mt-1 text-xs text-gray-500">Pantau progress penanganan masalah fasilitas kamar kamu.</p>
             </div>
+            @can ('buat-pengaduan')
             <a href="{{ route('penghuni.pengaduan.create') }}"
                 class="flex items-center gap-2 rounded-xl bg-[#1E3A5F] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1E3A5F]/90">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -54,6 +55,14 @@
                 </svg>
                 Buat Keluhan Baru
             </a>
+            @else
+            <button
+                disabled
+                class="cursor-not-allowed rounded-xl bg-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-600"
+                title="Booking Anda belum disetujui">
+                Buat Keluhan Baru
+            </button>
+            @endcan
         </div>
 
         {{-- Container Tabel --}}
