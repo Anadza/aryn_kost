@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['no_kamar', 'tipe', 'harga', 'status'])]
 class Kamar extends Model
@@ -60,7 +62,7 @@ class Kamar extends Model
         }
 
         return collect(explode(',', $this->fasilitas))
-            ->map(fn ($item) => trim($item))
+            ->map(fn($item) => trim($item))
             ->filter()
             ->values()
             ->all();
@@ -77,28 +79,54 @@ class Kamar extends Model
     }
 
     /**
-     * Semua booking milik kamar
+     * Semua booking milik kamar.
      */
-    public function bookings()
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class, 'kamar_id', 'id');
     }
 
     /**
-     * Booking yang masih menunggu persetujuan
+     * Booking yang masih menunggu persetujuan.
      */
-    public function pendingBooking()
+    public function pendingBooking(): HasOne
     {
         return $this->hasOne(Booking::class, 'kamar_id', 'id')
             ->where('status', Booking::STATUS_MENUNGGU);
     }
 
     /**
-     * Booking terakhir
+     * Booking terakhir.
      */
-    public function latestBooking()
+    public function latestBooking(): HasOne
     {
         return $this->hasOne(Booking::class, 'kamar_id', 'id')
+            ->latestOfMany();
+    }
+
+    /**
+     * Booking yang sedang aktif (sudah disetujui).
+     */
+    public function activeBooking(): HasOne
+    {
+        return $this->hasOne(Booking::class, 'kamar_id', 'id')
+            ->where('status', Booking::STATUS_DISETUJUI);
+    }
+
+    /**
+     * Seluruh riwayat permintaan penghapusan kamar.
+     */
+    public function deleteRequests(): HasMany
+    {
+        return $this->hasMany(RoomDeleteRequest::class);
+    }
+
+    /**
+     * Permintaan penghapusan terbaru.
+     */
+    public function latestDeleteRequest(): HasOne
+    {
+        return $this->hasOne(RoomDeleteRequest::class)
             ->latestOfMany();
     }
 }

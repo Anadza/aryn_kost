@@ -6,6 +6,7 @@ use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\PenghuniController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoomDeleteRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataPenghuniController;
 use App\Http\Controllers\KamarController;
@@ -160,6 +161,16 @@ Route::middleware(['auth', 'role:penghuni'])
         Route::get('/notifikasi', [PenghuniNotifikasiController::class, 'index'])->name('notifikasi.index');
         Route::patch('/notifikasi/read-all', [PenghuniNotifikasiController::class, 'markAllRead'])->name('notifikasi.read-all');
         Route::patch('/notifikasi/{notifikasi}/read', [PenghuniNotifikasiController::class, 'markAsRead'])->name('notifikasi.read');
+
+        Route::post(
+            '/room-delete-request/{roomDeleteRequest}/approve',
+            [RoomDeleteRequestController::class, 'approve']
+        )->name('room-delete-request.approve');
+
+        Route::post(
+            '/room-delete-request/{roomDeleteRequest}/reject',
+            [RoomDeleteRequestController::class, 'reject']
+        )->name('room-delete-request.reject');
 
         // Route Tagihan Penghuni
         Route::get('/tagihan', [PembayaranController::class, 'tagihan'])->name('tagihan.index');

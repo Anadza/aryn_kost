@@ -494,12 +494,31 @@
                                 </select>
                             </div>
 
+                            {{-- ===================== AKSI HAPUS / PERMINTAAN HAPUS (DINAMIS) ===================== --}}
                             <div class="flex justify-between items-center pt-2">
                                 @can('kamar.delete')
-                                    <button type="button" @click="confirmDelete = true"
-                                        class="hover:bg-red-50 px-3 py-2 rounded-xl font-semibold text-red-600 text-xs transition">
-                                        Hapus Kamar
-                                    </button>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        {{-- Badge status permintaan hapus, hanya muncul jika kamar tidak kosong
+                                             dan sudah pernah ada RoomDeleteRequest --}}
+                                        <template x-if="deleteBadge(selected)">
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-full font-semibold text-xs"
+                                                :class="deleteBadgeClass(selected)"
+                                                x-text="deleteBadge(selected)">
+                                            </span>
+                                        </template>
+
+                                        {{-- Tombol dinamis: Hapus Kamar / Kirim Permintaan / Menunggu Persetujuan
+                                             (disabled) / Hapus Sekarang / Kirim Ulang --}}
+                                        <button type="button"
+                                            @click="confirmDelete = true"
+                                            :disabled="isDeleteDisabled(selected)"
+                                            :class="isDeleteDisabled(selected)
+                                                ? 'text-grayCustom-400 cursor-not-allowed'
+                                                : 'text-red-600 hover:bg-red-50'"
+                                            class="px-3 py-2 rounded-xl font-semibold text-xs transition"
+                                            x-text="deleteButtonLabel(selected)">
+                                        </button>
+                                    </div>
                                 @else
                                     <div></div>
                                 @endcan
@@ -521,19 +540,19 @@
             </div>
         @endcan
 
-        {{-- ===================== MODAL: KONFIRMASI HAPUS ===================== --}}
+        {{-- ===================== MODAL: KONFIRMASI HAPUS / KIRIM PERMINTAAN ===================== --}}
         @can('kamar.delete')
             <div x-show="confirmDelete" x-cloak
                 class="z-50 fixed inset-0 flex justify-center items-center bg-black/50 p-4"
                 @click.self="confirmDelete = false">
                 <div x-show="confirmDelete" x-transition
                     class="bg-white shadow-xl p-6 rounded-2xl w-full max-w-xs text-center">
-                    <h3 class="mb-3 font-bold text-red-600 text-lg">
-                        Hapus Kamar
+                    <h3 class="mb-3 font-bold text-red-600 text-lg"
+                        x-text="selected ? confirmDeleteTitle(selected) : 'Hapus Kamar'">
                     </h3>
 
                     <p class="text-grayCustom-700 text-sm">
-                        Yakin ingin menghapus kamar
+                        <span x-text="selected ? confirmDeleteText(selected) : ''"></span>
                         <span class="font-semibold text-grayCustom-900"
                             x-text="selected ? selected.no_kamar : '-'"></span>?
                     </p>
@@ -549,8 +568,8 @@
                         </button>
 
                         <button type="submit"
-                            class="bg-red-600 hover:bg-red-700 shadow-sm px-4 py-2 rounded-xl font-semibold text-white text-sm transition">
-                            Ya, Hapus
+                            class="bg-red-600 hover:bg-red-700 shadow-sm px-4 py-2 rounded-xl font-semibold text-white text-sm transition"
+                            x-text="selected ? confirmDeleteButtonLabel(selected) : 'Ya, Hapus'">
                         </button>
                     </form>
                 </div>
@@ -604,6 +623,67 @@
                         terisi: 'bg-success-500',
                         booking: 'bg-warning-500',
                     } [status] ?? 'bg-grayCustom-400';
+                },
+
+                // ===================== LOGIKA APPROVAL HAPUS KAMAR =====================
+                deleteRequestStatus(kamar) {
+                    return kamar?.latest_delete_request?.status ?? null;
+                },
+                isKamarKosong(kamar) {
+                    return kamar?.status === 'kosong';
+                },
+                deleteButtonLabel(kamar) {
+                    if (this.isKamarKosong(kamar)) return 'Hapus Kamar';
+
+                    const reqStatus = this.deleteRequestStatus(kamar);
+                    return {
+                        pending: 'Menunggu Persetujuan',
+                        approved: 'Hapus Sekarang',
+                        rejected: 'Kirim Ulang',
+                    }[reqStatus] ?? 'Kirim Permintaan';
+                },
+                isDeleteDisabled(kamar) {
+                    return !this.isKamarKosong(kamar) && this.deleteRequestStatus(kamar) === 'pending';
+                },
+                deleteBadge(kamar) {
+                    if (this.isKamarKosong(kamar)) return null;
+
+                    const reqStatus = this.deleteRequestStatus(kamar);
+                    return {
+                        pending: 'Menunggu Persetujuan',
+                        approved: 'Disetujui',
+                        rejected: 'Ditolak',
+                    }[reqStatus] ?? null;
+                },
+                deleteBadgeClass(kamar) {
+                    const reqStatus = this.deleteRequestStatus(kamar);
+                    return {
+                        pending: 'bg-warning-100 text-warning-700',
+                        approved: 'bg-success-100 text-success-700',
+                        rejected: 'bg-red-100 text-red-600',
+                    }[reqStatus] ?? 'bg-grayCustom-100 text-grayCustom-600';
+                },
+                confirmDeleteTitle(kamar) {
+                    if (this.isKamarKosong(kamar)) return 'Hapus Kamar';
+                    if (this.deleteRequestStatus(kamar) === 'approved') return 'Hapus Kamar';
+                    return 'Kirim Permintaan Hapus';
+                },
+                confirmDeleteText(kamar) {
+                    if (this.isKamarKosong(kamar)) return 'Yakin ingin menghapus kamar';
+
+                    const reqStatus = this.deleteRequestStatus(kamar);
+                    if (reqStatus === 'approved') {
+                        return 'Penghuni telah menyetujui. Yakin ingin menghapus kamar';
+                    }
+                    if (reqStatus === 'rejected') {
+                        return 'Permintaan sebelumnya ditolak. Kirim permintaan baru untuk kamar';
+                    }
+                    return 'Kamar ini masih berpenghuni. Kirim permintaan persetujuan penghapusan untuk kamar';
+                },
+                confirmDeleteButtonLabel(kamar) {
+                    if (this.isKamarKosong(kamar)) return 'Ya, Hapus';
+                    if (this.deleteRequestStatus(kamar) === 'approved') return 'Ya, Hapus';
+                    return 'Ya, Kirim';
                 },
             };
         }

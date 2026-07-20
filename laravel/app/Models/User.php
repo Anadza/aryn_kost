@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -35,5 +36,15 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function roomDeleteRequests()
+    {
+        return $this->hasMany(RoomDeleteRequest::class);
+    }
+
+    public function deleteRequestsAsAdmin()
+    {
+        return $this->hasMany(RoomDeleteRequest::class, 'admin_id');
     }
 }
