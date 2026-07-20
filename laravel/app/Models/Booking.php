@@ -36,4 +36,9 @@ class Booking extends Model
     {
         return $this->status === self::STATUS_MENUNGGU;
     }
+
+    public function isApproved(): bool
+    {
+        return $this->status === self::STATUS_DISETUJUI;
+    }
 }

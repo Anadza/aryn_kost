@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        DB::statement("
+            ALTER TABLE notifikasi_penghunis
+            MODIFY COLUMN jenis ENUM(
+                'booking',
+                'tagihan',
+                'pengaduan',
+                'hapus_kamar'
+            ) NOT NULL
+        ");
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        DB::statement("
+            ALTER TABLE notifikasi_penghunis
+            MODIFY COLUMN jenis ENUM(
+                'booking',
+                'tagihan',
+                'pengaduan'
+            ) NOT NULL
+        ");
+    }
+};

@@ -92,6 +92,11 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86l-8.18 14A2 2 0 004 21h16a2 2 0 001.89-3.14l-8.18-14a2 2 0 00-3.42 0z" />
                                         </svg>
                                         @break
+                                    @case('trash')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9.5 4h5a1 1 0 011 1v2h-7V5a1 1 0 011-1z" />
+                                        </svg>
+                                        @break
                                 @endswitch
                             </div>
 
@@ -123,6 +128,38 @@
                                             &middot; Check-in {{ \Illuminate\Support\Carbon::parse($notifikasi->data['check_in'])->format('d/n/Y') }}
                                         @endif
                                     </p>
+                                @endif
+
+                                @if ($notifikasi->jenis === 'hapus_kamar')
+                                    @php
+                                        $deleteRequest = $notifikasi->roomDeleteRequest();
+                                    @endphp
+                                    @if ($deleteRequest && $deleteRequest->status === 'pending')
+                                        <div class="flex gap-2 mt-3">
+                                            <form method="POST" action="{{ route('penghuni.room-delete-request.approve', $deleteRequest) }}">
+                                                @csrf
+                                                <button type="submit" onclick="setTimeout(() => this.disabled = true)"
+                                                    class="bg-green-500 hover:bg-green-600 px-3 py-1.5 rounded-full font-semibold text-white text-xs transition">
+                                                    Setuju
+                                                </button>
+                                            </form>
+                                            <form method="POST" action="{{ route('penghuni.room-delete-request.reject', $deleteRequest) }}">
+                                                @csrf
+                                                <button type="submit" onclick="setTimeout(() => this.disabled = true)"
+                                                    class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-full font-semibold text-white text-xs transition">
+                                                    Tolak
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @elseif ($deleteRequest && $deleteRequest->status === 'approved')
+                                        <span class="inline-flex items-center gap-1 bg-green-100 mt-3 px-3 py-1.5 rounded-full font-semibold text-green-700 text-xs">
+                                            &#10003; Sudah Disetujui
+                                        </span>
+                                    @elseif ($deleteRequest && $deleteRequest->status === 'rejected')
+                                        <span class="inline-flex items-center gap-1 bg-red-100 mt-3 px-3 py-1.5 rounded-full font-semibold text-red-700 text-xs">
+                                            &#10007; Sudah Ditolak
+                                        </span>
+                                    @endif
                                 @endif
                             </div>
 

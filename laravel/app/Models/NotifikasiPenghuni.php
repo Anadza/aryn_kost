@@ -47,6 +47,7 @@ class NotifikasiPenghuni extends Model
             'booking' => 'Booking',
             'tagihan' => 'Tagihan',
             'pengaduan' => 'Pengaduan',
+            'hapus_kamar' => 'Persetujuan Hapus Kamar',
             default => ucfirst($this->jenis),
         };
     }
@@ -57,6 +58,7 @@ class NotifikasiPenghuni extends Model
             'booking' => 'bg-blue-100 text-blue-700',
             'tagihan' => 'bg-green-100 text-green-700',
             'pengaduan' => 'bg-amber-100 text-amber-700',
+            'hapus_kamar' => 'bg-red-100 text-red-700',
             default => 'bg-gray-100 text-gray-700',
         };
     }
@@ -67,6 +69,7 @@ class NotifikasiPenghuni extends Model
             'booking' => 'bg-blue-500',
             'tagihan' => 'bg-green-500',
             'pengaduan' => 'bg-amber-500',
+            'hapus_kamar' => 'bg-red-500',
             default => 'bg-gray-500',
         };
     }
@@ -77,6 +80,7 @@ class NotifikasiPenghuni extends Model
             'booking' => 'calendar',
             'tagihan' => 'wallet',
             'pengaduan' => 'alert',
+            'hapus_kamar' => 'trash',
             default => 'bell',
         };
     }
@@ -84,5 +88,16 @@ class NotifikasiPenghuni extends Model
     public function waktuRelatif(): string
     {
         return $this->created_at?->diffForHumans() ?? '-';
+    }
+
+    /**
+     * Ambil RoomDeleteRequest terkait notifikasi ini berdasarkan ID
+     * yang tersimpan pada kolom data (bukan query latest()).
+     */
+    public function roomDeleteRequest(): ?RoomDeleteRequest
+    {
+        $id = $this->data['room_delete_request_id'] ?? null;
+
+        return $id ? RoomDeleteRequest::find($id) : null;
     }
 }
