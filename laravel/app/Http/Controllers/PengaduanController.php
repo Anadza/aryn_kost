@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notifikasi;
+use App\Models\Booking;
 use App\Models\Pengaduan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use App\Models\NotifikasiPenghuni;
@@ -19,8 +20,8 @@ class PengaduanController extends Controller
         // Jika pengguna adalah penghuni, tampilkan data miliknya saja dengan pagination
         if ($request->user()->hasRole('penghuni')) {
             $pengaduans = Pengaduan::where('penyewa', $request->user()->name)
-                                   ->orderByDesc('id')
-                                   ->paginate(10);
+                ->orderByDesc('id')
+                ->paginate(10);
             return view('penghuni.pengaduan.index', compact('pengaduans'));
         }
 
@@ -37,14 +38,37 @@ class PengaduanController extends Controller
     }
 
     // Menampilkan Form Tambah Keluhan Penghuni
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
-        return view('penghuni.pengaduan.create');
+
+        $user = Auth::user();
+
+        $booking = Booking::where('user_id', Auth::id())
+            ->where('status', Booking::STATUS_DISETUJUI)
+            ->first();
+
+        if (!$booking) {
+            return redirect()
+                ->route('penghuni.pengaduan.index')
+                ->with('error', 'Anda hanya dapat mengajukan pengaduan setelah mendapatkan kamar.');
+        }
+
+        return view('penghuni.pengaduan.create', compact('booking'));
     }
 
     // Menyimpan Keluhan Baru
     public function store(Request $request): RedirectResponse
     {
+        $booking = $request->user()->bookings()
+            ->where('status', Booking::STATUS_DISETUJUI)
+            ->first();
+
+        if (!$booking) {
+            return redirect()
+                ->route('penghuni.pengaduan.index')
+                ->with('error', 'Anda hanya dapat mengajukan pengaduan setelah mendapatkan kamar.');
+        }
+
         $request->validate([
             'tanggal'   => 'required|date',
             'kamar'     => 'required|string',
@@ -63,7 +87,7 @@ class PengaduanController extends Controller
         Pengaduan::create([
             'tanggal'   => $request->tanggal,
             'penyewa'   => $request->user()->name,
-            'kamar'     => $request->kamar,
+            'kamar'     => $booking->kamar->no_kamar,
             'kategori'  => $request->kategori,
             'deskripsi' => $request->deskripsi,
             'bukti'     => $namaFileBukti,

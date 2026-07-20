@@ -18,6 +18,15 @@ class PenghuniController extends Controller
     {
         // 1. Data penghuni & kamar
         $penghuniData = Penghuni::where('nama', $request->user()->name)->first();
+
+        // Prioritaskan pencocokan berdasarkan user_id (lebih akurat, tidak
+        // bergantung pada kecocokan string nama) untuk data penghuni yang
+        // dibuat otomatis saat admin menyetujui booking.
+        $penghuniByUserId = Penghuni::where('user_id', $request->user()->id)->first();
+        if ($penghuniByUserId) {
+            $penghuniData = $penghuniByUserId;
+        }
+
         $kamarSaya = $penghuniData
             ? Kamar::where('no_kamar', $penghuniData->nomor_kamar)->first()
             : null;
