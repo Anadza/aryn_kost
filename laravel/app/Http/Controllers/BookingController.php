@@ -48,6 +48,7 @@ class BookingController extends Controller
      */
     public function approve(Booking $booking)
     {
+
         DB::transaction(function () use ($booking) {
 
             // Update status booking

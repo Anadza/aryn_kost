@@ -86,8 +86,7 @@ class KamarController extends Controller
      */
     public function destroy(Kamar $kamar): RedirectResponse
     {
-        $booking = $kamar->activeBooking;
-        dd($booking);
+
         // 1. Jika kamar kosong, langsung hapus.
         if ($kamar->status === 'kosong') {
             $kamar->delete();
